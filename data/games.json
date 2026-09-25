@@ -1,0 +1,22 @@
+[
+  {
+    "home": "Time A",
+    "away": "Time B",
+    "home_avg_goals": 1.8,
+    "away_avg_goals": 1.1,
+    "home_form": 0.80,
+    "away_form": 0.55,
+    "home_strength": 0.75,
+    "away_strength": 0.60
+  },
+  {
+    "home": "Time C",
+    "away": "Time D",
+    "home_avg_goals": 1.5,
+    "away_avg_goals": 0.9,
+    "home_form": 0.70,
+    "away_form": 0.45,
+    "home_strength": 0.68,
+    "away_strength": 0.52
+  }
+]
