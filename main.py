@@ -1,39 +1,52 @@
 import json
 
-from analyzer import analyze_game
-from ticket import generate_ticket
+from match_analyzer import analyze_match
 
 
 def main():
-    with open("data/games.json", "r", encoding="utf-8") as file:
-        games = json.load(file)
 
-    results = []
+    with open("data/matches.json", "r", encoding="utf-8") as file:
+        matches = json.load(file)
 
-    print("\n===== BET AI V1 =====\n")
+    print("\n===== BET-AI V2 =====\n")
 
-    for game in games:
-        result = analyze_game(game)
-        results.append(result)
+    for game in matches:
 
-        print(f'{result["home"]} x {result["away"]}')
-        print(f'Casa: {result["home_probability"]}%')
-        print(f'Fora: {result["away_probability"]}%\n')
+        result = analyze_match(game)
 
-    ticket = generate_ticket(results)
+        print("=" * 50)
+        print(f"JOGO: {result['home']} x {result['away']}")
+        print("=" * 50)
 
-    print("===== TALÃO SIMULADO =====\n")
+        print("\nGOLS")
+        print(f"Casa: {result['home_goals']}")
+        print(f"Fora: {result['away_goals']}")
 
-    if not ticket:
-        print("Nenhuma seleção atingiu o limite.")
-        return
+        print("\nESCANTEIOS")
+        print(f"Casa: {result['home_corners']}")
+        print(f"Fora: {result['away_corners']}")
 
-    for selection in ticket:
-        print(
-            f'{selection["game"]} -> '
-            f'{selection["selection"]} '
-            f'({selection["probability"]}%)'
-        )
+        print("\nCHUTES")
+        print(f"Casa: {result['home_shots']}")
+        print(f"Fora: {result['away_shots']}")
+
+        print("\nCHUTES NO ALVO")
+        print(f"Casa: {result['home_shots_on_target']}")
+        print(f"Fora: {result['away_shots_on_target']}")
+
+        print("\nDESARMES")
+        print(f"Casa: {result['home_tackles']}")
+        print(f"Fora: {result['away_tackles']}")
+
+        print("\nFALTAS")
+        print(f"Casa: {result['home_fouls']}")
+        print(f"Fora: {result['away_fouls']}")
+
+        print("\nCARTÕES")
+        print(f"Casa: {result['home_cards']}")
+        print(f"Fora: {result['away_cards']}")
+
+        print()
 
 
 if __name__ == "__main__":
