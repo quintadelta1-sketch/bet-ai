@@ -8,7 +8,7 @@ def main():
     with open("data/matches.json", "r", encoding="utf-8") as file:
         matches = json.load(file)
 
-    print("\n===== BET-AI V2 =====\n")
+    print("\n========== BET-AI V3 ==========\n")
 
     for game in matches:
 
@@ -18,33 +18,28 @@ def main():
         print(f"JOGO: {result['home']} x {result['away']}")
         print("=" * 50)
 
-        print("\nGOLS")
-        print(f"Casa: {result['home_goals']}")
-        print(f"Fora: {result['away_goals']}")
+        print("\nESTATÍSTICAS")
 
-        print("\nESCANTEIOS")
-        print(f"Casa: {result['home_corners']}")
-        print(f"Fora: {result['away_corners']}")
+        for market, values in result["stats"].items():
 
-        print("\nCHUTES")
-        print(f"Casa: {result['home_shots']}")
-        print(f"Fora: {result['away_shots']}")
+            print(
+                f"{market}: "
+                f"Casa {values['home']} | "
+                f"Fora {values['away']} | "
+                f"Total {result['totals'][market]}"
+            )
 
-        print("\nCHUTES NO ALVO")
-        print(f"Casa: {result['home_shots_on_target']}")
-        print(f"Fora: {result['away_shots_on_target']}")
+        print("\nPROBABILIDADES")
 
-        print("\nDESARMES")
-        print(f"Casa: {result['home_tackles']}")
-        print(f"Fora: {result['away_tackles']}")
+        for market, probability in result["probabilities"].items():
 
-        print("\nFALTAS")
-        print(f"Casa: {result['home_fouls']}")
-        print(f"Fora: {result['away_fouls']}")
-
-        print("\nCARTÕES")
-        print(f"Casa: {result['home_cards']}")
-        print(f"Fora: {result['away_cards']}")
+            print(
+                f"{market}: "
+                f"Mais de {probability['line']} = "
+                f"{probability['over']}% | "
+                f"Menos de {probability['line']} = "
+                f"{probability['under']}%"
+            )
 
         print()
 
