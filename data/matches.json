@@ -1,1 +1,52 @@
+[
+  {
+    "home": "Flamengo",
+    "away": "Palmeiras",
 
+    "home_avg_goals": 1.8,
+    "away_avg_goals": 1.4,
+
+    "home_avg_corners": 6.2,
+    "away_avg_corners": 4.8,
+
+    "home_avg_shots": 14.5,
+    "away_avg_shots": 11.2,
+
+    "home_avg_shots_on_target": 5.8,
+    "away_avg_shots_on_target": 4.3,
+
+    "home_avg_cards": 2.1,
+    "away_avg_cards": 2.5,
+
+    "home_avg_tackles": 15.0,
+    "away_avg_tackles": 16.2,
+
+    "home_avg_fouls": 12.4,
+    "away_avg_fouls": 13.1
+  },
+  {
+    "home": "Barcelona",
+    "away": "Real Madrid",
+
+    "home_avg_goals": 2.1,
+    "away_avg_goals": 1.7,
+
+    "home_avg_corners": 6.5,
+    "away_avg_corners": 5.1,
+
+    "home_avg_shots": 16.2,
+    "away_avg_shots": 12.8,
+
+    "home_avg_shots_on_target": 6.4,
+    "away_avg_shots_on_target": 5.0,
+
+    "home_avg_cards": 1.8,
+    "away_avg_cards": 2.3,
+
+    "home_avg_tackles": 13.8,
+    "away_avg_tackles": 15.1,
+
+    "home_avg_fouls": 10.8,
+    "away_avg_fouls": 12.7
+  }
+]
