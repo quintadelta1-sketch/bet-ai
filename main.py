@@ -1,6 +1,7 @@
 import json
 
 from match_analyzer import analyze_match
+from ticket import print_ticket
 
 
 def classify(probability):
@@ -13,16 +14,23 @@ def classify(probability):
 
 
 def main():
-    with open("data/matches.json", "r", encoding="utf-8") as file:
+    with open(
+        "data/matches.json",
+        "r",
+        encoding="utf-8"
+    ) as file:
         matches = json.load(file)
 
-    print("\n========== BET-AI V4 ==========")
+    print("\n========== BET-AI V5 ==========")
 
     for game in matches:
         result = analyze_match(game)
 
         print("\n" + "=" * 50)
-        print(f"JOGO: {result['home']} x {result['away']}")
+        print(
+            f"JOGO: {result['home']} "
+            f"x {result['away']}"
+        )
         print("=" * 50)
 
         print("\nESTATÍSTICAS")
@@ -30,7 +38,10 @@ def main():
         for market, values in result["stats"].items():
             home = values.get("home", 0)
             away = values.get("away", 0)
-            total = values.get("total", home + away)
+            total = values.get(
+                "total",
+                home + away
+            )
 
             print(
                 f"{market}: "
@@ -41,17 +52,31 @@ def main():
 
         print("\nPROBABILIDADES")
 
-        for market, values in result["probabilities"].items():
-            over = values.get("over", 0)
-            under = values.get("under", 0)
+        for market, values in result[
+            "probabilities"
+        ].items():
+
+            over = float(
+                values.get("over", 0)
+            )
+
+            under = float(
+                values.get("under", 0)
+            )
 
             print(
                 f"{market}: "
-                f"Mais = {over}% [{classify(over)}] | "
-                f"Menos = {under}% [{classify(under)}]"
+                f"Mais = {over:.2f}% "
+                f"[{classify(over)}] | "
+                f"Menos = {under:.2f}% "
+                f"[{classify(under)}]"
             )
 
-        print("=" * 50)
+        print_ticket(
+            result["probabilities"]
+        )
+
+        print("\n")
 
 
 if __name__ == "__main__":
