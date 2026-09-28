@@ -3,45 +3,49 @@ import json
 from match_analyzer import analyze_match
 
 
-def main():
+def classify(probability):
+    if probability >= 65:
+        return "🟢 ALTA"
+    elif probability >= 55:
+        return "🟡 MÉDIA"
+    else:
+        return "🔴 BAIXA"
 
+
+def main():
     with open("data/matches.json", "r", encoding="utf-8") as file:
         matches = json.load(file)
 
-    print("\n========== BET-AI V3 ==========\n")
+    print("\n========== BET-AI V4 ==========")
 
     for game in matches:
-
         result = analyze_match(game)
 
-        print("=" * 50)
+        print("\n" + "=" * 50)
         print(f"JOGO: {result['home']} x {result['away']}")
         print("=" * 50)
 
         print("\nESTATÍSTICAS")
 
         for market, values in result["stats"].items():
-
             print(
                 f"{market}: "
                 f"Casa {values['home']} | "
                 f"Fora {values['away']} | "
-                f"Total {result['totals'][market]}"
+                f"Total {values['total']}"
             )
 
         print("\nPROBABILIDADES")
 
-        for market, probability in result["probabilities"].items():
+        for market, values in result["probabilities"].items():
+            over = values["over"]
+            under = values["under"]
 
             print(
                 f"{market}: "
-                f"Mais de {probability['line']} = "
-                f"{probability['over']}% | "
-                f"Menos de {probability['line']} = "
-                f"{probability['under']}%"
+                f"Mais = {over}% [{classify(over)}] | "
+                f"Menos = {under}% [{classify(under)}]"
             )
-
-        print()
 
 
 if __name__ == "__main__":
