@@ -28,24 +28,30 @@ def main():
         print("\nESTATÍSTICAS")
 
         for market, values in result["stats"].items():
+            home = values.get("home", 0)
+            away = values.get("away", 0)
+            total = values.get("total", home + away)
+
             print(
                 f"{market}: "
-                f"Casa {values['home']} | "
-                f"Fora {values['away']} | "
-                f"Total {values['total']}"
+                f"Casa {home} | "
+                f"Fora {away} | "
+                f"Total {total}"
             )
 
         print("\nPROBABILIDADES")
 
         for market, values in result["probabilities"].items():
-            over = values["over"]
-            under = values["under"]
+            over = values.get("over", 0)
+            under = values.get("under", 0)
 
             print(
                 f"{market}: "
                 f"Mais = {over}% [{classify(over)}] | "
                 f"Menos = {under}% [{classify(under)}]"
             )
+
+        print("=" * 50)
 
 
 if __name__ == "__main__":
