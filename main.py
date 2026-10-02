@@ -1,11 +1,14 @@
-# BET-AI V10
-# Modelo experimental de análise estatística de futebol.
-# As probabilidades são estimativas do modelo e não garantias.
+# ============================================================
+# BET-AI V10.1
+# Modelo experimental de análise estatística de futebol
+# ============================================================
 
 FILTRO_MINIMO = 60.0
 PROBABILIDADE_ALTA = 75.0
 MAX_SELECOES = 3
 
+
+# Pesos de cada mercado
 WEIGHTS = {
     "goals": 0.20,
     "corners": 0.10,
@@ -17,6 +20,20 @@ WEIGHTS = {
 }
 
 
+# Valores de referência usados pelo modelo experimental.
+# Quanto maior o total em relação à referência,
+# maior a estimativa para "Mais".
+BASELINES = {
+    "goals": 3.0,
+    "corners": 10.0,
+    "shots": 22.0,
+    "shots_on_target": 9.0,
+    "tackles": 28.0,
+    "cards": 4.0,
+    "fouls": 24.0,
+}
+
+
 def clamp(value, minimum=0.0, maximum=99.0):
     return max(minimum, min(maximum, value))
 
@@ -24,18 +41,32 @@ def clamp(value, minimum=0.0, maximum=99.0):
 def classification(probability):
     if probability >= PROBABILIDADE_ALTA:
         return "ALTA"
+
     if probability >= FILTRO_MINIMO:
         return "MEDIA"
+
     return "BAIXA"
 
 
-def probability_for_over(home, away):
-    ratio = home / (home + away) if (home + away) else 0.5
-    probability = 50.0 + (ratio - 0.5) * 70.0
+def calculate_over_probability(market, home_value, away_value):
+    total = home_value + away_value
+    baseline = BASELINES[market]
+
+    if baseline <= 0:
+        return 50.0
+
+    ratio = total / baseline
+
+    # Modelo experimental:
+    # 50% representa equilíbrio.
+    # O excesso estatístico acima da referência
+    # aumenta a estimativa gradualmente.
+    probability = 50.0 + (ratio * 25.0)
+
     return clamp(probability)
 
 
-def probability_for_under(over_probability):
+def calculate_under_probability(over_probability):
     return clamp(100.0 - over_probability)
 
 
@@ -47,12 +78,19 @@ def build_markets(game):
     markets = []
 
     for market, weight in WEIGHTS.items():
+
         home_value = float(game[market]["home"])
         away_value = float(game[market]["away"])
 
-        over = probability_for_over(home_value, away_value)
-        under = probability_for_under(over)
+        over = calculate_over_probability(
+            market,
+            home_value,
+            away_value
+        )
 
+        under = calculate_under_probability(over)
+
+        # Mercado MAIS
         if over >= FILTRO_MINIMO:
             markets.append({
                 "market": market,
@@ -63,6 +101,7 @@ def build_markets(game):
                 "classification": classification(over),
             })
 
+        # Mercado MENOS
         if under >= FILTRO_MINIMO:
             markets.append({
                 "market": market,
@@ -77,18 +116,24 @@ def build_markets(game):
 
 
 def select_markets(markets):
+
     ordered = sorted(
         markets,
-        key=lambda item: (item["score"], item["probability"]),
-        reverse=True,
+        key=lambda item: (
+            item["score"],
+            item["probability"]
+        ),
+        reverse=True
     )
 
     selected = []
     used_markets = set()
 
     for item in ordered:
+
         market_name = item["market"]
 
+        # Não repetir o mesmo mercado
         if market_name in used_markets:
             continue
 
@@ -102,30 +147,31 @@ def select_markets(markets):
 
 
 def print_statistics(game):
+
     print("\nESTATÍSTICAS")
 
     for market in WEIGHTS:
+
         home = game[market]["home"]
         away = game[market]["away"]
-        print(f"{market}: Casa {home} | Fora {away}")
+
+        print(
+            f"{market}: "
+            f"Casa {home} | "
+            f"Fora {away}"
+        )
 
 
-def analyze_game(game):
-    markets = build_markets(game)
-    selected = select_markets(markets)
-
-    print("\n" + "=" * 48)
-    print(f"JOGO: {game['home_team']} x {game['away_team']}")
-    print("=" * 48)
-
-    print_statistics(game)
+def print_probabilities(markets):
 
     print("\nPROBABILIDADES")
 
     for market in WEIGHTS:
+
         candidates = [
-            m for m in markets
-            if m["market"] == market
+            item
+            for item in markets
+            if item["market"] == market
         ]
 
         if not candidates:
@@ -137,32 +183,51 @@ def analyze_game(game):
         )
 
         print(
-            f"{market}: {best['side']} = "
+            f"{market}: "
+            f"{best['side']} = "
             f"{best['probability']:.2f}% "
             f"[{best['classification']}]"
         )
 
-    print("\n========== TALÃO BET-AI V10 ==========")
+
+def print_ticket(selected):
+
+    print(
+        "\n========== TALÃO BET-AI V10.1 =========="
+    )
 
     if not selected:
-        print("Nenhum mercado atingiu o filtro mínimo.")
-        average_probability = 0.0
 
-    else:
-        for number, item in enumerate(selected, start=1):
-            print(
-                f"{number}. {item['market']} - "
-                f"{item['side']} "
-                f"({item['probability']:.2f}%) "
-                f"[{item['classification']}]"
-            )
+        print(
+            "Nenhum mercado atingiu "
+            "o filtro mínimo."
+        )
 
-        average_probability = sum(
+        return 0.0
+
+    for number, item in enumerate(
+        selected,
+        start=1
+    ):
+
+        print(
+            f"{number}. "
+            f"{item['market']} - "
+            f"{item['side']} "
+            f"({item['probability']:.2f}%) "
+            f"[{item['classification']}]"
+        )
+
+    average_probability = (
+        sum(
             item["probability"]
             for item in selected
-        ) / len(selected)
+        )
+        / len(selected)
+    )
 
     print("-" * 48)
+
     print(
         f"Probabilidade média: "
         f"{average_probability:.2f}%"
@@ -178,16 +243,30 @@ def analyze_game(game):
         f"{MAX_SELECOES}"
     )
 
-    print("\n========== MERCADOS DESCARTADOS ==========")
+    return average_probability
+
+
+def print_discarded(markets, selected):
+
+    print(
+        "\n========== MERCADOS DESCARTADOS =========="
+    )
 
     selected_keys = {
-        (item["market"], item["side"])
+        (
+            item["market"],
+            item["side"]
+        )
         for item in selected
     }
 
     discarded = [
-        item for item in markets
-        if (item["market"], item["side"])
+        item
+        for item in markets
+        if (
+            item["market"],
+            item["side"]
+        )
         not in selected_keys
     ]
 
@@ -196,24 +275,71 @@ def analyze_game(game):
         reverse=True
     )
 
-    if discarded:
-        for item in discarded:
-            print(
-                f"- {item['market']} - "
-                f"{item['side']} "
-                f"({item['probability']:.2f}%)"
-            )
-    else:
-        print("Nenhum mercado descartado.")
+    if not discarded:
+
+        print(
+            "Nenhum mercado descartado."
+        )
+
+        return
+
+    for item in discarded:
+
+        print(
+            f"- {item['market']} - "
+            f"{item['side']} "
+            f"({item['probability']:.2f}%) "
+            f"[{item['classification']}]"
+        )
+
+
+def analyze_game(game):
+
+    markets = build_markets(game)
+
+    selected = select_markets(markets)
+
+    print("\n" + "=" * 48)
 
     print(
-        "\nObservação: estimativa do modelo, "
+        f"JOGO: "
+        f"{game['home_team']} x "
+        f"{game['away_team']}"
+    )
+
+    print("=" * 48)
+
+    print_statistics(game)
+
+    print_probabilities(markets)
+
+    average_probability = print_ticket(
+        selected
+    )
+
+    print_discarded(
+        markets,
+        selected
+    )
+
+    print(
+        "\nObservação: estimativa "
+        "experimental do modelo, "
         "não garantia de resultado."
     )
 
     print("=" * 48)
 
-    return selected
+    return {
+        "game": (
+            f"{game['home_team']} x "
+            f"{game['away_team']}"
+        ),
+        "selected": selected,
+        "average_probability": (
+            round(average_probability, 2)
+        ),
+    }
 
 
 def main():
@@ -301,7 +427,9 @@ def main():
         },
     ]
 
-    print("\n========== BET-AI V10 ==========")
+    print(
+        "\n========== BET-AI V10.1 =========="
+    )
 
     print(
         f"Filtro mínimo: "
@@ -320,12 +448,25 @@ def main():
 
     print("=" * 48)
 
-    for game in games:
-        analyze_game(game)
+    results = []
 
-    print("\n" + "=" * 48)
-    print("BET-AI V10 FINALIZADO")
-    print("=" * 48)
+    for game in games:
+
+        result = analyze_game(game)
+
+        results.append(result)
+
+    print(
+        "\n" + "=" * 48
+    )
+
+    print(
+        "BET-AI V10.1 FINALIZADO"
+    )
+
+    print(
+        "=" * 48
+    )
 
 
 if __name__ == "__main__":
