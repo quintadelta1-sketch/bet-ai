@@ -1,5 +1,4 @@
 import json
-
 from match_analyzer import analyze_match
 
 
@@ -71,7 +70,7 @@ def get_markets(result):
                 "edge": round(abs(under - over), 2),
                 "score": calculate_score(under, over),
                 "classification": classify(under)
-            )
+            })
 
     return markets
 
@@ -108,7 +107,6 @@ def print_ticket(selected):
     print("\n========== TALÃO BET-AI V7.1 ==========")
 
     if not selected:
-
         print("Nenhum mercado atingiu o filtro mínimo.")
         return
 
@@ -165,9 +163,7 @@ def print_discarded(all_markets, selected):
     print("\n========== MERCADOS NÃO SELECIONADOS ==========")
 
     if not discarded:
-
         print("Nenhum mercado adicional.")
-
         return
 
     for item in discarded:
@@ -219,47 +215,3 @@ def print_probabilities(result):
 
 
 def main():
-
-    with open(
-        "data/matches.json",
-        "r",
-        encoding="utf-8"
-    ) as file:
-
-        matches = json.load(file)
-
-    print("\n========== BET-AI V7.1 ==========")
-    print(f"Filtro mínimo: {FILTRO_MINIMO:.0f}%")
-    print(f"Probabilidade alta: {PROBABILIDADE_ALTA:.0f}%")
-    print(f"Máximo de mercados: {MAX_MERCADOS}")
-    print("=================================\n")
-
-    for game in matches:
-
-        result = analyze_match(game)
-
-        print("\n" + "=" * 45)
-
-        print(
-            f"JOGO: "
-            f"{result['home']} x "
-            f"{result['away']}"
-        )
-
-        print("=" * 45)
-
-        print_statistics(result)
-
-        print_probabilities(result)
-
-        all_markets = get_markets(result)
-
-        selected = select_markets(all_markets)
-
-        print_ticket(selected)
-
-        print_discarded(all_markets, selected)
-
-
-if __name__ == "__main__":
-    main()
