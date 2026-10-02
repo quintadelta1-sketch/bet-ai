@@ -1,24 +1,71 @@
-def analyze_game(game):
-    home = (
-        game["home_form"] * 0.35
-        + game["home_strength"] * 0.35
-        + min(game["home_avg_goals"] / 2.5, 1) * 0.30
-    )
+from config import (
+    FILTRO_MINIMO,
+    PROBABILIDADE_ALTA,
+    LINHAS
+)
 
-    away = (
-        game["away_form"] * 0.35
-        + game["away_strength"] * 0.35
-        + min(game["away_avg_goals"] / 2.5, 1) * 0.30
-    )
+from statistics import (
+    media_total,
+    over_under_probability
+)
 
-    total = home + away
 
-    home_prob = home / total
-    away_prob = away / total
+def classificacao(probabilidade):
 
-    return {
-        "home": game["home"],
-        "away": game["away"],
-        "home_probability": round(home_prob * 100, 2),
-        "away_probability": round(away_prob * 100, 2)
-    }
+    if probabilidade >= PROBABILIDADE_ALTA:
+        return "ALTA"
+
+    if probabilidade >= FILTRO_MINIMO:
+        return "MEDIA"
+
+    return "BAIXA"
+
+
+def gerar_mercados(estatisticas):
+
+    mercados = []
+
+    for mercado, valores in estatisticas.items():
+
+        if mercado not in LINHAS:
+            continue
+
+        media = media_total(valores)
+
+        linha = LINHAS[mercado]
+
+        mais, menos = over_under_probability(
+            media,
+            linha
+        )
+
+        opcoes = [
+            ("Mais", mais, menos),
+            ("Menos", menos, mais)
+        ]
+
+        for lado, probabilidade, oposta in opcoes:
+
+            item = {
+                "market": mercado,
+                "side": lado,
+                "line": linha,
+                "mean": media,
+                "probability": probabilidade,
+                "opposite": oposta,
+                "edge": round(
+                    abs(probabilidade - 50.0),
+                    2
+                ),
+                "score": round(
+                    probabilidade,
+                    2
+                ),
+                "classification": classificacao(
+                    probabilidade
+                )
+            }
+
+            mercados.append(item)
+
+    return mercados
