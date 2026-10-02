@@ -3,20 +3,43 @@ import json
 from match_analyzer import analyze_match
 
 
-FILTRO_MODERADO = 60
-FILTRO_CONSERVADOR = 65
+FILTRO_MINIMO = 60.0
+PROBABILIDADE_ALTA = 65.0
+MAX_MERCADOS = 3
 
 
 def classify(probability):
-    if probability >= FILTRO_CONSERVADOR:
+    if probability >= PROBABILIDADE_ALTA:
         return "🟢 ALTA"
-    elif probability >= FILTRO_MODERADO:
+    elif probability >= FILTRO_MINIMO:
         return "🟡 MÉDIA"
     else:
         return "🔴 BAIXA"
 
 
+def calculate_score(probability, opposite_probability):
+    """
+    Pontuação experimental do modelo.
+
+    A pontuação considera:
+    - probabilidade principal
+    - distância em relação à probabilidade oposta
+
+    Não representa garantia de resultado.
+    """
+
+    edge = abs(probability - opposite_probability)
+
+    score = (
+        probability * 0.75
+        + edge * 0.25
+    )
+
+    return round(score, 2)
+
+
 def get_markets(result):
+
     markets = []
 
     for market, values in result["probabilities"].items():
@@ -24,55 +47,74 @@ def get_markets(result):
         over = float(values["over"])
         under = float(values["under"])
 
-        markets.append({
-            "market": market,
-            "side": "Mais",
-            "probability": over,
-            "classification": classify(over)
-        })
+        # Mercado MAIS
+        if over >= FILTRO_MINIMO:
 
-        markets.append({
-            "market": market,
-            "side": "Menos",
-            "probability": under,
-            "classification": classify(under)
-        })
+            markets.append({
+                "market": market,
+                "side": "Mais",
+                "probability": over,
+                "opposite": under,
+                "edge": round(abs(over - under), 2),
+                "score": calculate_score(over, under),
+                "classification": classify(over)
+            })
+
+        # Mercado MENOS
+        if under >= FILTRO_MINIMO:
+
+            markets.append({
+                "market": market,
+                "side": "Menos",
+                "probability": under,
+                "opposite": over,
+                "edge": round(abs(under - over), 2),
+                "score": calculate_score(under, over),
+                "classification": classify(under)
+            )
 
     return markets
 
 
-def create_ticket(result):
-    markets = get_markets(result)
+def select_markets(markets):
 
-    # Apenas mercados que atingem o filtro mínimo
-    approved = [
-        market for market in markets
-        if market["probability"] >= FILTRO_MODERADO
-    ]
-
-    # Ordena da maior para a menor probabilidade
-    approved.sort(
-        key=lambda x: x["probability"],
+    # Ordena pela pontuação do modelo
+    markets = sorted(
+        markets,
+        key=lambda x: x["score"],
         reverse=True
     )
 
-    # Seleciona no máximo 3 mercados
-    ticket = approved[:3]
+    selected = []
+    used_markets = set()
 
-    return ticket, markets
+    for item in markets:
+
+        # Evita repetir o mesmo mercado
+        if item["market"] in used_markets:
+            continue
+
+        selected.append(item)
+        used_markets.add(item["market"])
+
+        if len(selected) >= MAX_MERCADOS:
+            break
+
+    return selected
 
 
-def print_ticket(ticket):
+def print_ticket(selected):
 
-    print("\n========== TALÃO BET-AI V7 ==========")
+    print("\n========== TALÃO BET-AI V7.1 ==========")
 
-    if not ticket:
+    if not selected:
+
         print("Nenhum mercado atingiu o filtro mínimo.")
         return
 
-    total = 0
+    total_probability = 0
 
-    for index, item in enumerate(ticket, start=1):
+    for index, item in enumerate(selected, start=1):
 
         print(
             f"{index}. "
@@ -82,43 +124,98 @@ def print_ticket(ticket):
             f"[{item['classification']}]"
         )
 
-        total += item["probability"]
+        print(
+            f"   Pontuação: {item['score']:.2f} "
+            f"| Diferença: {item['edge']:.2f}%"
+        )
 
-    average = total / len(ticket)
+        total_probability += item["probability"]
 
-    print("--------------------------------------")
+    average = total_probability / len(selected)
+
+    print("----------------------------------------")
     print(f"Probabilidade média: {average:.2f}%")
-    print(f"Filtro utilizado: {FILTRO_MODERADO}%")
+    print(f"Filtro mínimo: {FILTRO_MINIMO:.0f}%")
+    print(f"Probabilidade alta: {PROBABILIDADE_ALTA:.0f}%")
+
     print(
-        "Observação: estimativa do modelo, "
-        "não garantia de resultado."
+        "Observação: estimativa experimental "
+        "do modelo, não garantia de resultado."
     )
-    print("======================================")
+
+    print("========================================")
 
 
-def print_rejected(markets):
+def print_discarded(all_markets, selected):
 
-    rejected = [
-        market for market in markets
-        if market["probability"] < FILTRO_MODERADO
-    ]
+    selected_names = {
+        (item["market"], item["side"])
+        for item in selected
+    }
 
-    print("\n========== MERCADOS DESCARTADOS ==========")
+    discarded = []
 
-    if not rejected:
-        print("Nenhum mercado foi descartado.")
+    for item in all_markets:
+
+        key = (item["market"], item["side"])
+
+        if key not in selected_names:
+            discarded.append(item)
+
+    print("\n========== MERCADOS NÃO SELECIONADOS ==========")
+
+    if not discarded:
+
+        print("Nenhum mercado adicional.")
+
         return
 
-    for item in rejected:
+    for item in discarded:
 
         print(
             f"- {item['market']} - "
             f"{item['side']} "
             f"({item['probability']:.2f}%) "
-            f"abaixo de {FILTRO_MODERADO}%"
+            f"| Score {item['score']:.2f}"
         )
 
-    print("===========================================")
+    print("===============================================")
+
+
+def print_statistics(result):
+
+    print("\nESTATÍSTICAS")
+
+    for market, values in result["stats"].items():
+
+        home = values.get("home")
+        away = values.get("away")
+
+        if home is not None and away is not None:
+
+            print(
+                f"{market}: "
+                f"Casa {home} | "
+                f"Fora {away}"
+            )
+
+
+def print_probabilities(result):
+
+    print("\nPROBABILIDADES")
+
+    for market, values in result["probabilities"].items():
+
+        over = float(values["over"])
+        under = float(values["under"])
+
+        print(
+            f"{market}: "
+            f"Mais = {over:.2f}% "
+            f"[{classify(over)}] | "
+            f"Menos = {under:.2f}% "
+            f"[{classify(under)}]"
+        )
 
 
 def main():
@@ -131,58 +228,37 @@ def main():
 
         matches = json.load(file)
 
-    print("\n========== BET-AI V7 ==========")
-    print(f"Filtro mínimo: {FILTRO_MODERADO}%")
-    print(f"Probabilidade alta: {FILTRO_CONSERVADOR}%")
-    print("===============================\n")
+    print("\n========== BET-AI V7.1 ==========")
+    print(f"Filtro mínimo: {FILTRO_MINIMO:.0f}%")
+    print(f"Probabilidade alta: {PROBABILIDADE_ALTA:.0f}%")
+    print(f"Máximo de mercados: {MAX_MERCADOS}")
+    print("=================================\n")
 
     for game in matches:
 
         result = analyze_match(game)
 
         print("\n" + "=" * 45)
+
         print(
             f"JOGO: "
             f"{result['home']} x "
             f"{result['away']}"
         )
+
         print("=" * 45)
 
-        print("\nESTATÍSTICAS")
+        print_statistics(result)
 
-        for market, values in result["stats"].items():
+        print_probabilities(result)
 
-            home = values.get("home")
-            away = values.get("away")
+        all_markets = get_markets(result)
 
-            if home is not None and away is not None:
+        selected = select_markets(all_markets)
 
-                print(
-                    f"{market}: "
-                    f"Casa {home} | "
-                    f"Fora {away}"
-                )
+        print_ticket(selected)
 
-        print("\nPROBABILIDADES")
-
-        for market, values in result["probabilities"].items():
-
-            over = float(values["over"])
-            under = float(values["under"])
-
-            print(
-                f"{market}: "
-                f"Mais = {over:.2f}% "
-                f"[{classify(over)}] | "
-                f"Menos = {under:.2f}% "
-                f"[{classify(under)}]"
-            )
-
-        ticket, markets = create_ticket(result)
-
-        print_ticket(ticket)
-
-        print_rejected(markets)
+        print_discarded(all_markets, selected)
 
 
 if __name__ == "__main__":
