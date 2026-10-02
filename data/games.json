@@ -1,22 +1,68 @@
 [
   {
-    "home": "Time A",
-    "away": "Time B",
-    "home_avg_goals": 1.8,
-    "away_avg_goals": 1.1,
-    "home_form": 0.80,
-    "away_form": 0.55,
-    "home_strength": 0.75,
-    "away_strength": 0.60
+    "game": "Flamengo x Palmeiras",
+    "statistics": {
+      "goals": {
+        "casa": 1.8,
+        "fora": 1.4
+      },
+      "corners": {
+        "casa": 6.2,
+        "fora": 4.8
+      },
+      "shots": {
+        "casa": 14.5,
+        "fora": 11.2
+      },
+      "shots_on_target": {
+        "casa": 5.8,
+        "fora": 4.3
+      },
+      "tackles": {
+        "casa": 15.0,
+        "fora": 16.2
+      },
+      "cards": {
+        "casa": 2.1,
+        "fora": 2.5
+      },
+      "fouls": {
+        "casa": 12.4,
+        "fora": 13.1
+      }
+    }
   },
   {
-    "home": "Time C",
-    "away": "Time D",
-    "home_avg_goals": 1.5,
-    "away_avg_goals": 0.9,
-    "home_form": 0.70,
-    "away_form": 0.45,
-    "home_strength": 0.68,
-    "away_strength": 0.52
+    "game": "Barcelona x Real Madrid",
+    "statistics": {
+      "goals": {
+        "casa": 2.1,
+        "fora": 1.7
+      },
+      "corners": {
+        "casa": 6.5,
+        "fora": 5.1
+      },
+      "shots": {
+        "casa": 16.2,
+        "fora": 12.8
+      },
+      "shots_on_target": {
+        "casa": 6.4,
+        "fora": 5.0
+      },
+      "tackles": {
+        "casa": 13.8,
+        "fora": 15.1
+      },
+      "cards": {
+        "casa": 1.8,
+        "fora": 2.3
+      },
+      "fouls": {
+        "casa": 10.8,
+        "fora": 12.7
+      }
+    }
   }
 ]
