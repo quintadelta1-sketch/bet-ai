@@ -2,97 +2,22 @@ from statistics import mean
 
 
 # ============================================================
-# BET-AI V14
-# Sistema experimental de análise estatística de partidas
+# BET-AI V15
+# Sistema experimental de análise estatística de futebol
 # ============================================================
 
-VERSAO = "14.0"
+VERSAO = "V15"
 
 FILTRO_MINIMO = 0.60
 MAX_SELECOES = 3
 
 
 # ============================================================
-# DADOS DE EXEMPLO
+# UTILIDADES
 # ============================================================
 
-GAME = {
-    "home": "Casa FC",
-    "away": "Fora FC",
-
-    "goals_home": 1.8,
-    "goals_away": 1.4,
-
-    "corners_home": 6.2,
-    "corners_away": 4.8,
-
-    "shots_home": 14.5,
-    "shots_away": 11.2,
-
-    "shots_on_target_home": 5.8,
-    "shots_on_target_away": 4.3,
-
-    "tackles_home": 15.0,
-    "tackles_away": 16.2,
-
-    "cards_home": 2.1,
-    "cards_away": 2.5,
-
-    "fouls_home": 12.4,
-    "fouls_away": 13.1,
-}
-
-
-# ============================================================
-# HISTÓRICO PARA BACKTEST
-# ============================================================
-
-HISTORICO = [
-    {
-        "market": "goals",
-        "line": 2.5,
-        "probability": 0.68,
-        "result": "over",
-    },
-    {
-        "market": "shots",
-        "line": 24.5,
-        "probability": 0.72,
-        "result": "over",
-    },
-    {
-        "market": "corners",
-        "line": 9.5,
-        "probability": 0.66,
-        "result": "under",
-    },
-    {
-        "market": "shots_on_target",
-        "line": 8.5,
-        "probability": 0.74,
-        "result": "over",
-    },
-    {
-        "market": "tackles",
-        "line": 30.5,
-        "probability": 0.63,
-        "result": "under",
-    },
-    {
-        "market": "cards",
-        "line": 4.5,
-        "probability": 0.61,
-        "result": "under",
-    },
-]
-
-
-# ============================================================
-# FUNÇÕES AUXILIARES
-# ============================================================
-
-def clamp(value, minimum=0.0, maximum=1.0):
-    return max(minimum, min(value, maximum))
+def limitar(valor, minimo=0.0, maximo=1.0):
+    return max(minimo, min(maximo, valor))
 
 
 def percentual(valor):
@@ -100,7 +25,7 @@ def percentual(valor):
 
 
 def classificacao(probabilidade):
-    if probabilidade >= 0.75:
+    if probabilidade >= 0.80:
         return "ALTA"
     elif probabilidade >= 0.60:
         return "MEDIA"
@@ -134,155 +59,191 @@ def validar_game(game):
             "Campos ausentes: " + ", ".join(faltando)
         )
 
+    for campo in campos[2:]:
+        if not isinstance(game[campo], (int, float)):
+            raise ValueError(
+                f"O campo '{campo}' precisa ser numérico."
+            )
+
+        if game[campo] < 0:
+            raise ValueError(
+                f"O campo '{campo}' não pode ser negativo."
+            )
+
     return True
 
 
 # ============================================================
-# CÁLCULO DE PROBABILIDADES
+# CÁLCULO DAS ESTATÍSTICAS
 # ============================================================
 
-def calcular_probabilidade(valor, linha, margem=0.15):
-    if linha <= 0:
-        return 0.0
+def estatisticas_jogo(game):
 
-    diferenca = (valor - linha) / linha
+    return {
+        "goals": (
+            game["goals_home"],
+            game["goals_away"]
+        ),
 
-    probabilidade = 0.50 + (diferenca / margem) * 0.25
+        "corners": (
+            game["corners_home"],
+            game["corners_away"]
+        ),
 
-    return clamp(probabilidade, 0.05, 0.95)
+        "shots": (
+            game["shots_home"],
+            game["shots_away"]
+        ),
+
+        "shots_on_target": (
+            game["shots_on_target_home"],
+            game["shots_on_target_away"]
+        ),
+
+        "tackles": (
+            game["tackles_home"],
+            game["tackles_away"]
+        ),
+
+        "cards": (
+            game["cards_home"],
+            game["cards_away"]
+        ),
+
+        "faltas": (
+            game["fouls_home"],
+            game["fouls_away"]
+        ),
+    }
 
 
-def analisar_mercado(nome, valor, linha):
-    over = calcular_probabilidade(valor, linha)
-
-    # Probabilidade complementar experimental
-    under = clamp(1.0 - over)
-
-    mercados = []
-
-    mercados.append({
-        "market": nome,
-        "side": "Mais",
-        "line": linha,
-        "probability": over,
-        "opposite": under,
-        "classification": classificacao(over),
-    })
-
-    mercados.append({
-        "market": nome,
-        "side": "Menos",
-        "line": linha,
-        "probability": under,
-        "opposite": over,
-        "classification": classificacao(under),
-    })
-
-    return mercados
+def media_total(valores):
+    return mean(valores)
 
 
 # ============================================================
-# CONSTRUÇÃO DOS MERCADOS
+# MODELO DE PROBABILIDADE
+# ============================================================
+
+def calcular_probabilidade(total, linha, lado):
+
+    if lado == "Mais":
+
+        if total <= linha:
+            prob = 0.50
+        else:
+            diferenca = total - linha
+            prob = 0.50 + (diferenca / max(linha, 1)) * 0.50
+
+    else:
+
+        if total >= linha:
+            prob = 0.50
+        else:
+            diferenca = linha - total
+            prob = 0.50 + (diferenca / max(linha, 1)) * 0.50
+
+    return limitar(prob)
+
+
+def calcular_score(probabilidade):
+
+    score = (
+        probabilidade * 0.70
+        + classificacao_pontuacao(probabilidade) * 0.30
+    )
+
+    return round(score, 4)
+
+
+def classificacao_pontuacao(probabilidade):
+
+    if probabilidade >= 0.80:
+        return 1.0
+
+    if probabilidade >= 0.60:
+        return 0.70
+
+    return 0.40
+
+
+# ============================================================
+# ANÁLISE DE UM MERCADO
+# ============================================================
+
+def analisar_mercado(
+    mercado,
+    total,
+    linha,
+    lado
+):
+
+    probabilidade = calcular_probabilidade(
+        total,
+        linha,
+        lado
+    )
+
+    classificacao_atual = classificacao(
+        probabilidade
+    )
+
+    score = calcular_score(
+        probabilidade
+    )
+
+    return {
+        "market": mercado,
+        "line": linha,
+        "side": lado,
+        "probability": round(probabilidade, 4),
+        "score": score,
+        "classification": classificacao_atual,
+    }
+
+
+# ============================================================
+# GERAÇÃO DOS MERCADOS
 # ============================================================
 
 def gerar_mercados(game):
 
+    stats = estatisticas_jogo(game)
+
     mercados = []
 
-    # GOLS
-    total_goals = game["goals_home"] + game["goals_away"]
+    linhas = {
+        "goals": 2.5,
+        "corners": 9.5,
+        "shots": 24.5,
+        "shots_on_target": 8.5,
+        "tackles": 30.5,
+        "cards": 4.5,
+        "faltas": 25.5,
+    }
 
-    mercados.extend(
-        analisar_mercado(
-            "gols",
-            total_goals,
-            2.5
+    for mercado, valores in stats.items():
+
+        total = media_total(valores)
+
+        linha = linhas[mercado]
+
+        mais = analisar_mercado(
+            mercado,
+            total,
+            linha,
+            "Mais"
         )
-    )
 
-    # ESCANTEIOS
-    total_corners = (
-        game["corners_home"] +
-        game["corners_away"]
-    )
-
-    mercados.extend(
-        analisar_mercado(
-            "corners",
-            total_corners,
-            9.5
+        menos = analisar_mercado(
+            mercado,
+            total,
+            linha,
+            "Menos"
         )
-    )
 
-    # FINALIZAÇÕES
-    total_shots = (
-        game["shots_home"] +
-        game["shots_away"]
-    )
-
-    mercados.extend(
-        analisar_mercado(
-            "shots",
-            total_shots,
-            24.5
-        )
-    )
-
-    # FINALIZAÇÕES NO ALVO
-    total_shots_on_target = (
-        game["shots_on_target_home"] +
-        game["shots_on_target_away"]
-    )
-
-    mercados.extend(
-        analisar_mercado(
-            "shots_on_target",
-            total_shots_on_target,
-            8.5
-        )
-    )
-
-    # DESARMES
-    total_tackles = (
-        game["tackles_home"] +
-        game["tackles_away"]
-    )
-
-    mercados.extend(
-        analisar_mercado(
-            "tackles",
-            total_tackles,
-            30.5
-        )
-    )
-
-    # CARTÕES
-    total_cards = (
-        game["cards_home"] +
-        game["cards_away"]
-    )
-
-    mercados.extend(
-        analisar_mercado(
-            "cards",
-            total_cards,
-            4.5
-        )
-    )
-
-    # FALTAS
-    total_fouls = (
-        game["fouls_home"] +
-        game["fouls_away"]
-    )
-
-    mercados.extend(
-        analisar_mercado(
-            "faltas",
-            total_fouls,
-            25.5
-        )
-    )
+        mercados.append(mais)
+        mercados.append(menos)
 
     return mercados
 
@@ -299,21 +260,29 @@ def selecionar_mercados(mercados):
         if item["probability"] >= FILTRO_MINIMO
     ]
 
-    elegiveis.sort(
-        key=lambda item: item["probability"],
+    elegiveis = sorted(
+        elegiveis,
+        key=lambda x: (
+            x["score"],
+            x["probability"]
+        ),
         reverse=True
     )
 
     selecionados = []
-    mercados_usados = set()
+
+    usados = set()
 
     for item in elegiveis:
 
-        if item["market"] in mercados_usados:
+        mercado = item["market"]
+
+        if mercado in usados:
             continue
 
         selecionados.append(item)
-        mercados_usados.add(item["market"])
+
+        usados.add(mercado)
 
         if len(selecionados) >= MAX_SELECOES:
             break
@@ -322,46 +291,39 @@ def selecionar_mercados(mercados):
 
 
 # ============================================================
-# BACKTEST
+# MERCADOS DESCARTADOS
 # ============================================================
 
-def executar_backtest(historico):
+def mercados_descartados(mercados, selecionados):
 
-    total = len(historico)
-    acertos = 0
-    erros = 0
+    selecionados_ids = {
+        (
+            item["market"],
+            item["side"],
+            item["line"]
+        )
+        for item in selecionados
+    }
 
-    for item in historico:
+    descartados = []
 
-        probabilidade = item.get("probability", 0)
-        resultado = item.get("result")
+    for item in mercados:
 
-        # Simulação experimental:
-        # mercados com probabilidade >= 60%
-        # são considerados previsões positivas.
-        previsao = probabilidade >= FILTRO_MINIMO
-
-        resultado_real = resultado in (
-            "over",
-            "under"
+        identificador = (
+            item["market"],
+            item["side"],
+            item["line"]
         )
 
-        if previsao and resultado_real:
-            acertos += 1
-        else:
-            erros += 1
+        if identificador not in selecionados_ids:
+            descartados.append(item)
 
-    if total > 0:
-        taxa = acertos / total
-    else:
-        taxa = 0.0
+    descartados.sort(
+        key=lambda x: x["probability"],
+        reverse=True
+    )
 
-    return {
-        "total": total,
-        "acertos": acertos,
-        "erros": erros,
-        "taxa": taxa,
-    }
+    return descartados
 
 
 # ============================================================
@@ -371,17 +333,10 @@ def executar_backtest(historico):
 def imprimir_estatisticas(game):
 
     print()
-    print("========== BET-AI V14 ==========")
-    print()
-    print(
-        f"PARTIDA: {game['home']} x {game['away']}"
-    )
-
-    print()
     print("========== ESTATISTICAS ==========")
 
     print(
-        f"gols: Casa {game['goals_home']} | "
+        f"goals: Casa {game['goals_home']} | "
         f"Fora {game['goals_away']}"
     )
 
@@ -424,12 +379,10 @@ def imprimir_probabilidades(mercados):
 
     for item in mercados:
 
-        prob = percentual(item["probability"])
-
         print(
             f"{item['market']} - "
             f"{item['side']} {item['line']} = "
-            f"{prob:.2f}% "
+            f"{percentual(item['probability']):.2f}% "
             f"[{item['classification']}]"
         )
 
@@ -437,37 +390,40 @@ def imprimir_probabilidades(mercados):
 def imprimir_talao(selecionados):
 
     print()
-    print("========== TALAO BET-AI V14 ==========")
+    print(
+        f"========== TALAO BET-AI {VERSAO} =========="
+    )
 
     if not selecionados:
+
         print(
             "Nenhum mercado atingiu o filtro mínimo."
         )
-        return
 
-    probabilidades = []
+        return
 
     for indice, item in enumerate(
         selecionados,
         start=1
     ):
 
-        prob = percentual(item["probability"])
-        probabilidades.append(
-            item["probability"]
-        )
-
         print(
             f"{indice}. "
             f"{item['market']} - "
             f"{item['side']} {item['line']} "
-            f"({prob:.2f}%) "
+            f"("
+            f"{percentual(item['probability']):.2f}%"
+            f") "
             f"[{item['classification']}]"
         )
 
-    media = mean(probabilidades)
+    media = mean(
+        item["probability"]
+        for item in selecionados
+    )
 
-    print()
+    print("------------------------------------")
+
     print(
         f"Probabilidade média: "
         f"{percentual(media):.2f}%"
@@ -479,131 +435,288 @@ def imprimir_talao(selecionados):
     )
 
     print(
-        f"Máximo de seleções: {MAX_SELECOES}"
+        f"Máximo de seleções: "
+        f"{MAX_SELECOES}"
     )
 
 
-def imprimir_descartados(
-    mercados,
-    selecionados
-):
-
-    selecionados_ids = {
-        (
-            item["market"],
-            item["side"],
-            item["line"]
-        )
-        for item in selecionados
-    }
-
-    descartados = [
-        item
-        for item in mercados
-        if (
-            item["market"],
-            item["side"],
-            item["line"]
-        ) not in selecionados_ids
-    ]
+def imprimir_descartados(descartados):
 
     print()
     print("========== MERCADOS DESCARTADOS ==========")
 
     if not descartados:
-        print("Nenhum mercado descartado.")
+
+        print(
+            "Nenhum mercado descartado."
+        )
+
         return
 
     for item in descartados:
 
-        prob = percentual(item["probability"])
-
         print(
             f"- {item['market']} - "
             f"{item['side']} {item['line']} "
-            f"({prob:.2f}%) "
+            f"("
+            f"{percentual(item['probability']):.2f}%"
+            f") "
             f"[{item['classification']}]"
         )
 
 
-def imprimir_backtest(resultado):
+# ============================================================
+# BACKTEST
+# ============================================================
+
+def executar_backtest(historico):
+
+    total = 0
+    acertos = 0
+    erros = 0
+
+    for partida in historico:
+
+        mercados = gerar_mercados(
+            partida
+        )
+
+        selecionados = selecionar_mercados(
+            mercados
+        )
+
+        for item in selecionados:
+
+            total += 1
+
+            resultado = partida.get(
+                "resultado",
+                {}
+            )
+
+            chave = item["market"]
+
+            valor_real = resultado.get(
+                chave
+            )
+
+            if valor_real is None:
+                continue
+
+            linha = item["line"]
+
+            if item["side"] == "Mais":
+
+                acertou = valor_real > linha
+
+            else:
+
+                acertou = valor_real < linha
+
+            if acertou:
+                acertos += 1
+            else:
+                erros += 1
+
+    if total == 0:
+
+        taxa = 0.0
+
+    else:
+
+        taxa = (
+            acertos / total
+        ) * 100
 
     print()
     print("========== BACKTEST ==========")
 
     print(
-        f"Total avaliado: "
-        f"{resultado['total']}"
+        f"Total avaliado: {total}"
     )
 
     print(
-        f"Acertos: "
-        f"{resultado['acertos']}"
+        f"Acertos: {acertos}"
     )
 
     print(
-        f"Erros: "
-        f"{resultado['erros']}"
+        f"Erros: {erros}"
     )
 
     print(
-        f"Taxa de acerto: "
-        f"{percentual(resultado['taxa']):.2f}%"
+        f"Taxa de acerto: {taxa:.2f}%"
     )
+
+    return {
+        "total": total,
+        "acertos": acertos,
+        "erros": erros,
+        "taxa": round(taxa, 2),
+    }
 
 
 # ============================================================
-# FUNÇÃO PRINCIPAL
+# PARTIDA DE TESTE
+# ============================================================
+
+GAME_TESTE = {
+
+    "home": "Casa",
+    "away": "Fora",
+
+    "goals_home": 1.8,
+    "goals_away": 1.4,
+
+    "corners_home": 6.2,
+    "corners_away": 4.8,
+
+    "shots_home": 14.5,
+    "shots_away": 11.2,
+
+    "shots_on_target_home": 5.8,
+    "shots_on_target_away": 4.3,
+
+    "tackles_home": 15.0,
+    "tackles_away": 16.2,
+
+    "cards_home": 2.1,
+    "cards_away": 2.5,
+
+    "fouls_home": 12.4,
+    "fouls_away": 13.1,
+
+    "resultado": {
+        "goals": 3,
+        "corners": 11,
+        "shots": 27,
+        "shots_on_target": 10,
+        "tackles": 31,
+        "cards": 5,
+        "faltas": 26,
+    },
+}
+
+
+# ============================================================
+# HISTÓRICO PARA TESTE
+# ============================================================
+
+HISTORICO_TESTE = [
+
+    GAME_TESTE,
+
+    {
+        **GAME_TESTE,
+        "goals_home": 2.0,
+        "goals_away": 1.2,
+        "shots_home": 16.0,
+        "shots_away": 12.0,
+        "resultado": {
+            "goals": 3,
+            "corners": 10,
+            "shots": 29,
+            "shots_on_target": 10,
+            "tackles": 32,
+            "cards": 5,
+            "faltas": 27,
+        },
+    },
+
+    {
+        **GAME_TESTE,
+        "goals_home": 1.9,
+        "goals_away": 1.5,
+        "shots_home": 15.0,
+        "shots_away": 12.0,
+        "resultado": {
+            "goals": 4,
+            "corners": 12,
+            "shots": 28,
+            "shots_on_target": 11,
+            "tackles": 33,
+            "cards": 6,
+            "faltas": 28,
+        },
+    },
+]
+
+
+# ============================================================
+# MAIN
 # ============================================================
 
 def main():
 
-    validar_game(GAME)
-
-    imprimir_estatisticas(GAME)
-
-    mercados = gerar_mercados(GAME)
-
-    imprimir_probabilidades(mercados)
-
-    selecionados = selecionar_mercados(
-        mercados
-    )
-
-    imprimir_talao(selecionados)
-
-    imprimir_descartados(
-        mercados,
-        selecionados
-    )
-
-    backtest = executar_backtest(
-        HISTORICO
-    )
-
-    imprimir_backtest(backtest)
-
     print()
-    print("========================================")
-    print("OBSERVAÇÃO:")
-    print(
-        "As probabilidades são estimativas "
-        "experimentais do modelo."
-    )
-    print(
-        "Não representam garantia de resultado."
-    )
-    print("========================================")
+    print("=" * 50)
+    print(f"BET-AI {VERSAO}")
+    print("=" * 50)
 
-    print()
-    print(
-        "========== BET-AI V14 FINALIZADO =========="
-    )
+    try:
 
+        validar_game(
+            GAME_TESTE
+        )
 
-# ============================================================
-# EXECUÇÃO
-# ============================================================
+        imprimir_estatisticas(
+            GAME_TESTE
+        )
+
+        mercados = gerar_mercados(
+            GAME_TESTE
+        )
+
+        imprimir_probabilidades(
+            mercados
+        )
+
+        selecionados = selecionar_mercados(
+            mercados
+        )
+
+        imprimir_talao(
+            selecionados
+        )
+
+        descartados = mercados_descartados(
+            mercados,
+            selecionados
+        )
+
+        imprimir_descartados(
+            descartados
+        )
+
+        executar_backtest(
+            HISTORICO_TESTE
+        )
+
+        print()
+        print("=" * 50)
+        print("OBSERVAÇÃO:")
+        print(
+            "As probabilidades são estimativas "
+            "experimentais do modelo."
+        )
+        print(
+            "Não representam garantia de resultado."
+        )
+        print("=" * 50)
+
+        print()
+        print("=" * 50)
+        print(f"BET-AI {VERSAO} FINALIZADO")
+        print("=" * 50)
+
+    except Exception as erro:
+
+        print()
+        print("========== ERRO ==========")
+        print(
+            f"{type(erro).__name__}: {erro}"
+        )
+        raise
+
 
 if __name__ == "__main__":
     main()
