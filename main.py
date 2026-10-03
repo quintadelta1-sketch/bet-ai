@@ -1,205 +1,189 @@
-import json
+import csv
+import math
 import os
-from statistics import mean
-
-from prediction_log import registrar_previsoes
+from datetime import datetime
 
 
 # ============================================================
-# BET-AI FINAL 1.1
-# Motor de análise + seleção + registro + backtest
+# BET-AI FINAL 1.0
+# Núcleo de análise estatística de futebol
 # ============================================================
 
-FILTRO_MINIMO = 60.0
-MAX_SELECOES = 3
+CONFIG = {
+    "filtro_minimo": 60.0,
+    "max_selecoes": 3,
+    "stake_padrao": 10.0,
+}
 
 
 # ============================================================
-# CLASSIFICAÇÃO
+# UTILIDADES
 # ============================================================
 
-def nivel(probabilidade):
+def limitar(valor, minimo=0.0, maximo=100.0):
+    return max(minimo, min(maximo, float(valor)))
+
+
+def classificacao(probabilidade):
     if probabilidade >= 75:
         return "ALTA"
-    elif probabilidade >= 60:
+    elif probabilidade >= 65:
         return "MEDIA"
     return "BAIXA"
 
 
-# ============================================================
-# CALCULO DE PROBABILIDADE
-# ============================================================
-
-def prob_over(valor, linha, escala=1.0):
-
-    if linha <= 0:
+def probabilidade_over(media, linha):
+    """
+    Estimativa simples baseada em distribuição de Poisson.
+    Não representa garantia de resultado.
+    """
+    if media <= 0:
         return 0.0
 
-    probabilidade = (valor / linha) * 50
-    probabilidade = probabilidade * escala
+    limite = math.floor(linha)
 
-    return round(
-        max(0.0, min(probabilidade, 95.0)),
-        2
-    )
+    acumulada = 0.0
+
+    for k in range(limite + 1):
+        acumulada += (
+            math.exp(-media)
+            * (media ** k)
+            / math.factorial(k)
+        )
+
+    return limitar((1 - acumulada) * 100)
+
+
+def probabilidade_under(media, linha):
+    """
+    Estimativa de probabilidade para Under.
+    """
+    if media <= 0:
+        return 100.0
+
+    limite = math.floor(linha)
+
+    acumulada = 0.0
+
+    for k in range(limite + 1):
+        acumulada += (
+            math.exp(-media)
+            * (media ** k)
+            / math.factorial(k)
+        )
+
+    return limitar(acumulada * 100)
+
+
+def media_casa_fora(casa, fora):
+    return (float(casa) + float(fora)) / 2
 
 
 # ============================================================
-# ANALISE DA PARTIDA
+# ANÁLISE DOS MERCADOS
 # ============================================================
 
-def analisar_partida(jogo):
+def analisar_mercados(jogo):
 
     mercados = []
 
-    estatisticas = jogo.get("statistics", {})
+    estatisticas = [
+        ("goals", "Gols", 2.5, "goals"),
+        ("corners", "Escanteios", 9.5, "corners"),
+        ("shots", "Chutes", 24.5, "shots"),
+        ("shots_on_target", "Chutes no alvo", 8.5, "shots_on_target"),
+        ("tackles", "Desarmes", 30.5, "tackles"),
+        ("cards", "Cartões", 4.5, "cards"),
+        ("fouls", "Faltas", 25.5, "fouls"),
+    ]
 
-    # --------------------------------------------------------
-    # GOLS
-    # --------------------------------------------------------
+    for chave, nome, linha, _ in estatisticas:
 
-    gols = (
-        estatisticas.get("home_goals", 0)
-        + estatisticas.get("away_goals", 0)
-    )
+        casa = float(jogo.get(f"home_{chave}", 0))
+        fora = float(jogo.get(f"away_{chave}", 0))
 
-    mercados.append({
-        "mercado": "gols",
-        "linha": "Mais 2.5",
-        "probabilidade": prob_over(gols, 2.5)
-    })
+        media = media_casa_fora(casa, fora)
 
-    # --------------------------------------------------------
-    # ESCANTEIOS
-    # --------------------------------------------------------
+        over = probabilidade_over(media, linha)
+        under = probabilidade_under(media, linha)
 
-    corners = (
-        estatisticas.get("home_corners", 0)
-        + estatisticas.get("away_corners", 0)
-    )
+        mercados.append({
+            "mercado": chave,
+            "nome": nome,
+            "tipo": "Mais",
+            "linha": linha,
+            "probabilidade": round(over, 2),
+            "classe": classificacao(over),
+        })
 
-    mercados.append({
-        "mercado": "corners",
-        "linha": "Mais 9.5",
-        "probabilidade": prob_over(corners, 9.5)
-    })
-
-    # --------------------------------------------------------
-    # CHUTES
-    # --------------------------------------------------------
-
-    shots = (
-        estatisticas.get("home_shots", 0)
-        + estatisticas.get("away_shots", 0)
-    )
-
-    mercados.append({
-        "mercado": "shots",
-        "linha": "Mais 24.5",
-        "probabilidade": prob_over(shots, 24.5)
-    })
-
-    # --------------------------------------------------------
-    # CHUTES NO ALVO
-    # --------------------------------------------------------
-
-    shots_on_target = (
-        estatisticas.get("home_shots_on_target", 0)
-        + estatisticas.get("away_shots_on_target", 0)
-    )
-
-    mercados.append({
-        "mercado": "shots_on_target",
-        "linha": "Mais 8.5",
-        "probabilidade": prob_over(
-            shots_on_target,
-            8.5
-        )
-    })
-
-    # --------------------------------------------------------
-    # DESARMES
-    # --------------------------------------------------------
-
-    tackles = (
-        estatisticas.get("home_tackles", 0)
-        + estatisticas.get("away_tackles", 0)
-    )
-
-    mercados.append({
-        "mercado": "tackles",
-        "linha": "Mais 30.5",
-        "probabilidade": prob_over(
-            tackles,
-            30.5
-        )
-    })
-
-    # --------------------------------------------------------
-    # CARTOES
-    # --------------------------------------------------------
-
-    cards = (
-        estatisticas.get("home_cards", 0)
-        + estatisticas.get("away_cards", 0)
-    )
-
-    mercados.append({
-        "mercado": "cards",
-        "linha": "Mais 4.5",
-        "probabilidade": prob_over(
-            cards,
-            4.5
-        )
-    })
-
-    # --------------------------------------------------------
-    # FALTAS
-    # --------------------------------------------------------
-
-    fouls = (
-        estatisticas.get("home_fouls", 0)
-        + estatisticas.get("away_fouls", 0)
-    )
-
-    mercados.append({
-        "mercado": "faltas",
-        "linha": "Mais 25.5",
-        "probabilidade": prob_over(
-            fouls,
-            25.5
-        )
-    })
+        mercados.append({
+            "mercado": chave,
+            "nome": nome,
+            "tipo": "Menos",
+            "linha": linha,
+            "probabilidade": round(under, 2),
+            "classe": classificacao(under),
+        })
 
     return mercados
 
 
 # ============================================================
-# MONTAR TALAO
+# FILTRO
 # ============================================================
 
-def montar_talao(mercados):
+def selecionar_melhores(mercados):
 
-    elegiveis = [
-        mercado
-        for mercado in mercados
-        if mercado["probabilidade"] >= FILTRO_MINIMO
+    validos = [
+        m for m in mercados
+        if m["probabilidade"] >= CONFIG["filtro_minimo"]
     ]
 
-    elegiveis.sort(
+    validos.sort(
         key=lambda x: x["probabilidade"],
         reverse=True
     )
 
-    selecionados = elegiveis[:MAX_SELECOES]
+    return validos[:CONFIG["max_selecoes"]]
 
-    descartados = [
-        mercado
-        for mercado in mercados
-        if mercado not in selecionados
-    ]
 
-    return selecionados, descartados
+# ============================================================
+# TALÃO
+# ============================================================
+
+def gerar_talao(selecoes):
+
+    print()
+    print("=" * 55)
+    print("                 TALÃO BET-AI")
+    print("=" * 55)
+
+    if not selecoes:
+        print("Nenhum mercado atingiu o filtro mínimo.")
+        return
+
+    soma = 0
+
+    for i, mercado in enumerate(selecoes, 1):
+
+        print(
+            f"{i}. "
+            f"{mercado['nome']} - "
+            f"{mercado['tipo']} "
+            f"{mercado['linha']} "
+            f"({mercado['probabilidade']:.2f}%) "
+            f"[{mercado['classe']}]"
+        )
+
+        soma += mercado["probabilidade"]
+
+    media = soma / len(selecoes)
+
+    print("-" * 55)
+    print(f"Probabilidade média estimada: {media:.2f}%")
+    print(f"Mercados selecionados: {len(selecoes)}")
+    print(f"Filtro mínimo: {CONFIG['filtro_minimo']:.2f}%")
+    print("=" * 55)
 
 
 # ============================================================
@@ -208,95 +192,310 @@ def montar_talao(mercados):
 
 def executar_backtest(historico):
 
+    print()
+    print("=" * 55)
+    print("                    BACKTEST")
+    print("=" * 55)
+
     total = 0
     acertos = 0
     erros = 0
 
-    resultados = []
-
     for jogo in historico:
 
-        mercados = analisar_partida(jogo)
+        resultado = jogo.get("resultado")
 
-        selecionados, _ = montar_talao(mercados)
-
-        resultado_real = jogo.get("result", {})
-
-        if not selecionados:
+        if not resultado:
             continue
 
-        for mercado in selecionados:
+        mercados = analisar_mercados(jogo)
+        selecoes = selecionar_melhores(mercados)
 
-            nome = mercado["mercado"]
-
-            acertou = resultado_real.get(nome)
-
-            if acertou is None:
-                continue
+        for mercado in selecoes:
 
             total += 1
 
+            acertou = verificar_resultado(
+                jogo,
+                mercado
+            )
+
             if acertou:
                 acertos += 1
-                status = "ACERTO"
             else:
                 erros += 1
-                status = "ERRO"
 
-            resultados.append({
-                "mercado": nome,
-                "probabilidade": mercado["probabilidade"],
-                "resultado": status
-            })
+    if total == 0:
 
-    taxa = 0.0
+        print("Nenhum resultado real disponível.")
+        print("Backtest não calculado.")
 
-    if total > 0:
-        taxa = (acertos / total) * 100
+        return
 
-    return {
-        "total": total,
-        "acertos": acertos,
-        "erros": erros,
-        "taxa": round(taxa, 2),
-        "resultados": resultados
-    }
+    taxa = (acertos / total) * 100
+
+    print(f"Total avaliado: {total}")
+    print(f"Acertos: {acertos}")
+    print(f"Erros: {erros}")
+    print(f"Taxa de acerto: {taxa:.2f}%")
+
+    print()
+    print(
+        "IMPORTANTE: uma taxa de acerto passada "
+        "não garante resultados futuros."
+    )
 
 
 # ============================================================
-# CARREGAR HISTORICO
+# VERIFICAÇÃO DE RESULTADOS
 # ============================================================
 
-def carregar_historico():
+def verificar_resultado(jogo, mercado):
 
-    caminho = "data/history.json"
+    chave = mercado["mercado"]
+
+    valor = jogo.get(f"resultado_{chave}")
+
+    if valor is None:
+        return False
+
+    try:
+        valor = float(valor)
+    except (ValueError, TypeError):
+        return False
+
+    linha = float(mercado["linha"])
+
+    if mercado["tipo"] == "Mais":
+        return valor > linha
+
+    return valor < linha
+
+
+# ============================================================
+# CARREGAR CSV
+# ============================================================
+
+def carregar_csv(caminho):
 
     if not os.path.exists(caminho):
         return []
 
-    try:
+    jogos = []
 
-        with open(
-            caminho,
-            "r",
-            encoding="utf-8"
-        ) as arquivo:
+    with open(
+        caminho,
+        "r",
+        encoding="utf-8",
+        newline=""
+    ) as arquivo:
 
-            dados = json.load(arquivo)
+        leitor = csv.DictReader(arquivo)
 
-        if not isinstance(dados, list):
-            return []
+        for linha in leitor:
+            jogos.append(dict(linha))
 
-        return dados
+    return jogos
 
-    except Exception as erro:
+
+# ============================================================
+# JOGO DE TESTE
+# ============================================================
+
+def jogo_teste():
+
+    return {
+        "home": "Time Casa",
+        "away": "Time Fora",
+
+        "home_goals": 1.8,
+        "away_goals": 1.4,
+
+        "home_corners": 5.8,
+        "away_corners": 4.9,
+
+        "home_shots": 14.2,
+        "away_shots": 12.8,
+
+        "home_shots_on_target": 5.1,
+        "away_shots_on_target": 4.0,
+
+        "home_tackles": 15.2,
+        "away_tackles": 16.1,
+
+        "home_cards": 2.1,
+        "away_cards": 2.3,
+
+        "home_fouls": 12.8,
+        "away_fouls": 13.6,
+    }
+
+
+# ============================================================
+# ANÁLISE PRINCIPAL
+# ============================================================
+
+def analisar_jogo(jogo):
+
+    print()
+    print("=" * 55)
+    print("                 BET-AI")
+    print("=" * 55)
+
+    print(
+        f"Jogo: {jogo.get('home', 'Casa')} "
+        f"x "
+        f"{jogo.get('away', 'Fora')}"
+    )
+
+    print()
+    print("ESTATÍSTICAS")
+    print("-" * 55)
+
+    campos = [
+        ("goals", "Gols"),
+        ("corners", "Escanteios"),
+        ("shots", "Chutes"),
+        ("shots_on_target", "Chutes no alvo"),
+        ("tackles", "Desarmes"),
+        ("cards", "Cartões"),
+        ("fouls", "Faltas"),
+    ]
+
+    for chave, nome in campos:
+
+        casa = jogo.get(f"home_{chave}", 0)
+        fora = jogo.get(f"away_{chave}", 0)
 
         print(
-            "Erro ao carregar histórico:",
-            erro
+            f"{nome}: "
+            f"Casa {casa} | Fora {fora}"
         )
 
-        return []
+    mercados = analisar_mercados(jogo)
+
+    print()
+    print("PROBABILIDADES")
+    print("-" * 55)
+
+    for mercado in mercados:
+
+        print(
+            f"- {mercado['nome']} - "
+            f"{mercado['tipo']} "
+            f"{mercado['linha']} "
+            f"({mercado['probabilidade']:.2f}%) "
+            f"[{mercado['classe']}]"
+        )
+
+    selecoes = selecionar_melhores(mercados)
+
+    gerar_talao(selecoes)
+
+    print()
+    print("=" * 55)
+    print("MERCADOS DESCARTADOS")
+    print("=" * 55)
+
+    descartados = [
+        m for m in mercados
+        if m["probabilidade"] < CONFIG["filtro_minimo"]
+    ]
+
+    for mercado in descartados:
+
+        print(
+            f"- {mercado['nome']} - "
+            f"{mercado['tipo']} "
+            f"{mercado['linha']} "
+            f"({mercado['probabilidade']:.2f}%) "
+            f"[{mercado['classe']}]"
+        )
+
+    print()
+    print("=" * 55)
+    print("OBSERVAÇÃO")
+    print("=" * 55)
+
+    print(
+        "As probabilidades são estimativas "
+        "experimentais do modelo."
+    )
+
+    print(
+        "Não representam garantia de resultado."
+    )
 
 
-#
+# ============================================================
+# PROGRAMA PRINCIPAL
+# ============================================================
+
+def main():
+
+    print()
+    print("=" * 55)
+    print("             BET-AI FINAL 1.0")
+    print("=" * 55)
+
+    print(
+        "Início:",
+        datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    )
+
+    # --------------------------------------------------------
+    # 1. Tentar carregar histórico
+    # --------------------------------------------------------
+
+    historico = carregar_csv(
+        "data/resultados.csv"
+    )
+
+    # --------------------------------------------------------
+    # 2. Se não houver dados reais, usar teste
+    # --------------------------------------------------------
+
+    if historico:
+
+        print()
+        print(
+            f"Histórico encontrado: "
+            f"{len(historico)} registros."
+        )
+
+        jogo = historico[-1]
+
+    else:
+
+        print()
+        print(
+            "Nenhum histórico real disponível."
+        )
+
+        print(
+            "Executando modo de demonstração."
+        )
+
+        jogo = jogo_teste()
+
+    # --------------------------------------------------------
+    # 3. Analisar jogo
+    # --------------------------------------------------------
+
+    analisar_jogo(jogo)
+
+    # --------------------------------------------------------
+    # 4. Backtest
+    # --------------------------------------------------------
+
+    executar_backtest(historico)
+
+    print()
+    print("=" * 55)
+    print("             BET-AI FINAL 1.0")
+    print("                 FINALIZADO")
+    print("=" * 55)
+
+
+if __name__ == "__main__":
+    main()
