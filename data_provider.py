@@ -16,11 +16,11 @@ def get_headers():
     }
 
 
-def get_fixtures(date):
+def api_get(endpoint, params=None):
     response = requests.get(
-        f"{API_URL}/fixtures",
+        f"{API_URL}/{endpoint}",
         headers=get_headers(),
-        params={"date": date},
+        params=params or {},
         timeout=30
     )
 
@@ -28,7 +28,30 @@ def get_fixtures(date):
 
     data = response.json()
 
+    if data.get("errors"):
+        raise RuntimeError(str(data["errors"]))
+
     return data.get("response", [])
+
+
+def get_fixtures(date):
+    return api_get(
+        "fixtures",
+        {"date": date}
+    )
+
+
+def get_team_recent_fixtures(team_id, last=10):
+    """
+    Busca os últimos jogos de uma equipe.
+    """
+    return api_get(
+        "fixtures",
+        {
+            "team": team_id,
+            "last": last
+        }
+    )
 
 
 def normalize_fixture(fixture):
@@ -71,3 +94,80 @@ def get_real_games(date):
             games.append(game)
 
     return games
+
+
+def calculate_team_form(team_id, last=10):
+    """
+    Calcula uma forma simples baseada nos últimos jogos.
+    """
+
+    fixtures = get_team_recent_fixtures(team_id, last)
+
+    played = 0
+    wins = 0
+    draws = 0
+    losses = 0
+    goals_for = 0
+    goals_against = 0
+
+    for fixture in fixtures:
+        teams = fixture.get("teams", {})
+        goals = fixture.get("goals", {})
+
+        home = teams.get("home", {})
+        away = teams.get("away", {})
+
+        home_id = home.get("id")
+        away_id = away.get("id")
+
+        home_goals = goals.get("home")
+        away_goals = goals.get("away")
+
+        # Ignora partidas sem resultado.
+        if home_goals is None or away_goals is None:
+            continue
+
+        if team_id == home_id:
+            team_goals = home_goals
+            opponent_goals = away_goals
+        elif team_id == away_id:
+            team_goals = away_goals
+            opponent_goals = home_goals
+        else:
+            continue
+
+        played += 1
+        goals_for += team_goals
+        goals_against += opponent_goals
+
+        if team_goals > opponent_goals:
+            wins += 1
+        elif team_goals == opponent_goals:
+            draws += 1
+        else:
+            losses += 1
+
+    if played == 0:
+        return {
+            "played": 0,
+            "wins": 0,
+            "draws": 0,
+            "losses": 0,
+            "goals_for_avg": 0,
+            "goals_against_avg": 0,
+            "form": 0.5
+        }
+
+    # Pontos obtidos / pontos possíveis.
+    points = wins * 3 + draws
+    form = points / (played * 3)
+
+    return {
+        "played": played,
+        "wins": wins,
+        "draws": draws,
+        "losses": losses,
+        "goals_for_avg": round(goals_for / played, 2),
+        "goals_against_avg": round(goals_against / played, 2),
+        "form": round(form, 4)
+    }
