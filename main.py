@@ -2,14 +2,17 @@ import json
 import os
 from datetime import datetime, timezone
 
-from data_provider import get_real_games
+from data_provider import (
+    get_real_games,
+    calculate_team_form
+)
 
 
-VERSION = "BET-AI FINAL 2.0"
+VERSION = "BET-AI FINAL 2.2"
 
 
 def load_json_games():
-    """Carrega jogos locais como modo de reserva."""
+    """Carrega games.json como fonte de reserva."""
     if not os.path.exists("games.json"):
         return []
 
@@ -29,144 +32,355 @@ def load_json_games():
     return []
 
 
-def prepare_real_game(game):
+def clamp(value, minimum=0.05, maximum=0.95):
+    """Mantém uma probabilidade dentro de limites razoáveis."""
+    return max(minimum, min(maximum, value))
+
+
+def calculate_probability(home_form, away_form):
     """
-    Converte um jogo da API para o formato usado pelo
-    analisador do BET-AI.
+    Calcula uma probabilidade inicial usando:
+    - forma recente;
+    - vantagem de jogar em casa.
     """
+
+    home_strength = (
+        home_form["form"] * 0.65
+        + 0.35
+    )
+
+    away_strength = (
+        away_form["form"] * 0.65
+    )
+
+    total = home_strength + away_strength
+
+    if total <= 0:
+        return 50.0, 50.0
+
+    home_probability = home_strength / total
+    away_probability = away_strength / total
+
+    home_probability = clamp(home_probability)
+    away_probability = clamp(away_probability)
+
+    # Normaliza novamente.
+    total_probability = home_probability + away_probability
+
+    home_probability = (
+        home_probability / total_probability
+    )
+
+    away_probability = (
+        away_probability / total_probability
+    )
+
+    return (
+        round(home_probability * 100, 2),
+        round(away_probability * 100, 2)
+    )
+
+
+def analyze_real_game(game):
+    """Analisa uma partida usando histórico real."""
+
+    home_id = game.get("home_id")
+    away_id = game.get("away_id")
+
+    if not home_id or not away_id:
+        return {
+            "home": game.get("home"),
+            "away": game.get("away"),
+            "error": "ID das equipes não encontrado."
+        }
+
+    print(
+        f"Buscando histórico: "
+        f"{game.get('home')} x {game.get('away')}"
+    )
+
+    try:
+        home_form = calculate_team_form(
+            home_id,
+            last=10
+        )
+
+        away_form = calculate_team_form(
+            away_id,
+            last=10
+        )
+
+    except Exception as error:
+        return {
+            "home": game.get("home"),
+            "away": game.get("away"),
+            "error": f"Erro no histórico: {error}"
+        }
+
+    home_probability, away_probability = (
+        calculate_probability(
+            home_form,
+            away_form
+        )
+    )
 
     return {
         "fixture_id": game.get("fixture_id"),
+
         "home": game.get("home"),
         "away": game.get("away"),
 
-        # Ainda não temos essas estatísticas para todos os jogos.
-        # Elas serão preenchidas na próxima etapa.
-        "home_form": 0.50,
-        "away_form": 0.50,
-
-        "home_strength": 0.50,
-        "away_strength": 0.50,
-
-        "home_avg_goals": 1.50,
-        "away_avg_goals": 1.50,
-
         "league": game.get("league"),
         "date": game.get("date"),
+
+        "home_probability": home_probability,
+        "away_probability": away_probability,
+
+        "home_form": home_form,
+        "away_form": away_form
     }
 
 
-def analyze_game(game):
-    home = (
-        game["home_form"] * 0.35
-        + game["home_strength"] * 0.35
-        + min(game["home_avg_goals"] / 2.5, 1) * 0.30
+def print_analysis(result):
+    """Mostra o resultado de maneira organizada."""
+
+    print()
+    print("=" * 55)
+
+    print(
+        f"{result.get('home', '?')} "
+        f"x "
+        f"{result.get('away', '?')}"
     )
 
-    away = (
-        game["away_form"] * 0.35
-        + game["away_strength"] * 0.35
-        + min(game["away_avg_goals"] / 2.5, 1) * 0.30
+    if result.get("league"):
+        print(
+            f"Competição: {result['league']}"
+        )
+
+    if result.get("error"):
+        print(
+            f"ERRO: {result['error']}"
+        )
+        print("=" * 55)
+        return
+
+    print()
+
+    print(
+        f"Probabilidade Casa: "
+        f"{result['home_probability']}%"
     )
 
-    total = home + away
+    print(
+        f"Probabilidade Fora: "
+        f"{result['away_probability']}%"
+    )
 
-    if total == 0:
-        home_prob = 0.50
-        away_prob = 0.50
-    else:
-        home_prob = home / total
-        away_prob = away / total
+    home = result["home_form"]
+    away = result["away_form"]
 
-    return {
-        "fixture_id": game.get("fixture_id"),
-        "home": game["home"],
-        "away": game["away"],
-        "league": game.get("league"),
+    print()
+    print("FORMA - CASA")
+    print(
+        f"Jogos: {home['played']} | "
+        f"V: {home['wins']} | "
+        f"E: {home['draws']} | "
+        f"D: {home['losses']}"
+    )
 
-        "home_probability": round(home_prob * 100, 2),
-        "away_probability": round(away_prob * 100, 2),
-    }
+    print(
+        f"Gols marcados/jogo: "
+        f"{home['goals_for_avg']}"
+    )
+
+    print(
+        f"Gols sofridos/jogo: "
+        f"{home['goals_against_avg']}"
+    )
+
+    print(
+        f"Índice de forma: "
+        f"{round(home['form'] * 100, 2)}%"
+    )
+
+    print()
+    print("FORMA - FORA")
+    print(
+        f"Jogos: {away['played']} | "
+        f"V: {away['wins']} | "
+        f"E: {away['draws']} | "
+        f"D: {away['losses']}"
+    )
+
+    print(
+        f"Gols marcados/jogo: "
+        f"{away['goals_for_avg']}"
+    )
+
+    print(
+        f"Gols sofridos/jogo: "
+        f"{away['goals_against_avg']}"
+    )
+
+    print(
+        f"Índice de forma: "
+        f"{round(away['form'] * 100, 2)}%"
+    )
+
+    print("=" * 55)
 
 
 def main():
-    print("=" * 50)
-    print(VERSION)
-    print("=" * 50)
 
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    print("=" * 55)
+    print(VERSION)
+    print("=" * 55)
+
+    today = datetime.now(
+        timezone.utc
+    ).strftime("%Y-%m-%d")
 
     games = []
 
-    # Tenta primeiro os dados reais.
+    # ==================================================
+    # 1. TENTA API-FOOTBALL
+    # ==================================================
+
     try:
-        print(f"Consultando API-Football: {today}")
+
+        print(
+            f"Consultando API-Football: {today}"
+        )
 
         real_games = get_real_games(today)
 
         if real_games:
-            games = [
-                prepare_real_game(game)
-                for game in real_games
-            ]
 
-            print(f"Fonte: API-Football")
-            print(f"Jogos encontrados: {len(games)}")
+            games = real_games
+
+            print(
+                "Fonte: API-Football"
+            )
+
+            print(
+                f"Jogos encontrados: "
+                f"{len(games)}"
+            )
 
         else:
-            print("API sem jogos disponíveis para a data.")
+
+            print(
+                "Nenhum jogo encontrado na API."
+            )
 
     except Exception as error:
-        print(f"Falha na API-Football: {error}")
 
-    # Se a API falhar ou não encontrar jogos,
-    # usa games.json como reserva.
+        print(
+            f"Erro na API-Football: {error}"
+        )
+
+    # ==================================================
+    # 2. MODO RESERVA
+    # ==================================================
+
     if not games:
+
         games = load_json_games()
 
         if games:
-            print("Fonte: games.json (reserva)")
-            print(f"Jogos carregados: {len(games)}")
+
+            print(
+                "Fonte: games.json "
+                "(modo reserva)"
+            )
+
+            print(
+                f"Jogos carregados: "
+                f"{len(games)}"
+            )
+
+    # ==================================================
+    # 3. NENHUM JOGO
+    # ==================================================
 
     if not games:
-        print("Nenhum jogo disponível.")
+
+        print(
+            "Nenhum jogo disponível."
+        )
+
         return
 
+    # ==================================================
+    # 4. ANALISAR JOGOS
+    # ==================================================
+
     print()
-    print("ANÁLISE DOS JOGOS")
-    print("-" * 50)
+    print(
+        "INICIANDO ANÁLISE BET-AI"
+    )
+
+    resultados = []
 
     for game in games:
+
         try:
-            result = analyze_game(game)
 
-            print()
-            print(
-                f"{result['home']} x {result['away']}"
+            result = analyze_real_game(
+                game
             )
 
-            if result.get("league"):
-                print(f"Competição: {result['league']}")
-
-            print(
-                f"Casa: {result['home_probability']}%"
+            resultados.append(
+                result
             )
 
-            print(
-                f"Fora: {result['away_probability']}%"
+            print_analysis(
+                result
             )
 
         except Exception as error:
+
+            print()
             print(
                 f"Erro analisando "
-                f"{game.get('home', '?')} x "
-                f"{game.get('away', '?')}: {error}"
+                f"{game.get('home', '?')} "
+                f"x "
+                f"{game.get('away', '?')}: "
+                f"{error}"
             )
 
+    # ==================================================
+    # 5. RESUMO
+    # ==================================================
+
     print()
-    print("-" * 50)
-    print("Análise concluída.")
-    print("=" * 50)
+    print("=" * 55)
+    print("RESUMO BET-AI")
+    print("=" * 55)
+
+    print(
+        f"Jogos analisados: "
+        f"{len(resultados)}"
+    )
+
+    valid_results = [
+        result
+        for result in resultados
+        if not result.get("error")
+    ]
+
+    print(
+        f"Análises válidas: "
+        f"{len(valid_results)}"
+    )
+
+    print()
+    print(
+        "BET-AI 2.2 concluído."
+    )
+
+    print("=" * 55)
 
 
 if __name__ == "__main__":
