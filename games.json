@@ -1,0 +1,20 @@
+[
+  {
+    "home": "Time Casa",
+    "away": "Time Fora",
+    "goals_home": 1.8,
+    "goals_away": 1.4,
+    "corners_home": 5.8,
+    "corners_away": 4.9,
+    "shots_home": 14.2,
+    "shots_away": 12.8,
+    "shots_on_target_home": 5.1,
+    "shots_on_target_away": 4.0,
+    "tackles_home": 15.2,
+    "tackles_away": 16.1,
+    "cards_home": 2.1,
+    "cards_away": 2.3,
+    "fouls_home": 12.8,
+    "fouls_away": 13.6
+  }
+]
