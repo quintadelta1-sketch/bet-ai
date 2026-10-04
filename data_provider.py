@@ -1,6 +1,6 @@
 import os
 import requests
-
+from datetime import datetime, timedelta
 
 API_URL = "https://v3.football.api-sports.io"
 
@@ -9,7 +9,9 @@ def get_headers():
     api_key = os.getenv("API_FOOTBALL_KEY")
 
     if not api_key:
-        raise RuntimeError("API_FOOTBALL_KEY não configurada.")
+        raise RuntimeError(
+            "API_FOOTBALL_KEY não configurada no GitHub."
+        )
 
     return {
         "x-apisports-key": api_key
@@ -17,39 +19,47 @@ def get_headers():
 
 
 def api_get(endpoint, params=None):
+    url = f"{API_URL}/{endpoint}"
+
     response = requests.get(
-        f"{API_URL}/{endpoint}",
+        url,
         headers=get_headers(),
         params=params or {},
         timeout=30
     )
 
-    response.raise_for_status()
+    # Mostra erro HTTP de forma clara
+    if response.status_code != 200:
+        raise RuntimeError(
+            f"API retornou HTTP {response.status_code}: "
+            f"{response.text[:500]}"
+        )
 
-    data = response.json()
+    try:
+        data = response.json()
+    except Exception:
+        raise RuntimeError(
+            f"Resposta inválida da API: {response.text[:500]}"
+        )
 
+    # Erros informados pela própria API
     if data.get("errors"):
-        raise RuntimeError(str(data["errors"]))
+        raise RuntimeError(
+            f"Erro da API-Football: {data['errors']}"
+        )
 
     return data.get("response", [])
 
 
+# ==========================================================
+# JOGOS DO DIA
+# ==========================================================
+
 def get_fixtures(date):
     return api_get(
         "fixtures",
-        {"date": date}
-    )
-
-
-def get_team_recent_fixtures(team_id, last=10):
-    """
-    Busca os últimos jogos de uma equipe.
-    """
-    return api_get(
-        "fixtures",
         {
-            "team": team_id,
-            "last": last
+            "date": date
         }
     )
 
@@ -88,6 +98,7 @@ def get_real_games(date):
     games = []
 
     for fixture in fixtures:
+
         game = normalize_fixture(fixture)
 
         if game["home"] and game["away"]:
@@ -96,21 +107,96 @@ def get_real_games(date):
     return games
 
 
-def calculate_team_form(team_id, last=10):
-    """
-    Calcula uma forma simples baseada nos últimos jogos.
-    """
+# ==========================================================
+# HISTÓRICO DA EQUIPE
+# ==========================================================
 
-    fixtures = get_team_recent_fixtures(team_id, last)
+def get_team_recent_fixtures(team_id, last=10):
+
+    if not team_id:
+        raise RuntimeError(
+            "ID da equipe não informado."
+        )
+
+    # Primeiro tenta o método last
+    try:
+
+        fixtures = api_get(
+            "fixtures",
+            {
+                "team": team_id,
+                "last": last
+            }
+        )
+
+        if fixtures:
+            return fixtures
+
+    except Exception as error:
+
+        print(
+            f"Aviso: consulta last={last} falhou para "
+            f"equipe {team_id}: {error}"
+        )
+
+    # ======================================================
+    # SEGUNDA TENTATIVA
+    # Busca por intervalo de datas
+    # ======================================================
+
+    today = datetime.utcnow().date()
+
+    date_from = today - timedelta(days=180)
+    date_to = today
+
+    try:
+
+        fixtures = api_get(
+            "fixtures",
+            {
+                "team": team_id,
+                "from": date_from.strftime("%Y-%m-%d"),
+                "to": date_to.strftime("%Y-%m-%d")
+            }
+        )
+
+        # Ordena do mais recente para o mais antigo
+        fixtures.sort(
+            key=lambda item: item.get("fixture", {}).get("date", ""),
+            reverse=True
+        )
+
+        return fixtures[:last]
+
+    except Exception as error:
+
+        raise RuntimeError(
+            f"Não foi possível obter o histórico da equipe "
+            f"{team_id}. Detalhes: {error}"
+        )
+
+
+# ==========================================================
+# CÁLCULO DA FORMA
+# ==========================================================
+
+def calculate_team_form(team_id, last=10):
+
+    fixtures = get_team_recent_fixtures(
+        team_id,
+        last
+    )
 
     played = 0
     wins = 0
     draws = 0
     losses = 0
+
     goals_for = 0
     goals_against = 0
 
     for fixture in fixtures:
+
         teams = fixture.get("teams", {})
         goals = fixture.get("goals", {})
 
@@ -123,31 +209,48 @@ def calculate_team_form(team_id, last=10):
         home_goals = goals.get("home")
         away_goals = goals.get("away")
 
-        # Ignora partidas sem resultado.
+        # Ignora jogos sem resultado
         if home_goals is None or away_goals is None:
             continue
 
+        # Equipe jogando em casa
         if team_id == home_id:
+
             team_goals = home_goals
             opponent_goals = away_goals
+
+        # Equipe jogando fora
         elif team_id == away_id:
+
             team_goals = away_goals
             opponent_goals = home_goals
+
         else:
             continue
 
         played += 1
+
         goals_for += team_goals
         goals_against += opponent_goals
 
         if team_goals > opponent_goals:
+
             wins += 1
+
         elif team_goals == opponent_goals:
+
             draws += 1
+
         else:
+
             losses += 1
 
+    # ======================================================
+    # NENHUM JOGO ENCONTRADO
+    # ======================================================
+
     if played == 0:
+
         return {
             "played": 0,
             "wins": 0,
@@ -158,8 +261,15 @@ def calculate_team_form(team_id, last=10):
             "form": 0.5
         }
 
-    # Pontos obtidos / pontos possíveis.
-    points = wins * 3 + draws
+    # ======================================================
+    # ÍNDICE DE FORMA
+    # ======================================================
+
+    points = (
+        wins * 3
+        + draws
+    )
+
     form = points / (played * 3)
 
     return {
@@ -167,7 +277,60 @@ def calculate_team_form(team_id, last=10):
         "wins": wins,
         "draws": draws,
         "losses": losses,
-        "goals_for_avg": round(goals_for / played, 2),
-        "goals_against_avg": round(goals_against / played, 2),
-        "form": round(form, 4)
+
+        "goals_for_avg": round(
+            goals_for / played,
+            2
+        ),
+
+        "goals_against_avg": round(
+            goals_against / played,
+            2
+        ),
+
+        "form": round(
+            form,
+            4
+        )
     }
+
+
+# ==========================================================
+# TESTE DO PROVEDOR
+# ==========================================================
+
+if __name__ == "__main__":
+
+    print("=" * 55)
+    print("BET-AI - TESTE DO DATA PROVIDER")
+    print("=" * 55)
+
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+
+    print(f"Data: {today}")
+    print()
+
+    try:
+
+        games = get_real_games(today)
+
+        print(
+            f"Jogos encontrados hoje: {len(games)}"
+        )
+
+        for game in games[:5]:
+
+            print(
+                f"- {game['home']} x {game['away']}"
+            )
+
+        print()
+        print("DATA PROVIDER funcionando.")
+
+    except Exception as error:
+
+        print()
+        print("ERRO:")
+        print(error)
+        print("=" * 55)
+        raise
