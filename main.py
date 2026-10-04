@@ -8,26 +8,27 @@ from data_provider import (
 )
 
 
-VERSION = "BET-AI FINAL 2.3"
+VERSION = "BET-AI FINAL 2.4"
 
 # ==========================================================
-# CONFIGURAÇÃO
+# CONFIGURAÇÕES
 # ==========================================================
 
-# Para respeitar o limite da API-Football
-MAX_GAMES = 3
+MAX_GAMES = 2
 
-# Quantidade de jogos históricos por equipe
 HISTORY_GAMES = 10
 
 
 # ==========================================================
-# CARREGAR GAMES.JSON
+# GAMES.JSON
 # ==========================================================
 
 def load_json_games():
 
-    if not os.path.exists("games.json"):
+    if not os.path.exists(
+        "games.json"
+    ):
+
         return []
 
     try:
@@ -38,12 +39,22 @@ def load_json_games():
             encoding="utf-8"
         ) as file:
 
-            data = json.load(file)
+            data = json.load(
+                file
+            )
 
-        if isinstance(data, list):
+        if isinstance(
+            data,
+            list
+        ):
+
             return data
 
-        if isinstance(data, dict):
+        if isinstance(
+            data,
+            dict
+        ):
+
             return data.get(
                 "games",
                 []
@@ -52,33 +63,15 @@ def load_json_games():
     except Exception as error:
 
         print(
-            f"Erro ao carregar games.json: {error}"
+            f"Erro no games.json: "
+            f"{error}"
         )
 
     return []
 
 
 # ==========================================================
-# LIMITAR PROBABILIDADE
-# ==========================================================
-
-def clamp(
-    value,
-    minimum=0.05,
-    maximum=0.95
-):
-
-    return max(
-        minimum,
-        min(
-            maximum,
-            value
-        )
-    )
-
-
-# ==========================================================
-# CALCULAR PROBABILIDADE
+# PROBABILIDADE
 # ==========================================================
 
 def calculate_probability(
@@ -87,12 +80,14 @@ def calculate_probability(
 ):
 
     home_strength = (
-        home_form["form"] * 0.65
+        home_form["form"]
+        * 0.65
         + 0.35
     )
 
     away_strength = (
-        away_form["form"] * 0.65
+        away_form["form"]
+        * 0.65
     )
 
     total = (
@@ -112,34 +107,12 @@ def calculate_probability(
         away_strength / total
     )
 
-    home_probability = clamp(
-        home_probability
-    )
-
-    away_probability = clamp(
-        away_probability
-    )
-
-    total_probability = (
-        home_probability
-        + away_probability
-    )
-
-    home_probability = (
-        home_probability
-        / total_probability
-    )
-
-    away_probability = (
-        away_probability
-        / total_probability
-    )
-
     return (
         round(
             home_probability * 100,
             2
         ),
+
         round(
             away_probability * 100,
             2
@@ -148,10 +121,20 @@ def calculate_probability(
 
 
 # ==========================================================
-# ANÁLISE DE UM JOGO
+# ANALISAR JOGO
 # ==========================================================
 
-def analyze_real_game(game):
+def analyze_game(
+    game
+):
+
+    home = game.get(
+        "home"
+    )
+
+    away = game.get(
+        "away"
+    )
 
     home_id = game.get(
         "home_id"
@@ -161,90 +144,88 @@ def analyze_real_game(game):
         "away_id"
     )
 
+    print()
+
+    print(
+        "-" * 60
+    )
+
+    print(
+        f"{home} x {away}"
+    )
+
+    print(
+        "-" * 60
+    )
+
     if not home_id or not away_id:
 
         return {
 
-            "home": game.get(
-                "home"
-            ),
+            "home": home,
 
-            "away": game.get(
-                "away"
-            ),
+            "away": away,
 
             "error":
                 "ID das equipes não encontrado."
-
         }
 
-    print()
-    print(
-        f"Analisando: "
-        f"{game.get('home')} x "
-        f"{game.get('away')}"
-    )
+    # ------------------------------------------------------
+    # CASA
+    # ------------------------------------------------------
 
     print(
-        f"Histórico casa "
-        f"(ID {home_id})..."
+        f"Buscando histórico: {home}"
     )
 
     try:
 
         home_form = calculate_team_form(
             home_id,
-            last=HISTORY_GAMES
+            HISTORY_GAMES
         )
 
     except Exception as error:
 
         return {
 
-            "home": game.get(
-                "home"
-            ),
+            "home": home,
 
-            "away": game.get(
-                "away"
-            ),
+            "away": away,
 
             "error":
                 f"Erro no histórico: {error}"
-
         }
 
+    # ------------------------------------------------------
+    # FORA
+    # ------------------------------------------------------
+
     print(
-        f"Histórico fora "
-        f"(ID {away_id})..."
+        f"Buscando histórico: {away}"
     )
 
     try:
 
         away_form = calculate_team_form(
             away_id,
-            last=HISTORY_GAMES
+            HISTORY_GAMES
         )
 
     except Exception as error:
 
         return {
 
-            "home": game.get(
-                "home"
-            ),
+            "home": home,
 
-            "away": game.get(
-                "away"
-            ),
+            "away": away,
 
             "error":
                 f"Erro no histórico: {error}"
-
         }
 
     # ------------------------------------------------------
-    # PROBABILIDADES
+    # PROBABILIDADE
     # ------------------------------------------------------
 
     (
@@ -255,10 +236,6 @@ def analyze_real_game(game):
         away_form
     )
 
-    # ------------------------------------------------------
-    # RESULTADO
-    # ------------------------------------------------------
-
     return {
 
         "fixture_id":
@@ -267,14 +244,10 @@ def analyze_real_game(game):
             ),
 
         "home":
-            game.get(
-                "home"
-            ),
+            home,
 
         "away":
-            game.get(
-                "away"
-            ),
+            away,
 
         "league":
             game.get(
@@ -297,17 +270,19 @@ def analyze_real_game(game):
 
         "away_form":
             away_form
-
     }
 
 
 # ==========================================================
-# EXIBIR ANÁLISE
+# EXIBIR RESULTADO
 # ==========================================================
 
-def print_analysis(result):
+def print_result(
+    result
+):
 
     print()
+
     print(
         "=" * 60
     )
@@ -318,23 +293,14 @@ def print_analysis(result):
         f"{result.get('away', '?')}"
     )
 
-    if result.get("league"):
-
-        print(
-            f"Competição: "
-            f"{result['league']}"
-        )
-
-    # ------------------------------------------------------
-    # ERRO
-    # ------------------------------------------------------
-
-    if result.get("error"):
+    if result.get(
+        "error"
+    ):
 
         print()
+
         print(
-            f"ERRO: "
-            f"{result['error']}"
+            result["error"]
         )
 
         print(
@@ -343,19 +309,15 @@ def print_analysis(result):
 
         return
 
-    # ------------------------------------------------------
-    # PROBABILIDADES
-    # ------------------------------------------------------
-
     print()
 
     print(
-        f"Probabilidade Casa: "
+        f"Casa: "
         f"{result['home_probability']}%"
     )
 
     print(
-        f"Probabilidade Fora: "
+        f"Fora: "
         f"{result['away_probability']}%"
     )
 
@@ -367,14 +329,10 @@ def print_analysis(result):
         "away_form"
     ]
 
-    # ------------------------------------------------------
-    # CASA
-    # ------------------------------------------------------
-
     print()
 
     print(
-        "FORMA - CASA"
+        "FORMA DA CASA"
     )
 
     print(
@@ -385,28 +343,19 @@ def print_analysis(result):
     )
 
     print(
-        f"Gols marcados/jogo: "
+        f"Média gols marcados: "
         f"{home['goals_for_avg']}"
     )
 
     print(
-        f"Gols sofridos/jogo: "
+        f"Média gols sofridos: "
         f"{home['goals_against_avg']}"
     )
-
-    print(
-        f"Índice de forma: "
-        f"{round(home['form'] * 100, 2)}%"
-    )
-
-    # ------------------------------------------------------
-    # FORA
-    # ------------------------------------------------------
 
     print()
 
     print(
-        "FORMA - FORA"
+        "FORMA DO FORA"
     )
 
     print(
@@ -417,18 +366,13 @@ def print_analysis(result):
     )
 
     print(
-        f"Gols marcados/jogo: "
+        f"Média gols marcados: "
         f"{away['goals_for_avg']}"
     )
 
     print(
-        f"Gols sofridos/jogo: "
+        f"Média gols sofridos: "
         f"{away['goals_against_avg']}"
-    )
-
-    print(
-        f"Índice de forma: "
-        f"{round(away['form'] * 100, 2)}%"
     )
 
     print(
@@ -440,7 +384,9 @@ def print_analysis(result):
 # SELECIONAR JOGOS
 # ==========================================================
 
-def select_games(games):
+def select_games(
+    games
+):
 
     selected = []
 
@@ -457,13 +403,15 @@ def select_games(games):
         )
 
         if not home_id or not away_id:
+
             continue
 
-        # Evita repetir equipe
         if home_id in used_teams:
+
             continue
 
         if away_id in used_teams:
+
             continue
 
         selected.append(
@@ -479,16 +427,19 @@ def select_games(games):
         )
 
         if len(selected) >= MAX_GAMES:
+
             break
 
     return selected
 
 
 # ==========================================================
-# PROGRAMA PRINCIPAL
+# MAIN
 # ==========================================================
 
 def main():
+
+    print()
 
     print(
         "=" * 60
@@ -505,15 +456,17 @@ def main():
     print()
 
     print(
-        "Limite de análise:",
-        MAX_GAMES,
-        "jogos"
+        "Modo econômico da API: ATIVO"
     )
 
     print(
-        "Histórico por equipe:",
-        HISTORY_GAMES,
-        "jogos"
+        f"Máximo de jogos: "
+        f"{MAX_GAMES}"
+    )
+
+    print(
+        f"Histórico por equipe: "
+        f"{HISTORY_GAMES}"
     )
 
     # ------------------------------------------------------
@@ -529,11 +482,12 @@ def main():
     print()
 
     print(
-        f"Data consultada: {today}"
+        f"Data consultada: "
+        f"{today}"
     )
 
     # ------------------------------------------------------
-    # BUSCAR JOGOS REAIS
+    # JOGOS
     # ------------------------------------------------------
 
     games = []
@@ -543,44 +497,29 @@ def main():
         print()
 
         print(
-            "Consultando API-Football..."
+            "Consultando jogos do dia..."
         )
 
-        real_games = get_real_games(
+        games = get_real_games(
             today
         )
 
-        if real_games:
-
-            games = real_games
-
-            print(
-                "Fonte: API-Football"
-            )
-
-            print(
-                f"Jogos encontrados: "
-                f"{len(games)}"
-            )
-
-        else:
-
-            print(
-                "Nenhum jogo encontrado "
-                "na API para hoje."
-            )
+        print(
+            f"Jogos encontrados: "
+            f"{len(games)}"
+        )
 
     except Exception as error:
 
         print()
 
         print(
-            f"Erro na API-Football: "
+            f"Erro ao buscar jogos: "
             f"{error}"
         )
 
     # ------------------------------------------------------
-    # MODO RESERVA
+    # RESERVA
     # ------------------------------------------------------
 
     if not games:
@@ -592,13 +531,8 @@ def main():
             print()
 
             print(
-                "Fonte: games.json "
-                "(modo reserva)"
-            )
-
-            print(
-                f"Jogos carregados: "
-                f"{len(games)}"
+                "Usando games.json "
+                "como reserva."
             )
 
     # ------------------------------------------------------
@@ -626,53 +560,49 @@ def main():
     print()
 
     print(
-        f"Jogos selecionados para "
-        f"análise: {len(selected_games)}"
+        f"Jogos selecionados: "
+        f"{len(selected_games)}"
     )
 
     # ------------------------------------------------------
-    # ANÁLISE
+    # ANALISAR
     # ------------------------------------------------------
 
-    print()
-
-    print(
-        "INICIANDO ANÁLISE BET-AI"
-    )
-
-    resultados = []
+    results = []
 
     for game in selected_games:
 
-        try:
+        result = analyze_game(
+            game
+        )
 
-            result = analyze_real_game(
-                game
-            )
+        results.append(
+            result
+        )
 
-            resultados.append(
-                result
-            )
-
-            print_analysis(
-                result
-            )
-
-        except Exception as error:
-
-            print()
-
-            print(
-                f"Erro analisando "
-                f"{game.get('home', '?')} "
-                f"x "
-                f"{game.get('away', '?')}: "
-                f"{error}"
-            )
+        print_result(
+            result
+        )
 
     # ------------------------------------------------------
     # RESUMO
     # ------------------------------------------------------
+
+    valid = [
+        result
+        for result in results
+        if not result.get(
+            "error"
+        )
+    ]
+
+    errors = [
+        result
+        for result in results
+        if result.get(
+            "error"
+        )
+    ]
 
     print()
 
@@ -699,72 +629,47 @@ def main():
     )
 
     print(
-        f"Jogos analisados: "
-        f"{len(resultados)}"
-    )
-
-    valid_results = [
-        result
-        for result in resultados
-        if not result.get("error")
-    ]
-
-    print(
         f"Análises válidas: "
-        f"{len(valid_results)}"
+        f"{len(valid)}"
     )
-
-    errors = [
-        result
-        for result in resultados
-        if result.get("error")
-    ]
 
     print(
         f"Análises com erro: "
         f"{len(errors)}"
     )
 
-    # ------------------------------------------------------
-    # MELHOR OPORTUNIDADE
-    # ------------------------------------------------------
-
-    if valid_results:
-
-        best = max(
-            valid_results,
-            key=lambda result: max(
-                result["home_probability"],
-                result["away_probability"]
-            )
-        )
+    if valid:
 
         print()
 
         print(
-            "MAIOR PROBABILIDADE ENCONTRADA"
+            "ANÁLISES CONCLUÍDAS"
         )
 
-        print(
-            f"{best['home']} "
-            f"x "
-            f"{best['away']}"
-        )
+        for result in valid:
 
-        print(
-            f"Casa: "
-            f"{best['home_probability']}%"
-        )
+            print()
 
-        print(
-            f"Fora: "
-            f"{best['away_probability']}%"
-        )
+            print(
+                f"{result['home']} "
+                f"x "
+                f"{result['away']}"
+            )
+
+            print(
+                f"Casa: "
+                f"{result['home_probability']}%"
+            )
+
+            print(
+                f"Fora: "
+                f"{result['away_probability']}%"
+            )
 
     print()
 
     print(
-        "BET-AI 2.3 concluído."
+        "BET-AI 2.4 concluído."
     )
 
     print(
@@ -773,7 +678,7 @@ def main():
 
 
 # ==========================================================
-# EXECUÇÃO
+# EXECUTAR
 # ==========================================================
 
 if __name__ == "__main__":
