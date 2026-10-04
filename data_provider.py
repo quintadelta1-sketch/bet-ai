@@ -1,11 +1,10 @@
 import os
 import time
 import requests
+from datetime import datetime, timedelta
 
 API_URL = "https://v3.football.api-sports.io"
 
-# Limite da conta: 10 requisições por minuto.
-# Usamos uma margem de segurança.
 REQUEST_INTERVAL = 8
 
 
@@ -14,7 +13,7 @@ def get_headers():
 
     if not api_key:
         raise RuntimeError(
-            "API_FOOTBALL_KEY não configurada no GitHub."
+            "API_FOOTBALL_KEY não configurada."
         )
 
     return {
@@ -23,13 +22,10 @@ def get_headers():
 
 
 def api_get(endpoint, params=None):
-    # Espera entre requisições para respeitar o limite.
     time.sleep(REQUEST_INTERVAL)
 
-    url = f"{API_URL}/{endpoint}"
-
     response = requests.get(
-        url,
+        f"{API_URL}/{endpoint}",
         headers=get_headers(),
         params=params or {},
         timeout=30
@@ -39,31 +35,29 @@ def api_get(endpoint, params=None):
         data = response.json()
     except Exception:
         raise RuntimeError(
-            f"Resposta inválida da API. HTTP {response.status_code}"
+            f"Resposta inválida da API. "
+            f"HTTP {response.status_code}"
         )
 
-    # Rate limit
     if response.status_code == 429:
         raise RuntimeError(
-            "API-Football atingiu o limite de requisições. "
-            "Aguarde pelo menos 1 minuto antes de executar novamente."
+            "Limite de requisições da API-Football atingido. "
+            "Aguarde pelo menos 1 minuto."
         )
 
-    # Outros erros HTTP
     if response.status_code != 200:
         raise RuntimeError(
             f"Erro HTTP {response.status_code}: {data}"
         )
 
-    # Erros retornados pela própria API
     if data.get("errors"):
         errors = data["errors"]
 
         if isinstance(errors, dict):
+
             if "rateLimit" in errors:
                 raise RuntimeError(
-                    "Limite da API-Football atingido: "
-                    + str(errors["rateLimit"])
+                    str(errors["rateLimit"])
                 )
 
         raise RuntimeError(
@@ -74,6 +68,7 @@ def api_get(endpoint, params=None):
 
 
 def get_fixtures(date):
+
     return api_get(
         "fixtures",
         {
@@ -82,62 +77,148 @@ def get_fixtures(date):
     )
 
 
-def get_team_recent_fixtures(team_id, last=10):
+def get_team_recent_fixtures(
+    team_id,
+    days=45
+):
+
+    """
+    Plano Free não permite:
+        last=10
+
+    Portanto buscamos por intervalo de datas.
+
+    Fazemos uma única requisição usando:
+        team + from + to
+    """
+
+    today = datetime.utcnow().date()
+
+    start_date = (
+        today - timedelta(days=days)
+    )
+
     return api_get(
         "fixtures",
         {
             "team": team_id,
-            "last": last
+            "from": start_date.strftime("%Y-%m-%d"),
+            "to": today.strftime("%Y-%m-%d")
         }
     )
 
 
 def normalize_fixture(fixture):
-    teams = fixture.get("teams", {})
-    goals = fixture.get("goals", {})
-    league = fixture.get("league", {})
-    fixture_info = fixture.get("fixture", {})
 
-    home = teams.get("home", {})
-    away = teams.get("away", {})
+    teams = fixture.get(
+        "teams",
+        {}
+    )
+
+    goals = fixture.get(
+        "goals",
+        {}
+    )
+
+    league = fixture.get(
+        "league",
+        {}
+    )
+
+    fixture_info = fixture.get(
+        "fixture",
+        {}
+    )
+
+    home = teams.get(
+        "home",
+        {}
+    )
+
+    away = teams.get(
+        "away",
+        {}
+    )
 
     return {
-        "fixture_id": fixture_info.get("id"),
-        "date": fixture_info.get("date"),
 
-        "home": home.get("name"),
-        "away": away.get("name"),
+        "fixture_id":
+            fixture_info.get("id"),
 
-        "home_id": home.get("id"),
-        "away_id": away.get("id"),
+        "date":
+            fixture_info.get("date"),
 
-        "home_goals": goals.get("home"),
-        "away_goals": goals.get("away"),
+        "home":
+            home.get("name"),
 
-        "league": league.get("name"),
-        "league_id": league.get("id"),
-        "season": league.get("season")
+        "away":
+            away.get("name"),
+
+        "home_id":
+            home.get("id"),
+
+        "away_id":
+            away.get("id"),
+
+        "home_goals":
+            goals.get("home"),
+
+        "away_goals":
+            goals.get("away"),
+
+        "league":
+            league.get("name"),
+
+        "league_id":
+            league.get("id"),
+
+        "season":
+            league.get("season")
     }
 
 
 def get_real_games(date):
+
     fixtures = get_fixtures(date)
 
     games = []
 
     for fixture in fixtures:
-        game = normalize_fixture(fixture)
 
-        if game["home"] and game["away"]:
+        game = normalize_fixture(
+            fixture
+        )
+
+        if (
+            game["home"]
+            and game["away"]
+        ):
             games.append(game)
 
     return games
 
 
-def calculate_team_form(team_id, last=10):
+def calculate_team_form(
+    team_id,
+    games_required=10
+):
+
     fixtures = get_team_recent_fixtures(
-        team_id,
-        last=last
+        team_id
+    )
+
+    # Organizar do mais recente
+    # para o mais antigo.
+    fixtures = sorted(
+        fixtures,
+        key=lambda x: x.get(
+            "fixture",
+            {}
+        ).get(
+            "date",
+            ""
+        ),
+        reverse=True
     )
 
     played = 0
@@ -150,20 +231,51 @@ def calculate_team_form(team_id, last=10):
 
     for fixture in fixtures:
 
-        teams = fixture.get("teams", {})
-        goals = fixture.get("goals", {})
+        if played >= games_required:
+            break
 
-        home = teams.get("home", {})
-        away = teams.get("away", {})
+        teams = fixture.get(
+            "teams",
+            {}
+        )
 
-        home_id = home.get("id")
-        away_id = away.get("id")
+        goals = fixture.get(
+            "goals",
+            {}
+        )
 
-        home_goals = goals.get("home")
-        away_goals = goals.get("away")
+        home = teams.get(
+            "home",
+            {}
+        )
 
-        # Jogo ainda não terminou
-        if home_goals is None or away_goals is None:
+        away = teams.get(
+            "away",
+            {}
+        )
+
+        home_id = home.get(
+            "id"
+        )
+
+        away_id = away.get(
+            "id"
+        )
+
+        home_goals = goals.get(
+            "home"
+        )
+
+        away_goals = goals.get(
+            "away"
+        )
+
+        # Ignorar partidas
+        # sem resultado.
+        if (
+            home_goals is None
+            or away_goals is None
+        ):
             continue
 
         if team_id == home_id:
@@ -185,15 +297,17 @@ def calculate_team_form(team_id, last=10):
         goals_against += opponent_goals
 
         if team_goals > opponent_goals:
+
             wins += 1
 
         elif team_goals == opponent_goals:
+
             draws += 1
 
         else:
+
             losses += 1
 
-    # Nenhum jogo encontrado
     if played == 0:
 
         return {
@@ -211,23 +325,40 @@ def calculate_team_form(team_id, last=10):
         + draws
     )
 
-    form = points / (played * 3)
+    form = (
+        points
+        / (played * 3)
+    )
 
     return {
-        "played": played,
-        "wins": wins,
-        "draws": draws,
-        "losses": losses,
-        "goals_for_avg": round(
-            goals_for / played,
-            2
-        ),
-        "goals_against_avg": round(
-            goals_against / played,
-            2
-        ),
-        "form": round(
-            form,
-            4
-        )
+
+        "played":
+            played,
+
+        "wins":
+            wins,
+
+        "draws":
+            draws,
+
+        "losses":
+            losses,
+
+        "goals_for_avg":
+            round(
+                goals_for / played,
+                2
+            ),
+
+        "goals_against_avg":
+            round(
+                goals_against / played,
+                2
+            ),
+
+        "form":
+            round(
+                form,
+                4
+            )
     }
