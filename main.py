@@ -1,362 +1,171 @@
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+
+from data_provider import get_real_games
 
 
-# ============================================================
-# BET-AI FINAL 1.1
-# Leitura de jogos através do games.json
-# ============================================================
-
-VERSAO = "BET-AI FINAL 1.1"
-
-FILTRO_MINIMO = 60.0
-MAX_SELECOES = 3
+VERSION = "BET-AI FINAL 2.0"
 
 
-# ============================================================
-# CARREGAR JOGOS
-# ============================================================
-
-def carregar_jogos():
-    arquivo = "games.json"
-
-    if not os.path.exists(arquivo):
-        print("ERRO: games.json não encontrado.")
+def load_json_games():
+    """Carrega jogos locais como modo de reserva."""
+    if not os.path.exists("games.json"):
         return []
 
     try:
-        with open(arquivo, "r", encoding="utf-8") as f:
-            jogos = json.load(f)
+        with open("games.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-        if not isinstance(jogos, list):
-            print("ERRO: games.json precisa conter uma lista de jogos.")
-            return []
+        if isinstance(data, list):
+            return data
 
-        return jogos
+        if isinstance(data, dict):
+            return data.get("games", [])
 
-    except json.JSONDecodeError as erro:
-        print("ERRO: JSON inválido.")
-        print(erro)
-        return []
+    except Exception as error:
+        print(f"Erro ao carregar games.json: {error}")
 
-    except Exception as erro:
-        print("ERRO ao carregar games.json:")
-        print(erro)
-        return []
+    return []
 
 
-# ============================================================
-# FUNÇÕES AUXILIARES
-# ============================================================
+def prepare_real_game(game):
+    """
+    Converte um jogo da API para o formato usado pelo
+    analisador do BET-AI.
+    """
 
-def limitar(valor, minimo=0.0, maximo=100.0):
-    return max(minimo, min(maximo, valor))
+    return {
+        "fixture_id": game.get("fixture_id"),
+        "home": game.get("home"),
+        "away": game.get("away"),
 
+        # Ainda não temos essas estatísticas para todos os jogos.
+        # Elas serão preenchidas na próxima etapa.
+        "home_form": 0.50,
+        "away_form": 0.50,
 
-def probabilidade_over(media, linha):
-    if media <= 0:
-        return 0.0
+        "home_strength": 0.50,
+        "away_strength": 0.50,
 
-    diferenca = media - linha
+        "home_avg_goals": 1.50,
+        "away_avg_goals": 1.50,
 
-    prob = 50 + (diferenca / max(linha, 1)) * 100
-
-    return limitar(prob)
-
-
-def probabilidade_under(media, linha):
-    if media <= 0:
-        return 0.0
-
-    diferenca = linha - media
-
-    prob = 50 + (diferenca / max(linha, 1)) * 100
-
-    return limitar(prob)
+        "league": game.get("league"),
+        "date": game.get("date"),
+    }
 
 
-def classificacao(probabilidade):
-    if probabilidade >= 75:
-        return "ALTA"
-    elif probabilidade >= 60:
-        return "MEDIA"
+def analyze_game(game):
+    home = (
+        game["home_form"] * 0.35
+        + game["home_strength"] * 0.35
+        + min(game["home_avg_goals"] / 2.5, 1) * 0.30
+    )
+
+    away = (
+        game["away_form"] * 0.35
+        + game["away_strength"] * 0.35
+        + min(game["away_avg_goals"] / 2.5, 1) * 0.30
+    )
+
+    total = home + away
+
+    if total == 0:
+        home_prob = 0.50
+        away_prob = 0.50
     else:
-        return "BAIXA"
+        home_prob = home / total
+        away_prob = away / total
 
+    return {
+        "fixture_id": game.get("fixture_id"),
+        "home": game["home"],
+        "away": game["away"],
+        "league": game.get("league"),
 
-# ============================================================
-# ANALISAR MERCADOS
-# ============================================================
+        "home_probability": round(home_prob * 100, 2),
+        "away_probability": round(away_prob * 100, 2),
+    }
 
-def analisar_jogo(jogo):
-
-    gols = jogo.get("goals_home", 0) + jogo.get("goals_away", 0)
-    corners = jogo.get("corners_home", 0) + jogo.get("corners_away", 0)
-    shots = jogo.get("shots_home", 0) + jogo.get("shots_away", 0)
-    shots_on_target = (
-        jogo.get("shots_on_target_home", 0)
-        + jogo.get("shots_on_target_away", 0)
-    )
-    tackles = jogo.get("tackles_home", 0) + jogo.get("tackles_away", 0)
-    cards = jogo.get("cards_home", 0) + jogo.get("cards_away", 0)
-    fouls = jogo.get("fouls_home", 0) + jogo.get("fouls_away", 0)
-
-    mercados = []
-
-    def adicionar(nome, linha, prob_over, prob_under):
-
-        mercados.append({
-            "mercado": nome,
-            "linha": linha,
-            "tipo": "Mais",
-            "probabilidade": round(prob_over, 2),
-            "nivel": classificacao(prob_over)
-        })
-
-        mercados.append({
-            "mercado": nome,
-            "linha": linha,
-            "tipo": "Menos",
-            "probabilidade": round(prob_under, 2),
-            "nivel": classificacao(prob_under)
-        })
-
-    adicionar(
-        "gols",
-        2.5,
-        probabilidade_over(gols, 2.5),
-        probabilidade_under(gols, 2.5)
-    )
-
-    adicionar(
-        "escanteios",
-        9.5,
-        probabilidade_over(corners, 9.5),
-        probabilidade_under(corners, 9.5)
-    )
-
-    adicionar(
-        "chutes",
-        24.5,
-        probabilidade_over(shots, 24.5),
-        probabilidade_under(shots, 24.5)
-    )
-
-    adicionar(
-        "chutes_no_alvo",
-        8.5,
-        probabilidade_over(shots_on_target, 8.5),
-        probabilidade_under(shots_on_target, 8.5)
-    )
-
-    adicionar(
-        "desarmes",
-        30.5,
-        probabilidade_over(tackles, 30.5),
-        probabilidade_under(tackles, 30.5)
-    )
-
-    adicionar(
-        "cartoes",
-        4.5,
-        probabilidade_over(cards, 4.5),
-        probabilidade_under(cards, 4.5)
-    )
-
-    adicionar(
-        "faltas",
-        25.5,
-        probabilidade_over(fouls, 25.5),
-        probabilidade_under(fouls, 25.5)
-    )
-
-    return mercados
-
-
-# ============================================================
-# GERAR TALÃO
-# ============================================================
-
-def gerar_talao(mercados):
-
-    candidatos = [
-        mercado
-        for mercado in mercados
-        if mercado["probabilidade"] >= FILTRO_MINIMO
-    ]
-
-    candidatos.sort(
-        key=lambda x: x["probabilidade"],
-        reverse=True
-    )
-
-    return candidatos[:MAX_SELECOES]
-
-
-# ============================================================
-# EXIBIR JOGO
-# ============================================================
-
-def exibir_jogo(jogo):
-
-    casa = jogo.get("home", "Casa")
-    fora = jogo.get("away", "Fora")
-
-    print()
-    print("=" * 50)
-    print("                    BET-AI")
-    print("=" * 50)
-
-    print(f"Jogo: {casa} x {fora}")
-
-    print()
-    print("ESTATÍSTICAS")
-    print("-" * 50)
-
-    print(
-        f"Gols: Casa {jogo.get('goals_home', 0)} | "
-        f"Fora {jogo.get('goals_away', 0)}"
-    )
-
-    print(
-        f"Escanteios: Casa {jogo.get('corners_home', 0)} | "
-        f"Fora {jogo.get('corners_away', 0)}"
-    )
-
-    print(
-        f"Chutes: Casa {jogo.get('shots_home', 0)} | "
-        f"Fora {jogo.get('shots_away', 0)}"
-    )
-
-    print(
-        f"Chutes no alvo: Casa {jogo.get('shots_on_target_home', 0)} | "
-        f"Fora {jogo.get('shots_on_target_away', 0)}"
-    )
-
-    print(
-        f"Desarmes: Casa {jogo.get('tackles_home', 0)} | "
-        f"Fora {jogo.get('tackles_away', 0)}"
-    )
-
-    print(
-        f"Cartões: Casa {jogo.get('cards_home', 0)} | "
-        f"Fora {jogo.get('cards_away', 0)}"
-    )
-
-    print(
-        f"Faltas: Casa {jogo.get('fouls_home', 0)} | "
-        f"Fora {jogo.get('fouls_away', 0)}"
-    )
-
-
-# ============================================================
-# EXECUÇÃO PRINCIPAL
-# ============================================================
 
 def main():
-
-    inicio = datetime.now()
-
     print("=" * 50)
-    print(VERSAO)
+    print(VERSION)
     print("=" * 50)
-    print(f"Início: {inicio.strftime('%d/%m/%Y %H:%M:%S')}")
 
-    jogos = carregar_jogos()
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-    if not jogos:
-        print()
+    games = []
+
+    # Tenta primeiro os dados reais.
+    try:
+        print(f"Consultando API-Football: {today}")
+
+        real_games = get_real_games(today)
+
+        if real_games:
+            games = [
+                prepare_real_game(game)
+                for game in real_games
+            ]
+
+            print(f"Fonte: API-Football")
+            print(f"Jogos encontrados: {len(games)}")
+
+        else:
+            print("API sem jogos disponíveis para a data.")
+
+    except Exception as error:
+        print(f"Falha na API-Football: {error}")
+
+    # Se a API falhar ou não encontrar jogos,
+    # usa games.json como reserva.
+    if not games:
+        games = load_json_games()
+
+        if games:
+            print("Fonte: games.json (reserva)")
+            print(f"Jogos carregados: {len(games)}")
+
+    if not games:
         print("Nenhum jogo disponível.")
-        print("Verifique o arquivo games.json.")
         return
 
     print()
-    print(f"Jogos carregados: {len(jogos)}")
-    print("Fonte: games.json")
+    print("ANÁLISE DOS JOGOS")
+    print("-" * 50)
 
-    total_jogos = 0
-
-    for jogo in jogos:
-
-        total_jogos += 1
-
-        exibir_jogo(jogo)
-
-        mercados = analisar_jogo(jogo)
-
-        print()
-        print("PROBABILIDADES")
-        print("-" * 50)
-
-        for mercado in mercados:
-
-            print(
-                f"- {mercado['mercado']} - "
-                f"{mercado['tipo']} {mercado['linha']} "
-                f"({mercado['probabilidade']:.2f}%) "
-                f"[{mercado['nivel']}]"
-            )
-
-        talao = gerar_talao(mercados)
-
-        print()
-        print("=" * 50)
-        print("              TALÃO BET-AI")
-        print("=" * 50)
-
-        if not talao:
-
-            print("Nenhum mercado atingiu o filtro mínimo.")
-
-        else:
-
-            for numero, selecao in enumerate(talao, 1):
-
-                print(
-                    f"{numero}. "
-                    f"{selecao['mercado']} - "
-                    f"{selecao['tipo']} "
-                    f"{selecao['linha']} "
-                    f"({selecao['probabilidade']:.2f}%) "
-                    f"[{selecao['nivel']}]"
-                )
-
-            media = sum(
-                item["probabilidade"]
-                for item in talao
-            ) / len(talao)
+    for game in games:
+        try:
+            result = analyze_game(game)
 
             print()
             print(
-                f"Probabilidade média: {media:.2f}%"
+                f"{result['home']} x {result['away']}"
             )
 
-        print()
-        print("Filtro utilizado:", FILTRO_MINIMO, "%")
-        print("Máximo de seleções:", MAX_SELECOES)
+            if result.get("league"):
+                print(f"Competição: {result['league']}")
+
+            print(
+                f"Casa: {result['home_probability']}%"
+            )
+
+            print(
+                f"Fora: {result['away_probability']}%"
+            )
+
+        except Exception as error:
+            print(
+                f"Erro analisando "
+                f"{game.get('home', '?')} x "
+                f"{game.get('away', '?')}: {error}"
+            )
 
     print()
-    print("=" * 50)
-    print("RESUMO")
-    print("=" * 50)
-
-    print(f"Total de jogos analisados: {total_jogos}")
-
-    print()
-    print("OBSERVAÇÃO")
     print("-" * 50)
-    print(
-        "As probabilidades são estimativas experimentais "
-        "do modelo."
-    )
-    print(
-        "Não representam garantia de resultado."
-    )
-
-    print()
-    print("=" * 50)
-    print("BET-AI FINAL 1.1 FINALIZADO")
+    print("Análise concluída.")
     print("=" * 50)
 
 
