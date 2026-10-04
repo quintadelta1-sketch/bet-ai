@@ -4,21 +4,16 @@ import requests
 from datetime import datetime, timedelta
 
 API_URL = "https://v3.football.api-sports.io"
-
 REQUEST_INTERVAL = 8
 
 
 def get_headers():
-    api_key = os.getenv("API_FOOTBALL_KEY")
+    key = os.getenv("API_FOOTBALL_KEY")
 
-    if not api_key:
-        raise RuntimeError(
-            "API_FOOTBALL_KEY não configurada."
-        )
+    if not key:
+        raise RuntimeError("API_FOOTBALL_KEY não configurada.")
 
-    return {
-        "x-apisports-key": api_key
-    }
+    return {"x-apisports-key": key}
 
 
 def api_get(endpoint, params=None):
@@ -35,14 +30,12 @@ def api_get(endpoint, params=None):
         data = response.json()
     except Exception:
         raise RuntimeError(
-            f"Resposta inválida da API. "
-            f"HTTP {response.status_code}"
+            f"Resposta inválida da API. HTTP {response.status_code}"
         )
 
     if response.status_code == 429:
         raise RuntimeError(
-            "Limite de requisições da API-Football atingido. "
-            "Aguarde pelo menos 1 minuto."
+            "Limite de requisições da API-Football atingido."
         )
 
     if response.status_code != 200:
@@ -51,51 +44,26 @@ def api_get(endpoint, params=None):
         )
 
     if data.get("errors"):
-        errors = data["errors"]
-
-        if isinstance(errors, dict):
-
-            if "rateLimit" in errors:
-                raise RuntimeError(
-                    str(errors["rateLimit"])
-                )
-
         raise RuntimeError(
-            f"Erro da API-Football: {errors}"
+            f"Erro da API-Football: {data['errors']}"
         )
 
     return data.get("response", [])
 
 
 def get_fixtures(date):
-
     return api_get(
         "fixtures",
-        {
-            "date": date
-        }
+        {"date": date}
     )
 
 
-def get_team_recent_fixtures(
-    team_id,
-    days=45
-):
-
-    """
-    Plano Free não permite:
-        last=10
-
-    Portanto buscamos por intervalo de datas.
-
-    Fazemos uma única requisição usando:
-        team + from + to
-    """
+def get_team_recent_fixtures(team_id, days=45):
 
     today = datetime.utcnow().date()
 
-    start_date = (
-        today - timedelta(days=days)
+    start_date = today - timedelta(
+        days=days
     )
 
     return api_get(
@@ -110,70 +78,26 @@ def get_team_recent_fixtures(
 
 def normalize_fixture(fixture):
 
-    teams = fixture.get(
-        "teams",
-        {}
-    )
+    teams = fixture.get("teams", {})
+    goals = fixture.get("goals", {})
+    league = fixture.get("league", {})
+    info = fixture.get("fixture", {})
 
-    goals = fixture.get(
-        "goals",
-        {}
-    )
-
-    league = fixture.get(
-        "league",
-        {}
-    )
-
-    fixture_info = fixture.get(
-        "fixture",
-        {}
-    )
-
-    home = teams.get(
-        "home",
-        {}
-    )
-
-    away = teams.get(
-        "away",
-        {}
-    )
+    home = teams.get("home", {})
+    away = teams.get("away", {})
 
     return {
-
-        "fixture_id":
-            fixture_info.get("id"),
-
-        "date":
-            fixture_info.get("date"),
-
-        "home":
-            home.get("name"),
-
-        "away":
-            away.get("name"),
-
-        "home_id":
-            home.get("id"),
-
-        "away_id":
-            away.get("id"),
-
-        "home_goals":
-            goals.get("home"),
-
-        "away_goals":
-            goals.get("away"),
-
-        "league":
-            league.get("name"),
-
-        "league_id":
-            league.get("id"),
-
-        "season":
-            league.get("season")
+        "fixture_id": info.get("id"),
+        "date": info.get("date"),
+        "home": home.get("name"),
+        "away": away.get("name"),
+        "home_id": home.get("id"),
+        "away_id": away.get("id"),
+        "home_goals": goals.get("home"),
+        "away_goals": goals.get("away"),
+        "league": league.get("name"),
+        "league_id": league.get("id"),
+        "season": league.get("season")
     }
 
 
@@ -185,32 +109,21 @@ def get_real_games(date):
 
     for fixture in fixtures:
 
-        game = normalize_fixture(
-            fixture
-        )
+        game = normalize_fixture(fixture)
 
-        if (
-            game["home"]
-            and game["away"]
-        ):
+        if game["home"] and game["away"]:
             games.append(game)
 
     return games
 
 
-def calculate_team_form(
-    team_id,
-    games_required=10
-):
+def calculate_team_form(team_id, games_required=10):
 
     fixtures = get_team_recent_fixtures(
         team_id
     )
 
-    # Organizar do mais recente
-    # para o mais antigo.
-    fixtures = sorted(
-        fixtures,
+    fixtures.sort(
         key=lambda x: x.get(
             "fixture",
             {}
@@ -254,24 +167,12 @@ def calculate_team_form(
             {}
         )
 
-        home_id = home.get(
-            "id"
-        )
+        home_id = home.get("id")
+        away_id = away.get("id")
 
-        away_id = away.get(
-            "id"
-        )
+        home_goals = goals.get("home")
+        away_goals = goals.get("away")
 
-        home_goals = goals.get(
-            "home"
-        )
-
-        away_goals = goals.get(
-            "away"
-        )
-
-        # Ignorar partidas
-        # sem resultado.
         if (
             home_goals is None
             or away_goals is None
@@ -297,15 +198,12 @@ def calculate_team_form(
         goals_against += opponent_goals
 
         if team_goals > opponent_goals:
-
             wins += 1
 
         elif team_goals == opponent_goals:
-
             draws += 1
 
         else:
-
             losses += 1
 
     if played == 0:
@@ -325,40 +223,23 @@ def calculate_team_form(
         + draws
     )
 
-    form = (
-        points
-        / (played * 3)
-    )
+    form = points / (played * 3)
 
     return {
-
-        "played":
-            played,
-
-        "wins":
-            wins,
-
-        "draws":
-            draws,
-
-        "losses":
-            losses,
-
-        "goals_for_avg":
-            round(
-                goals_for / played,
-                2
-            ),
-
-        "goals_against_avg":
-            round(
-                goals_against / played,
-                2
-            ),
-
-        "form":
-            round(
-                form,
-                4
-            )
+        "played": played,
+        "wins": wins,
+        "draws": draws,
+        "losses": losses,
+        "goals_for_avg": round(
+            goals_for / played,
+            2
+        ),
+        "goals_against_avg": round(
+            goals_against / played,
+            2
+        ),
+        "form": round(
+            form,
+            4
+        )
     }
