@@ -28,39 +28,7 @@ jobs:
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         run: |
-          python - <<'PY'
-          import os
-          import requests
-
-          key = os.getenv("API_FOOTBALL_KEY")
-
-          if not key:
-              raise SystemExit("ERRO: API_FOOTBALL_KEY não encontrada.")
-
-          url = "https://v3.football.api-sports.io/fixtures"
-
-          response = requests.get(
-              url,
-              headers={
-                  "x-apisports-key": key
-              },
-              params={
-                  "date": "2026-09-27"
-              },
-              timeout=30
-          )
-
-          print("Status da API:", response.status_code)
-
-          if response.status_code != 200:
-              print(response.text)
-              raise SystemExit("ERRO ao consultar a API.")
-
-          data = response.json()
-          jogos = data.get("response", [])
-
-          print("API-Football conectada com sucesso!")
-          print("Jogos encontrados:", len(jogos))
+          python -c "import os, requests; key=os.getenv('API_FOOTBALL_KEY'); assert key, 'ERRO: API_FOOTBALL_KEY não encontrada.'; r=requests.get('https://v3.football.api-sports.io/fixtures', headers={'x-apisports-key':key}, params={'date':'2026-09-27'}, timeout=30); print('Status da API:', r.status_code); print('Jogos encontrados:', len(r.json().get('response', []))); r.raise_for_status(); print('API-Football conectada com sucesso!')"
 
       - name: Executar BET-AI
         env:
