@@ -1,36 +1,52 @@
-name: Testar BET-AI
+name: BET-AI
 
 on:
   push:
     branches:
       - main
+
   workflow_dispatch:
 
 jobs:
-  test:
+
+  bet-ai:
+
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Baixar código
         uses: actions/checkout@v4
 
+
       - name: Configurar Python
         uses: actions/setup-python@v5
+
         with:
           python-version: "3.11"
 
+
       - name: Instalar dependências
         run: |
+
           python -m pip install --upgrade pip
+
           pip install requests
 
-      - name: Testar API-Football
+
+      - name: Verificar configuração
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+
         run: |
-          python -c "import os, requests; key=os.getenv('API_FOOTBALL_KEY'); assert key, 'ERRO: API_FOOTBALL_KEY não encontrada.'; r=requests.get('https://v3.football.api-sports.io/fixtures', headers={'x-apisports-key':key}, params={'date':'2026-09-27'}, timeout=30); print('Status da API:', r.status_code); print('Jogos encontrados:', len(r.json().get('response', []))); r.raise_for_status(); print('API-Football conectada com sucesso!')"
+
+          python -c "import os; key=os.getenv('API_FOOTBALL_KEY'); assert key, 'ERRO: API_FOOTBALL_KEY não encontrada'; print('API_FOOTBALL_KEY configurada corretamente.')"
+
 
       - name: Executar BET-AI
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
-        run: python main.py
+
+        run: |
+
+          python main.py
