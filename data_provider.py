@@ -5,6 +5,18 @@ api = FootballAPI()
 
 
 # ============================================================
+# CONFIGURAÇÃO DO PLANO GRATUITO
+# ============================================================
+
+# Conforme a mensagem retornada pela API-Football,
+# o plano gratuito disponível neste projeto permite
+# histórico entre 2022 e 2024.
+
+FREE_MIN_SEASON = 2022
+FREE_MAX_SEASON = 2024
+
+
+# ============================================================
 # JOGOS DO DIA
 # ============================================================
 
@@ -59,7 +71,10 @@ def normalize_fixture(fixture):
             info.get("date"),
 
         "status":
-            info.get("status", {}).get(
+            info.get(
+                "status",
+                {}
+            ).get(
                 "short"
             ),
 
@@ -87,8 +102,7 @@ def normalize_fixture(fixture):
         "league_id":
             league.get("id"),
 
-        # MUITO IMPORTANTE
-        # será utilizado no histórico
+        # Temporada do jogo analisado
         "season":
             league.get("season")
     }
@@ -127,7 +141,7 @@ def get_real_games(date):
 
 
 # ============================================================
-# HISTÓRICO
+# HISTÓRICO DA EQUIPE
 # ============================================================
 
 def get_team_recent_fixtures(
@@ -151,18 +165,193 @@ def get_team_recent_fixtures(
     )
 
 
+# ============================================================
+# ESCOLHER TEMPORADA COMPATÍVEL
+# ============================================================
+
+def get_compatible_season(
+    requested_season
+):
+
+    try:
+
+        requested = int(
+            requested_season
+        )
+
+    except (
+        TypeError,
+        ValueError
+    ):
+
+        raise RuntimeError(
+            "Temporada inválida."
+        )
+
+    # --------------------------------------------------------
+    # Temporadas disponíveis diretamente
+    # --------------------------------------------------------
+
+    if (
+        FREE_MIN_SEASON
+        <= requested
+        <= FREE_MAX_SEASON
+    ):
+
+        return requested
+
+    # --------------------------------------------------------
+    # Temporada futura / não disponível
+    # --------------------------------------------------------
+
+    if requested > FREE_MAX_SEASON:
+
+        print()
+        print(
+            f"Temporada {requested} "
+            "não está disponível no "
+            "plano gratuito."
+        )
+
+        print(
+            f"Usando temporada histórica "
+            f"compatível: {FREE_MAX_SEASON}"
+        )
+
+        return FREE_MAX_SEASON
+
+    # --------------------------------------------------------
+    # Temporada anterior ao limite
+    # --------------------------------------------------------
+
+    if requested < FREE_MIN_SEASON:
+
+        print()
+        print(
+            f"Temporada {requested} "
+            "não está disponível."
+        )
+
+        print(
+            f"Usando temporada mínima "
+            f"compatível: {FREE_MIN_SEASON}"
+        )
+
+        return FREE_MIN_SEASON
+
+
+# ============================================================
+# HISTÓRICO COM FALLBACK
+# ============================================================
+
+def get_team_history(
+    team_id,
+    requested_season
+):
+
+    compatible_season = (
+        get_compatible_season(
+            requested_season
+        )
+    )
+
+    print(
+        f"Histórico consultado: "
+        f"{compatible_season}"
+    )
+
+    try:
+
+        fixtures = get_team_recent_fixtures(
+            team_id,
+            compatible_season
+        )
+
+        return (
+            fixtures,
+            compatible_season
+        )
+
+    except RuntimeError as error:
+
+        error_text = str(error)
+
+        # ----------------------------------------------------
+        # Se a API disser que a temporada não está disponível,
+        # tentamos temporadas anteriores.
+        # ----------------------------------------------------
+
+        if (
+            "Free plans do not have access"
+            not in error_text
+        ):
+
+            raise
+
+        print()
+        print(
+            "Temporada bloqueada pelo "
+            "plano gratuito."
+        )
+
+        for fallback_season in [
+            2023,
+            2022
+        ]:
+
+            print(
+                f"Tentando histórico "
+                f"{fallback_season}..."
+            )
+
+            try:
+
+                fixtures = (
+                    get_team_recent_fixtures(
+                        team_id,
+                        fallback_season
+                    )
+                )
+
+                return (
+                    fixtures,
+                    fallback_season
+                )
+
+            except RuntimeError:
+
+                continue
+
+        raise RuntimeError(
+            f"Não foi possível obter "
+            f"histórico compatível para "
+            f"a equipe {team_id}."
+        )
+
+
+# ============================================================
+# CÁLCULO DA FORMA
+# ============================================================
+
 def calculate_team_form(
     team_id,
     season,
     games_required=10
 ):
 
-    fixtures = get_team_recent_fixtures(
-        team_id,
-        season
+    fixtures, historical_season = (
+        get_team_history(
+            team_id,
+            season
+        )
     )
 
+    # --------------------------------------------------------
+    # Ordenar jogos mais recentes primeiro
+    # --------------------------------------------------------
+
     fixtures.sort(
+
         key=lambda item:
             item.get(
                 "fixture",
@@ -171,16 +360,22 @@ def calculate_team_form(
                 "date",
                 ""
             ),
+
         reverse=True
     )
 
     played = 0
+
     wins = 0
     draws = 0
     losses = 0
 
     goals_for = 0
     goals_against = 0
+
+    # --------------------------------------------------------
+    # PROCESSAR JOGOS
+    # --------------------------------------------------------
 
     for fixture in fixtures:
 
@@ -207,38 +402,61 @@ def calculate_team_form(
             {}
         )
 
-        home_id = home.get("id")
-        away_id = away.get("id")
+        home_id = home.get(
+            "id"
+        )
 
-        home_goals = goals.get("home")
-        away_goals = goals.get("away")
+        away_id = away.get(
+            "id"
+        )
 
-        # Jogo sem resultado
+        home_goals = goals.get(
+            "home"
+        )
+
+        away_goals = goals.get(
+            "away"
+        )
+
+        # Ignorar jogo sem resultado
         if home_goals is None:
             continue
 
         if away_goals is None:
             continue
 
-        # Equipe jogando em casa
+        # ----------------------------------------------------
+        # EQUIPE CASA
+        # ----------------------------------------------------
+
         if team_id == home_id:
 
             team_goals = home_goals
+
             opponent_goals = away_goals
 
-        # Equipe jogando fora
+        # ----------------------------------------------------
+        # EQUIPE FORA
+        # ----------------------------------------------------
+
         elif team_id == away_id:
 
             team_goals = away_goals
+
             opponent_goals = home_goals
 
         else:
 
             continue
 
+        # ----------------------------------------------------
+        # CONTADORES
+        # ----------------------------------------------------
+
         played += 1
 
         goals_for += team_goals
+
         goals_against += opponent_goals
 
         if team_goals > opponent_goals:
@@ -275,11 +493,14 @@ def calculate_team_form(
 
             "points_per_game": 0,
 
-            "form": 0.5
+            "form": 0.5,
+
+            "historical_season":
+                historical_season
         }
 
     # --------------------------------------------------------
-    # CÁLCULO
+    # PONTOS
     # --------------------------------------------------------
 
     points = (
@@ -296,15 +517,23 @@ def calculate_team_form(
         / (played * 3)
     )
 
+    # --------------------------------------------------------
+    # RESULTADO
+    # --------------------------------------------------------
+
     return {
 
-        "played": played,
+        "played":
+            played,
 
-        "wins": wins,
+        "wins":
+            wins,
 
-        "draws": draws,
+        "draws":
+            draws,
 
-        "losses": losses,
+        "losses":
+            losses,
 
         "goals_for_avg":
             round(
@@ -328,5 +557,8 @@ def calculate_team_form(
             round(
                 form,
                 4
-            )
+            ),
+
+        "historical_season":
+            historical_season
     }
