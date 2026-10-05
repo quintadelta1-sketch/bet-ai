@@ -7,16 +7,17 @@ from data_provider import (
 )
 
 
-VERSION = "BET-AI FINAL 3.1"
+VERSION = "BET-AI FINAL 3.2"
 
 MAX_GAMES = 1
 HISTORY_GAMES = 10
 
 
-def calculate_probability(
-    home_form,
-    away_form
-):
+# ============================================================
+# PROBABILIDADE
+# ============================================================
+
+def calculate_probability(home_form, away_form):
 
     home_strength = (
         home_form["form"] * 0.65
@@ -67,13 +68,26 @@ def calculate_probability(
     )
 
 
+# ============================================================
+# ANÁLISE DO JOGO
+# ============================================================
+
 def analyze_game(game):
 
     home_id = game.get("home_id")
     away_id = game.get("away_id")
 
-    home_name = game.get("home", "Casa")
-    away_name = game.get("away", "Fora")
+    home_name = game.get(
+        "home",
+        "Casa"
+    )
+
+    away_name = game.get(
+        "away",
+        "Fora"
+    )
+
+    season = game.get("season")
 
     if not home_id or not away_id:
 
@@ -83,9 +97,21 @@ def analyze_game(game):
             "error": "ID das equipes não encontrado."
         }
 
+    if not season:
+
+        return {
+            "home": home_name,
+            "away": away_name,
+            "error": "Temporada do jogo não encontrada."
+        }
+
     print()
     print(
         f"Analisando: {home_name} x {away_name}"
+    )
+
+    print(
+        f"Temporada identificada: {season}"
     )
 
     try:
@@ -96,7 +122,12 @@ def analyze_game(game):
 
         home_form = calculate_team_form(
             home_id,
-            games_required=HISTORY_GAMES
+            games_required=HISTORY_GAMES,
+            season=season
+        )
+
+        print(
+            "Histórico da equipe da casa obtido."
         )
 
         print(
@@ -105,7 +136,12 @@ def analyze_game(game):
 
         away_form = calculate_team_form(
             away_id,
-            games_required=HISTORY_GAMES
+            games_required=HISTORY_GAMES,
+            season=season
+        )
+
+        print(
+            "Histórico da equipe visitante obtido."
         )
 
     except Exception as error:
@@ -124,17 +160,41 @@ def analyze_game(game):
     )
 
     return {
-        "fixture_id": game.get("fixture_id"),
+
+        "fixture_id": game.get(
+            "fixture_id"
+        ),
+
         "home": home_name,
         "away": away_name,
-        "league": game.get("league"),
-        "date": game.get("date"),
-        "home_probability": home_probability,
-        "away_probability": away_probability,
-        "home_form": home_form,
-        "away_form": away_form
+
+        "league": game.get(
+            "league"
+        ),
+
+        "date": game.get(
+            "date"
+        ),
+
+        "season": season,
+
+        "home_probability":
+            home_probability,
+
+        "away_probability":
+            away_probability,
+
+        "home_form":
+            home_form,
+
+        "away_form":
+            away_form
     }
 
+
+# ============================================================
+# IMPRESSÃO DA ANÁLISE
+# ============================================================
 
 def print_analysis(result):
 
@@ -142,14 +202,22 @@ def print_analysis(result):
     print("=" * 60)
 
     print(
-        f"{result.get('home', '?')} "
-        f"x "
+        f"{result.get('home', '?')} x "
         f"{result.get('away', '?')}"
     )
 
     if result.get("league"):
+
         print(
-            f"Competição: {result['league']}"
+            f"Competição: "
+            f"{result['league']}"
+        )
+
+    if result.get("season"):
+
+        print(
+            f"Temporada: "
+            f"{result['season']}"
         )
 
     if result.get("error"):
@@ -231,10 +299,16 @@ def print_analysis(result):
     print("=" * 60)
 
 
+# ============================================================
+# PRINCIPAL
+# ============================================================
+
 def main():
 
     print("=" * 60)
+
     print(VERSION)
+
     print("=" * 60)
 
     api_key = os.getenv(
@@ -254,6 +328,7 @@ def main():
     ).strftime("%Y-%m-%d")
 
     print()
+
     print(
         f"Consultando jogos do dia: {today}"
     )
@@ -267,8 +342,10 @@ def main():
     except Exception as error:
 
         print()
+
         print(
-            f"ERRO AO CONSULTAR API: {error}"
+            f"ERRO AO CONSULTAR API: "
+            f"{error}"
         )
 
         return
@@ -284,8 +361,10 @@ def main():
     games = games[:MAX_GAMES]
 
     print()
+
     print(
-        f"Jogos selecionados: {len(games)}"
+        f"Jogos selecionados: "
+        f"{len(games)}"
     )
 
     results = []
@@ -296,31 +375,42 @@ def main():
             game
         )
 
-        results.append(result)
+        results.append(
+            result
+        )
 
-        print_analysis(result)
+        print_analysis(
+            result
+        )
 
     print()
+
     print("=" * 60)
+
     print("RESUMO BET-AI")
+
     print("=" * 60)
 
     valid = [
-        r for r in results
-        if not r.get("error")
+        result
+        for result in results
+        if not result.get("error")
     ]
 
     print(
-        f"Jogos processados: {len(results)}"
+        f"Jogos processados: "
+        f"{len(results)}"
     )
 
     print(
-        f"Análises válidas: {len(valid)}"
+        f"Análises válidas: "
+        f"{len(valid)}"
     )
 
     print()
+
     print(
-        "BET-AI FINAL 3.1 concluído."
+        "BET-AI FINAL 3.2 concluído."
     )
 
     print("=" * 60)
