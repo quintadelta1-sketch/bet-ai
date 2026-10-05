@@ -1,55 +1,111 @@
-def generate_ticket(probabilities, minimum_probability=65):
-    selections = []
+from config import MIN_PROBABILITY
 
-    for market, values in probabilities.items():
-        over = float(values.get("over", 0))
-        under = float(values.get("under", 0))
 
-        if over >= minimum_probability:
-            selections.append({
-                "market": market,
-                "selection": "Mais",
-                "probability": over
-            })
+def generate_ticket(
+    analysis,
+    maximum_selections=3
+):
 
-        if under >= minimum_probability:
-            selections.append({
-                "market": market,
-                "selection": "Menos",
-                "probability": under
-            })
+    markets = analysis.get(
+        "markets",
+        []
+    )
 
-    selections.sort(
-        key=lambda item: item["probability"],
+    eligible = []
+
+    for market in markets:
+
+        probability = market.get(
+            "probability",
+            0
+        )
+
+        classification = market.get(
+            "classification",
+            "BAIXA"
+        )
+
+        # ----------------------------------------------------
+        # FILTRO
+        # ----------------------------------------------------
+
+        if probability < MIN_PROBABILITY:
+            continue
+
+        if classification == "BAIXA":
+            continue
+
+        eligible.append(
+            market
+        )
+
+    # --------------------------------------------------------
+    # MELHORES PRIMEIRO
+    # --------------------------------------------------------
+
+    eligible.sort(
+        key=lambda item:
+            item["probability"],
         reverse=True
     )
 
-    return selections[:3]
+    # --------------------------------------------------------
+    # LIMITE
+    # --------------------------------------------------------
+
+    return eligible[
+        :maximum_selections
+    ]
 
 
-def print_ticket(probabilities):
-    ticket = generate_ticket(probabilities)
+def print_ticket(
+    analysis,
+    ticket
+):
 
-    print("\n========== TALÃO BET-AI V5 ==========")
+    print()
+    print("=" * 60)
+    print("BET-AI - SELEÇÕES")
+    print("=" * 60)
+
+    print(
+        f"{analysis['home']} x "
+        f"{analysis['away']}"
+    )
+
+    print()
 
     if not ticket:
-        print("Nenhum mercado atingiu o limite mínimo.")
-        print("Nenhuma seleção foi adicionada.")
-        return
 
-    for number, item in enumerate(ticket, start=1):
         print(
-            f"{number}. "
-            f"{item['market']} - "
-            f"{item['selection']} "
-            f"({item['probability']:.2f}%)"
+            "Nenhuma seleção atingiu "
+            "o limite mínimo."
         )
 
-    average = sum(
-        item["probability"] for item in ticket
-    ) / len(ticket)
+        print("=" * 60)
 
-    print("-------------------------------------")
-    print(f"Probabilidade média: {average:.2f}%")
-    print("Observação: estimativa do modelo, não garantia.")
-    print("=====================================")
+        return
+
+    for index, selection in enumerate(
+        ticket,
+        start=1
+    ):
+
+        print(
+            f"{index}. "
+            f"{selection['market']}"
+        )
+
+        print(
+            f"   Probabilidade: "
+            f"{selection['probability']}%"
+        )
+
+        print(
+            f"   Classificação: "
+            f"{selection['classification']}"
+        )
+
+        print()
+
+    print("=" * 60)
