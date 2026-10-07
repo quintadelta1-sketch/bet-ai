@@ -1,17 +1,17 @@
-from config import MIN_PROBABILITY
+from config import (
+    MIN_PROBABILITY,
+    MIN_EDGE,
+    MAX_SELECTIONS,
+)
 
 
 def generate_ticket(
-    analysis,
-    maximum_selections=3
+    markets
 ):
 
-    markets = analysis.get(
-        "markets",
-        []
-    )
+    with_value = []
 
-    eligible = []
+    without_value = []
 
     for market in markets:
 
@@ -20,92 +20,60 @@ def generate_ticket(
             0
         )
 
-        classification = market.get(
-            "classification",
-            "BAIXA"
+        edge = market.get(
+            "edge"
         )
-
-        # ----------------------------------------------------
-        # FILTRO
-        # ----------------------------------------------------
 
         if probability < MIN_PROBABILITY:
             continue
 
-        if classification == "BAIXA":
-            continue
+        if (
+            edge is not None
+            and edge >= MIN_EDGE
+        ):
 
-        eligible.append(
-            market
+            with_value.append(
+                market
+            )
+
+        elif edge is None:
+
+            if (
+                probability
+                >= 75
+            ):
+
+                without_value.append(
+                    market
+                )
+
+    if with_value:
+
+        with_value.sort(
+            key=lambda x: (
+                x.get("edge") or 0,
+                x.get("probability") or 0,
+            ),
+            reverse=True
         )
 
-    # --------------------------------------------------------
-    # MELHORES PRIMEIRO
-    # --------------------------------------------------------
+        return {
+            "mode": "VALOR",
+            "selections": with_value[
+                :MAX_SELECTIONS
+            ],
+        }
 
-    eligible.sort(
-        key=lambda item:
-            item["probability"],
+    without_value.sort(
+        key=lambda x: (
+            x.get("probability") or 0
+        ),
         reverse=True
     )
 
-    # --------------------------------------------------------
-    # LIMITE
-    # --------------------------------------------------------
-
-    return eligible[
-        :maximum_selections
-    ]
-
-
-def print_ticket(
-    analysis,
-    ticket
-):
-
-    print()
-    print("=" * 60)
-    print("BET-AI - SELEÇÕES")
-    print("=" * 60)
-
-    print(
-        f"{analysis['home']} x "
-        f"{analysis['away']}"
-    )
-
-    print()
-
-    if not ticket:
-
-        print(
-            "Nenhuma seleção atingiu "
-            "o limite mínimo."
-        )
-
-        print("=" * 60)
-
-        return
-
-    for index, selection in enumerate(
-        ticket,
-        start=1
-    ):
-
-        print(
-            f"{index}. "
-            f"{selection['market']}"
-        )
-
-        print(
-            f"   Probabilidade: "
-            f"{selection['probability']}%"
-        )
-
-        print(
-            f"   Classificação: "
-            f"{selection['classification']}"
-        )
-
-        print()
-
-    print("=" * 60)
+    return {
+        "mode": "PROBABILIDADE",
+        "selections": without_value[
+            :MAX_SELECTIONS
+        ],
+    }
