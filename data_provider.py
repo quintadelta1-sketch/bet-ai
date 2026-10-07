@@ -1,652 +1,493 @@
 from datetime import datetime, timedelta
 
-from api_client import FootballAPI
 from config import (
+    TIMEZONE,
+    MAX_GAMES,
     get_analysis_date,
 )
 
-
-api = FootballAPI()
-
-
-UPCOMING_STATUS = {
-    "NS",
-    "TBD",
-}
+from api_client import FootballAPI
 
 
-def normalize_fixture(fixture):
+class FootballDataProvider:
+    """
+    Camada responsável por conversar com a API-Football.
 
-    fixture_info = fixture.get(
-        "fixture",
-        {}
-    )
+    O restante do BET-AI não precisa conhecer os detalhes
+    dos endpoints da API.
+    """
 
-    teams = fixture.get(
-        "teams",
-        {}
-    )
+    def __init__(self):
+        self.api = FootballAPI()
 
-    league = fixture.get(
-        "league",
-        {}
-    )
+    # ==========================================================
+    # REQUISIÇÃO
+    # ==========================================================
 
-    status = fixture_info.get(
-        "status",
-        {}
-    )
+    def _request(self, endpoint, params=None):
+        """
+        Compatibilidade com diferentes versões do api_client.py.
+        """
 
-    return {
-        "fixture_id": fixture_info.get(
-            "id"
-        ),
+        params = params or {}
 
-        "date": fixture_info.get(
-            "date"
-        ),
-
-        "timestamp": fixture_info.get(
-            "timestamp"
-        ),
-
-        "status": status.get(
-            "short"
-        ),
-
-        "status_long": status.get(
-            "long"
-        ),
-
-        "home_id": (
-            teams
-            .get("home", {})
-            .get("id")
-        ),
-
-        "home_name": (
-            teams
-            .get("home", {})
-            .get("name")
-        ),
-
-        "away_id": (
-            teams
-            .get("away", {})
-            .get("id")
-        ),
-
-        "away_name": (
-            teams
-            .get("away", {})
-            .get("name")
-        ),
-
-        "league_id": league.get(
-            "id"
-        ),
-
-        "league_name": league.get(
-            "name"
-        ),
-
-        "country": league.get(
-            "country"
-        ),
-    }
-
-
-def get_upcoming_games():
-
-    start_date_text = get_analysis_date()
-
-    start_date = datetime.strptime(
-        start_date_text,
-        "%Y-%m-%d"
-    ).date()
-
-    print()
-    print(
-        "Buscando jogos do BET-AI"
-    )
-
-    print(
-        f"Data inicial: "
-        f"{start_date}"
-    )
-
-    all_games = []
-
-    # Procuramos 3 dias.
-    #
-    # Isso evita utilizar from/to sem
-    # league + season.
-    #
-    # Também mantém o consumo de API
-    # controlado.
-
-    for day_offset in range(3):
-
-        current_date = (
-            start_date
-            + timedelta(
-                days=day_offset
+        # Versão atual esperada
+        if hasattr(self.api, "get"):
+            return self.api.get(
+                endpoint,
+                params=params
             )
-        )
 
-        date_text = (
-            current_date.strftime(
-                "%Y-%m-%d"
+        # Caso o cliente tenha api_get()
+        if hasattr(self.api, "api_get"):
+            return self.api.api_get(
+                endpoint,
+                params=params
             )
+
+        raise RuntimeError(
+            "FootballAPI não possui método get/api_get."
         )
 
-        print()
-        print(
-            f"Consultando jogos de "
-            f"{date_text}"
+    # ==========================================================
+    # NORMALIZAÇÃO DO JOGO
+    # ==========================================================
+
+    def _normalize_fixture(self, fixture):
+        """
+        Transforma o retorno da API em um formato único
+        usado pelo BET-AI.
+        """
+
+        fixture_data = fixture.get(
+            "fixture",
+            {}
         )
+
+        teams = fixture.get(
+            "teams",
+            {}
+        )
+
+        league = fixture.get(
+            "league",
+            {}
+        )
+
+        home = teams.get(
+            "home",
+            {}
+        )
+
+        away = teams.get(
+            "away",
+            {}
+        )
+
+        fixture_id = fixture_data.get("id")
+
+        if fixture_id is None:
+            return None
+
+        return {
+            "fixture_id": int(fixture_id),
+
+            "id": int(fixture_id),
+
+            "fixture": fixture_data,
+
+            "teams": teams,
+
+            "league": league,
+
+            "home": home.get(
+                "name",
+                "Desconhecido"
+            ),
+
+            "away": away.get(
+                "name",
+                "Desconhecido"
+            ),
+
+            "home_id": home.get(
+                "id"
+            ),
+
+            "away_id": away.get(
+                "id"
+            ),
+
+            "date": fixture_data.get(
+                "date"
+            ),
+
+            "timestamp": fixture_data.get(
+                "timestamp"
+            ),
+
+            "status": (
+                fixture_data
+                .get("status", {})
+                .get("short")
+            ),
+
+            "league_id": league.get(
+                "id"
+            ),
+
+            "league_name": league.get(
+                "name"
+            ),
+
+            "season": league.get(
+                "season"
+            ),
+        }
+
+    # ==========================================================
+    # JOGOS FUTUROS
+    # ==========================================================
+
+    def get_upcoming_games(self):
+        """
+        Busca jogos futuros começando pela data de análise.
+
+        Em vez de usar from/to, fazemos consultas por dia:
+
+        fixtures?date=YYYY-MM-DD
+
+        Isso evita o problema apresentado anteriormente
+        pela API-Football com os parâmetros from/to.
+        """
+
+        start_text = get_analysis_date()
 
         try:
+            start_date = datetime.strptime(
+                start_text,
+                "%Y-%m-%d"
+            ).date()
 
-            fixtures = api.get(
-                "fixtures",
-                {
-                    "date": date_text,
-                    "timezone": (
-                        "America/Sao_Paulo"
-                    ),
-                }
+        except ValueError:
+            raise RuntimeError(
+                f"ANALYSIS_DATE inválida: {start_text}"
             )
 
-        except Exception as error:
+        games = []
+        seen = set()
+
+        # Procuramos até 4 dias.
+        # Normalmente 3 chamadas já são suficientes,
+        # mas deixamos uma margem para dias com poucos jogos.
+        for offset in range(4):
+
+            current_date = (
+                start_date +
+                timedelta(days=offset)
+            )
+
+            date_text = current_date.strftime(
+                "%Y-%m-%d"
+            )
 
             print(
-                f"Erro ao consultar "
-                f"{date_text}: {error}"
+                f"Buscando jogos de {date_text}..."
             )
 
-            continue
+            try:
+
+                response = self._request(
+                    "fixtures",
+                    {
+                        "date": date_text,
+                        "timezone": TIMEZONE,
+                    }
+                )
+
+            except Exception as error:
+
+                print(
+                    f"Aviso ao consultar "
+                    f"{date_text}: {error}"
+                )
+
+                continue
+
+            if not isinstance(response, dict):
+                continue
+
+            fixtures = response.get(
+                "response",
+                []
+            )
+
+            if not isinstance(fixtures, list):
+                continue
+
+            for fixture in fixtures:
+
+                game = self._normalize_fixture(
+                    fixture
+                )
+
+                if game is None:
+                    continue
+
+                fixture_id = game[
+                    "fixture_id"
+                ]
+
+                if fixture_id in seen:
+                    continue
+
+                status = game.get(
+                    "status"
+                )
+
+                # Somente jogos que ainda não começaram.
+                if status not in (
+                    "NS",
+                    "TBD",
+                    "PST",
+                ):
+                    continue
+
+                seen.add(fixture_id)
+                games.append(game)
+
+                if len(games) >= MAX_GAMES:
+                    break
+
+            if len(games) >= MAX_GAMES:
+                break
+
+        # Ordena cronologicamente
+        games.sort(
+            key=lambda item: (
+                item.get("timestamp")
+                or 9999999999
+            )
+        )
 
         print(
-            f"Partidas retornadas: "
-            f"{len(fixtures)}"
+            f"Jogos selecionados: "
+            f"{len(games)}"
         )
 
-        for fixture in fixtures:
+        for game in games:
 
-            game = normalize_fixture(
-                fixture
+            print(
+                f"  {game['fixture_id']} | "
+                f"{game['home']} x "
+                f"{game['away']}"
             )
 
-            if not game[
-                "fixture_id"
-            ]:
+        return games
 
-                continue
+    # ==========================================================
+    # PREVISÃO
+    # ==========================================================
 
-            if game[
-                "status"
-            ] not in UPCOMING_STATUS:
+    def get_prediction(self, fixture_id):
+        """
+        Obtém a previsão da API-Football.
+        """
 
-                continue
+        fixture_id = int(fixture_id)
 
-            all_games.append(
-                game
-            )
-
-    # ------------------------------------------------
-    # REMOVER DUPLICADOS
-    # ------------------------------------------------
-
-    unique_games = {}
-
-    for game in all_games:
-
-        fixture_id = game[
-            "fixture_id"
-        ]
-
-        unique_games[
-            fixture_id
-        ] = game
-
-    games = list(
-        unique_games.values()
-    )
-
-    # ------------------------------------------------
-    # ORDENAR POR HORÁRIO
-    # ------------------------------------------------
-
-    games.sort(
-        key=lambda game: (
-            game[
-                "timestamp"
-            ] or 0
+        print(
+            f"Buscando previsão da partida "
+            f"{fixture_id}..."
         )
-    )
 
-    print()
-    print(
-        f"Jogos futuros encontrados: "
-        f"{len(games)}"
-    )
-
-    return games
-
-
-def get_prediction(
-    fixture_id
-):
-
-    try:
-
-        result = api.get(
+        response = self._request(
             "predictions",
             {
                 "fixture": fixture_id
             }
         )
 
-        if not result:
+        if not isinstance(response, dict):
+            return None
 
+        data = response.get(
+            "response",
+            []
+        )
+
+        if not data:
             print(
-                f"Sem previsão disponível "
-                f"para fixture "
-                f"{fixture_id}."
+                "Nenhuma previsão disponível."
             )
 
             return None
 
-        return result[0]
+        return data[0]
 
-    except Exception as error:
+    # ==========================================================
+    # ODDS
+    # ==========================================================
+
+    def get_odds(self, fixture_id):
+        """
+        Obtém odds pré-jogo.
+
+        A ausência de odds não impede a análise.
+        """
+
+        fixture_id = int(fixture_id)
 
         print(
-            f"Previsão indisponível "
-            f"para fixture "
-            f"{fixture_id}: "
-            f"{error}"
+            f"Buscando odds da partida "
+            f"{fixture_id}..."
         )
 
-        return None
+        try:
 
+            response = self._request(
+                "odds",
+                {
+                    "fixture": fixture_id
+                }
+            )
 
-def _float(value):
+        except Exception as error:
 
-    try:
+            print(
+                f"Odds indisponíveis: {error}"
+            )
 
-        return float(
-            str(value)
-            .replace(",", ".")
-            .strip()
-        )
+            return None
 
-    except Exception:
+        if not isinstance(response, dict):
+            return None
 
-        return None
-
-
-def extract_odds(
-    odds_response,
-    home_name,
-    away_name
-):
-
-    markets = {
-
-        "match_winner": {},
-
-        "double_chance": {},
-
-        "goals": {},
-    }
-
-    if not odds_response:
-
-        return markets
-
-    home_lower = (
-        home_name or ""
-    ).lower()
-
-    away_lower = (
-        away_name or ""
-    ).lower()
-
-    for bookmaker in odds_response:
-
-        bookmaker_name = bookmaker.get(
-            "name",
-            "Desconhecida"
-        )
-
-        bets = bookmaker.get(
-            "bets",
+        return response.get(
+            "response",
             []
         )
 
-        for bet in bets:
+    # ==========================================================
+    # RESULTADO DE UMA PARTIDA
+    # ==========================================================
 
-            bet_id = str(
-                bet.get(
-                    "id",
-                    ""
-                )
+    def get_fixture(self, fixture_id):
+        """
+        Consulta uma partida específica.
+        """
+
+        fixture_id = int(fixture_id)
+
+        response = self._request(
+            "fixtures",
+            {
+                "id": fixture_id
+            }
+        )
+
+        if not isinstance(response, dict):
+            return None
+
+        data = response.get(
+            "response",
+            []
+        )
+
+        if not data:
+            return None
+
+        return data[0]
+
+    # ==========================================================
+    # RESULTADOS EM LOTE
+    # ==========================================================
+
+    def get_finished_fixtures(
+        self,
+        fixture_ids
+    ):
+        """
+        Consulta partidas anteriores em pequenos lotes.
+        """
+
+        if not fixture_ids:
+            return []
+
+        results = []
+
+        # API aceita consulta por IDs separados por "-"
+        # para reduzir chamadas.
+        for start in range(
+            0,
+            len(fixture_ids),
+            20
+        ):
+
+            batch = fixture_ids[
+                start:start + 20
+            ]
+
+            ids_text = "-".join(
+                str(int(x))
+                for x in batch
             )
 
-            bet_name = str(
-                bet.get(
-                    "name",
-                    ""
-                )
-            ).lower()
+            try:
 
-            values = bet.get(
-                "values",
+                response = self._request(
+                    "fixtures",
+                    {
+                        "ids": ids_text
+                    }
+                )
+
+            except Exception as error:
+
+                print(
+                    f"Erro consultando resultados: "
+                    f"{error}"
+                )
+
+                continue
+
+            if not isinstance(response, dict):
+                continue
+
+            data = response.get(
+                "response",
                 []
             )
 
-            is_winner = (
-                bet_id == "1"
-                or "match winner"
-                in bet_name
-                or "1x2"
-                in bet_name
-            )
+            if isinstance(data, list):
+                results.extend(data)
 
-            is_double = (
-                bet_id == "12"
-                or "double chance"
-                in bet_name
-            )
+        return results
 
-            is_goals = (
-                bet_id == "5"
-                or "goals over/under"
-                in bet_name
-                or "over/under"
-                in bet_name
-            )
+    # ==========================================================
+    # ESTATÍSTICAS DE UMA PARTIDA
+    # ==========================================================
 
-            for value in values:
+    def get_statistics(self, fixture_id):
+        """
+        Obtém estatísticas da partida.
 
-                label = str(
-                    value.get(
-                        "value",
-                        ""
-                    )
-                ).strip()
+        Só será usada quando necessário.
+        """
 
-                odd = _float(
-                    value.get(
-                        "odd"
-                    )
-                )
+        fixture_id = int(fixture_id)
 
-                if (
-                    odd is None
-                    or odd <= 1
-                ):
-
-                    continue
-
-                normalized = (
-                    label.lower()
-                )
-
-                # ------------------------------------
-                # VENCEDOR
-                # ------------------------------------
-
-                if is_winner:
-
-                    key = None
-
-                    if normalized == "home":
-
-                        key = "Casa"
-
-                    elif normalized == "draw":
-
-                        key = "Empate"
-
-                    elif normalized == "away":
-
-                        key = "Fora"
-
-                    elif (
-                        normalized
-                        == home_lower
-                    ):
-
-                        key = "Casa"
-
-                    elif (
-                        normalized
-                        == away_lower
-                    ):
-
-                        key = "Fora"
-
-                    if key:
-
-                        current = markets[
-                            "match_winner"
-                        ].get(
-                            key
-                        )
-
-                        if (
-                            current is None
-                            or odd
-                            > current[
-                                "odd"
-                            ]
-                        ):
-
-                            markets[
-                                "match_winner"
-                            ][key] = {
-
-                                "odd": odd,
-
-                                "bookmaker":
-                                    bookmaker_name,
-                            }
-
-                # ------------------------------------
-                # DUPLA CHANCE
-                # ------------------------------------
-
-                elif is_double:
-
-                    key = None
-
-                    if (
-                        "home/draw"
-                        in normalized
-                        or "draw/home"
-                        in normalized
-                        or normalized == "1x"
-                        or "home or draw"
-                        in normalized
-                    ):
-
-                        key = (
-                            "Casa ou Empate"
-                        )
-
-                    elif (
-                        "draw/away"
-                        in normalized
-                        or "away/draw"
-                        in normalized
-                        or normalized == "x2"
-                        or "away or draw"
-                        in normalized
-                    ):
-
-                        key = (
-                            "Fora ou Empate"
-                        )
-
-                    elif (
-                        "home/away"
-                        in normalized
-                        or "away/home"
-                        in normalized
-                        or normalized == "12"
-                    ):
-
-                        key = (
-                            "Casa ou Fora"
-                        )
-
-                    if key:
-
-                        current = markets[
-                            "double_chance"
-                        ].get(
-                            key
-                        )
-
-                        if (
-                            current is None
-                            or odd
-                            > current[
-                                "odd"
-                            ]
-                        ):
-
-                            markets[
-                                "double_chance"
-                            ][key] = {
-
-                                "odd": odd,
-
-                                "bookmaker":
-                                    bookmaker_name,
-                            }
-
-                # ------------------------------------
-                # GOLS
-                # ------------------------------------
-
-                elif is_goals:
-
-                    current = markets[
-                        "goals"
-                    ].get(
-                        label
-                    )
-
-                    if (
-                        current is None
-                        or odd
-                        > current[
-                            "odd"
-                        ]
-                    ):
-
-                        markets[
-                            "goals"
-                        ][label] = {
-
-                            "odd": odd,
-
-                            "bookmaker":
-                                bookmaker_name,
-                        }
-
-    return markets
-
-
-def get_odds(game):
-
-    try:
-
-        response = api.get(
-            "odds",
+        response = self._request(
+            "fixtures/statistics",
             {
-                "fixture":
-                    game[
-                        "fixture_id"
-                    ]
+                "fixture": fixture_id
             }
         )
 
-        return extract_odds(
-            response,
-            game[
-                "home_name"
-            ],
-            game[
-                "away_name"
-            ]
+        if not isinstance(response, dict):
+            return []
+
+        return response.get(
+            "response",
+            []
         )
-
-    except Exception as error:
-
-        print(
-            "Odds não disponíveis: "
-            f"{error}"
-        )
-
-        return {
-
-            "match_winner": {},
-
-            "double_chance": {},
-
-            "goals": {},
-        }
-
-
-def update_finished_fixtures(
-    fixture_ids
-):
-
-    if not fixture_ids:
-
-        return []
-
-    ids = [
-        str(fixture_id)
-        for fixture_id in fixture_ids
-    ]
-
-    # A API aceita até 20 IDs
-    # em uma chamada.
-
-    ids_parameter = "-".join(
-        ids[:20]
-    )
-
-    try:
-
-        print()
-        print(
-            "Atualizando resultados "
-            "pendentes..."
-        )
-
-        return api.get(
-            "fixtures",
-            {
-                "ids":
-                    ids_parameter,
-
-                "timezone":
-                    "America/Sao_Paulo",
-            }
-        )
-
-    except Exception as error:
-
-        print(
-            "Não foi possível atualizar "
-            f"resultados: {error}"
-        )
-
-        return []
