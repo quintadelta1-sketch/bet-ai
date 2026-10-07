@@ -1,38 +1,24 @@
+from datetime import datetime
+
 from api_client import FootballAPI
+from config import (
+    get_analysis_date,
+    get_search_end_date,
+)
 
 
 api = FootballAPI()
 
 
-# ============================================================
-# CONFIGURAÇÃO DO PLANO GRATUITO
-# ============================================================
-
-# Conforme a mensagem retornada pela API-Football,
-# o plano gratuito disponível neste projeto permite
-# histórico entre 2022 e 2024.
-
-FREE_MIN_SEASON = 2022
-FREE_MAX_SEASON = 2024
-
-
-# ============================================================
-# JOGOS DO DIA
-# ============================================================
-
-def get_fixtures(date):
-
-    return api.get(
-        "fixtures",
-        {
-            "date": date
-        }
-    )
+UPCOMING_STATUS = {
+    "NS",
+    "TBD",
+}
 
 
 def normalize_fixture(fixture):
 
-    info = fixture.get(
+    fixture_info = fixture.get(
         "fixture",
         {}
     )
@@ -42,75 +28,86 @@ def normalize_fixture(fixture):
         {}
     )
 
-    goals = fixture.get(
-        "goals",
-        {}
-    )
-
     league = fixture.get(
         "league",
         {}
     )
 
-    home = teams.get(
-        "home",
-        {}
-    )
-
-    away = teams.get(
-        "away",
+    status = fixture_info.get(
+        "status",
         {}
     )
 
     return {
+        "fixture_id": fixture_info.get("id"),
 
-        "fixture_id":
-            info.get("id"),
+        "date": fixture_info.get("date"),
 
-        "date":
-            info.get("date"),
+        "timestamp": fixture_info.get(
+            "timestamp"
+        ),
 
-        "status":
-            info.get(
-                "status",
-                {}
-            ).get(
-                "short"
-            ),
+        "status": status.get(
+            "short"
+        ),
 
-        "home":
-            home.get("name"),
+        "status_long": status.get(
+            "long"
+        ),
 
-        "away":
-            away.get("name"),
+        "home_id": (
+            teams.get("home", {})
+            .get("id")
+        ),
 
-        "home_id":
-            home.get("id"),
+        "home_name": (
+            teams.get("home", {})
+            .get("name")
+        ),
 
-        "away_id":
-            away.get("id"),
+        "away_id": (
+            teams.get("away", {})
+            .get("id")
+        ),
 
-        "home_goals":
-            goals.get("home"),
+        "away_name": (
+            teams.get("away", {})
+            .get("name")
+        ),
 
-        "away_goals":
-            goals.get("away"),
+        "league_id": league.get(
+            "id"
+        ),
 
-        "league":
-            league.get("name"),
+        "league_name": league.get(
+            "name"
+        ),
 
-        "league_id":
-            league.get("id"),
-
-        # Temporada do jogo analisado
-        "season":
-            league.get("season")
+        "country": league.get(
+            "country"
+        ),
     }
 
 
-def get_real_games(date):
+def get_upcoming_games():
 
-    fixtures = get_fixtures(date)
+    start_date = get_analysis_date()
+    end_date = get_search_end_date()
+
+    print()
+    print(
+        f"Buscando jogos de "
+        f"{start_date} até {end_date}"
+    )
+
+    fixtures = api.get(
+        "fixtures",
+        {
+            "from": start_date,
+            "to": end_date,
+            "timezone": "America/Sao_Paulo",
+        }
+    )
 
     games = []
 
@@ -120,445 +117,332 @@ def get_real_games(date):
             fixture
         )
 
-        if not game["home"]:
+        if not game["fixture_id"]:
             continue
 
-        if not game["away"]:
-            continue
-
-        if not game["home_id"]:
-            continue
-
-        if not game["away_id"]:
-            continue
-
-        if not game["season"]:
+        if game["status"] not in UPCOMING_STATUS:
             continue
 
         games.append(game)
 
-    return games
-
-
-# ============================================================
-# HISTÓRICO DA EQUIPE
-# ============================================================
-
-def get_team_recent_fixtures(
-    team_id,
-    season
-):
-
-    if not season:
-
-        raise RuntimeError(
-            f"Temporada não encontrada "
-            f"para a equipe {team_id}."
-        )
-
-    return api.get(
-        "fixtures",
-        {
-            "team": team_id,
-            "season": season
-        }
-    )
-
-
-# ============================================================
-# ESCOLHER TEMPORADA COMPATÍVEL
-# ============================================================
-
-def get_compatible_season(
-    requested_season
-):
-
-    try:
-
-        requested = int(
-            requested_season
-        )
-
-    except (
-        TypeError,
-        ValueError
-    ):
-
-        raise RuntimeError(
-            "Temporada inválida."
-        )
-
-    # --------------------------------------------------------
-    # Temporadas disponíveis diretamente
-    # --------------------------------------------------------
-
-    if (
-        FREE_MIN_SEASON
-        <= requested
-        <= FREE_MAX_SEASON
-    ):
-
-        return requested
-
-    # --------------------------------------------------------
-    # Temporada futura / não disponível
-    # --------------------------------------------------------
-
-    if requested > FREE_MAX_SEASON:
-
-        print()
-        print(
-            f"Temporada {requested} "
-            "não está disponível no "
-            "plano gratuito."
-        )
-
-        print(
-            f"Usando temporada histórica "
-            f"compatível: {FREE_MAX_SEASON}"
-        )
-
-        return FREE_MAX_SEASON
-
-    # --------------------------------------------------------
-    # Temporada anterior ao limite
-    # --------------------------------------------------------
-
-    if requested < FREE_MIN_SEASON:
-
-        print()
-        print(
-            f"Temporada {requested} "
-            "não está disponível."
-        )
-
-        print(
-            f"Usando temporada mínima "
-            f"compatível: {FREE_MIN_SEASON}"
-        )
-
-        return FREE_MIN_SEASON
-
-
-# ============================================================
-# HISTÓRICO COM FALLBACK
-# ============================================================
-
-def get_team_history(
-    team_id,
-    requested_season
-):
-
-    compatible_season = (
-        get_compatible_season(
-            requested_season
+    games.sort(
+        key=lambda x: (
+            x["timestamp"] or 0
         )
     )
 
     print(
-        f"Histórico consultado: "
-        f"{compatible_season}"
+        f"Jogos futuros encontrados: "
+        f"{len(games)}"
+    )
+
+    return games
+
+
+def get_prediction(fixture_id):
+
+    try:
+
+        result = api.get(
+            "predictions",
+            {
+                "fixture": fixture_id
+            }
+        )
+
+        if not result:
+
+            print(
+                f"Sem previsão disponível "
+                f"para fixture {fixture_id}."
+            )
+
+            return None
+
+        return result[0]
+
+    except Exception as error:
+
+        print(
+            f"Previsão indisponível para "
+            f"{fixture_id}: {error}"
+        )
+
+        return None
+
+
+def _float(value):
+
+    try:
+
+        return float(
+            str(value)
+            .replace(",", ".")
+            .strip()
+        )
+
+    except Exception:
+
+        return None
+
+
+def extract_odds(
+    odds_response,
+    home_name,
+    away_name
+):
+
+    markets = {
+        "match_winner": {},
+        "double_chance": {},
+        "goals": {},
+    }
+
+    if not odds_response:
+        return markets
+
+    home_lower = (
+        home_name or ""
+    ).lower()
+
+    away_lower = (
+        away_name or ""
+    ).lower()
+
+    for bookmaker in odds_response:
+
+        bookmaker_name = bookmaker.get(
+            "name",
+            "Desconhecida"
+        )
+
+        bets = bookmaker.get(
+            "bets",
+            []
+        )
+
+        for bet in bets:
+
+            bet_id = str(
+                bet.get("id", "")
+            )
+
+            bet_name = str(
+                bet.get("name", "")
+            ).lower()
+
+            values = bet.get(
+                "values",
+                []
+            )
+
+            is_winner = (
+                bet_id == "1"
+                or "match winner" in bet_name
+                or "1x2" in bet_name
+            )
+
+            is_double = (
+                bet_id == "12"
+                or "double chance" in bet_name
+            )
+
+            is_goals = (
+                bet_id == "5"
+                or "goals over/under" in bet_name
+                or "over/under" in bet_name
+            )
+
+            for value in values:
+
+                label = str(
+                    value.get(
+                        "value",
+                        ""
+                    )
+                ).strip()
+
+                odd = _float(
+                    value.get("odd")
+                )
+
+                if odd is None or odd <= 1:
+                    continue
+
+                normalized = label.lower()
+
+                if is_winner:
+
+                    key = None
+
+                    if normalized == "home":
+                        key = "Casa"
+
+                    elif normalized == "draw":
+                        key = "Empate"
+
+                    elif normalized == "away":
+                        key = "Fora"
+
+                    elif normalized == home_lower:
+                        key = "Casa"
+
+                    elif normalized == away_lower:
+                        key = "Fora"
+
+                    if key:
+
+                        current = markets[
+                            "match_winner"
+                        ].get(key)
+
+                        if (
+                            current is None
+                            or odd > current["odd"]
+                        ):
+
+                            markets[
+                                "match_winner"
+                            ][key] = {
+                                "odd": odd,
+                                "bookmaker": bookmaker_name,
+                            }
+
+                elif is_double:
+
+                    key = None
+
+                    if (
+                        "home/draw" in normalized
+                        or "draw/home" in normalized
+                        or normalized == "1x"
+                        or "home or draw" in normalized
+                    ):
+                        key = "Casa ou Empate"
+
+                    elif (
+                        "draw/away" in normalized
+                        or "away/draw" in normalized
+                        or normalized == "x2"
+                        or "away or draw" in normalized
+                    ):
+                        key = "Fora ou Empate"
+
+                    elif (
+                        "home/away" in normalized
+                        or "away/home" in normalized
+                        or normalized == "12"
+                    ):
+                        key = "Casa ou Fora"
+
+                    if key:
+
+                        current = markets[
+                            "double_chance"
+                        ].get(key)
+
+                        if (
+                            current is None
+                            or odd > current["odd"]
+                        ):
+
+                            markets[
+                                "double_chance"
+                            ][key] = {
+                                "odd": odd,
+                                "bookmaker": bookmaker_name,
+                            }
+
+                elif is_goals:
+
+                    current = markets[
+                        "goals"
+                    ].get(label)
+
+                    if (
+                        current is None
+                        or odd > current["odd"]
+                    ):
+
+                        markets[
+                            "goals"
+                        ][label] = {
+                            "odd": odd,
+                            "bookmaker": bookmaker_name,
+                        }
+
+    return markets
+
+
+def get_odds(game):
+
+    try:
+
+        response = api.get(
+            "odds",
+            {
+                "fixture": game["fixture_id"]
+            }
+        )
+
+        return extract_odds(
+            response,
+            game["home_name"],
+            game["away_name"]
+        )
+
+    except Exception as error:
+
+        print(
+            "Odds não disponíveis: "
+            f"{error}"
+        )
+
+        return {
+            "match_winner": {},
+            "double_chance": {},
+            "goals": {},
+        }
+
+
+def update_finished_fixtures(
+    fixture_ids
+):
+
+    if not fixture_ids:
+
+        return []
+
+    ids = [
+        str(x)
+        for x in fixture_ids
+    ]
+
+    ids_parameter = "-".join(
+        ids[:20]
     )
 
     try:
 
-        fixtures = get_team_recent_fixtures(
-            team_id,
-            compatible_season
-        )
-
-        return (
-            fixtures,
-            compatible_season
-        )
-
-    except RuntimeError as error:
-
-        error_text = str(error)
-
-        # ----------------------------------------------------
-        # Se a API disser que a temporada não está disponível,
-        # tentamos temporadas anteriores.
-        # ----------------------------------------------------
-
-        if (
-            "Free plans do not have access"
-            not in error_text
-        ):
-
-            raise
-
         print()
         print(
-            "Temporada bloqueada pelo "
-            "plano gratuito."
+            "Atualizando resultados "
+            "pendentes..."
         )
 
-        for fallback_season in [
-            2023,
-            2022
-        ]:
-
-            print(
-                f"Tentando histórico "
-                f"{fallback_season}..."
-            )
-
-            try:
-
-                fixtures = (
-                    get_team_recent_fixtures(
-                        team_id,
-                        fallback_season
-                    )
-                )
-
-                return (
-                    fixtures,
-                    fallback_season
-                )
-
-            except RuntimeError:
-
-                continue
-
-        raise RuntimeError(
-            f"Não foi possível obter "
-            f"histórico compatível para "
-            f"a equipe {team_id}."
+        return api.get(
+            "fixtures",
+            {
+                "ids": ids_parameter,
+                "timezone": "America/Sao_Paulo",
+            }
         )
 
+    except Exception as error:
 
-# ============================================================
-# CÁLCULO DA FORMA
-# ============================================================
-
-def calculate_team_form(
-    team_id,
-    season,
-    games_required=10
-):
-
-    fixtures, historical_season = (
-        get_team_history(
-            team_id,
-            season
-        )
-    )
-
-    # --------------------------------------------------------
-    # Ordenar jogos mais recentes primeiro
-    # --------------------------------------------------------
-
-    fixtures.sort(
-
-        key=lambda item:
-            item.get(
-                "fixture",
-                {}
-            ).get(
-                "date",
-                ""
-            ),
-
-        reverse=True
-    )
-
-    played = 0
-
-    wins = 0
-    draws = 0
-    losses = 0
-
-    goals_for = 0
-    goals_against = 0
-
-    # --------------------------------------------------------
-    # PROCESSAR JOGOS
-    # --------------------------------------------------------
-
-    for fixture in fixtures:
-
-        if played >= games_required:
-            break
-
-        teams = fixture.get(
-            "teams",
-            {}
+        print(
+            "Não foi possível atualizar "
+            f"resultados: {error}"
         )
 
-        goals = fixture.get(
-            "goals",
-            {}
-        )
-
-        home = teams.get(
-            "home",
-            {}
-        )
-
-        away = teams.get(
-            "away",
-            {}
-        )
-
-        home_id = home.get(
-            "id"
-        )
-
-        away_id = away.get(
-            "id"
-        )
-
-        home_goals = goals.get(
-            "home"
-        )
-
-        away_goals = goals.get(
-            "away"
-        )
-
-        # Ignorar jogo sem resultado
-        if home_goals is None:
-            continue
-
-        if away_goals is None:
-            continue
-
-        # ----------------------------------------------------
-        # EQUIPE CASA
-        # ----------------------------------------------------
-
-        if team_id == home_id:
-
-            team_goals = home_goals
-
-            opponent_goals = away_goals
-
-        # ----------------------------------------------------
-        # EQUIPE FORA
-        # ----------------------------------------------------
-
-        elif team_id == away_id:
-
-            team_goals = away_goals
-
-            opponent_goals = home_goals
-
-        else:
-
-            continue
-
-        # ----------------------------------------------------
-        # CONTADORES
-        # ----------------------------------------------------
-
-        played += 1
-
-        goals_for += team_goals
-
-        goals_against += opponent_goals
-
-        if team_goals > opponent_goals:
-
-            wins += 1
-
-        elif team_goals == opponent_goals:
-
-            draws += 1
-
-        else:
-
-            losses += 1
-
-    # --------------------------------------------------------
-    # SEM HISTÓRICO
-    # --------------------------------------------------------
-
-    if played == 0:
-
-        return {
-
-            "played": 0,
-
-            "wins": 0,
-
-            "draws": 0,
-
-            "losses": 0,
-
-            "goals_for_avg": 0,
-
-            "goals_against_avg": 0,
-
-            "points_per_game": 0,
-
-            "form": 0.5,
-
-            "historical_season":
-                historical_season
-        }
-
-    # --------------------------------------------------------
-    # PONTOS
-    # --------------------------------------------------------
-
-    points = (
-        wins * 3
-        + draws
-    )
-
-    points_per_game = (
-        points / played
-    )
-
-    form = (
-        points
-        / (played * 3)
-    )
-
-    # --------------------------------------------------------
-    # RESULTADO
-    # --------------------------------------------------------
-
-    return {
-
-        "played":
-            played,
-
-        "wins":
-            wins,
-
-        "draws":
-            draws,
-
-        "losses":
-            losses,
-
-        "goals_for_avg":
-            round(
-                goals_for / played,
-                2
-            ),
-
-        "goals_against_avg":
-            round(
-                goals_against / played,
-                2
-            ),
-
-        "points_per_game":
-            round(
-                points_per_game,
-                2
-            ),
-
-        "form":
-            round(
-                form,
-                4
-            ),
-
-        "historical_season":
-            historical_season
-    }
+        return []
