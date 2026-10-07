@@ -1,408 +1,628 @@
 import math
+import re
 
-from config import (
-    MIN_PROBABILITY,
-    HIGH_PROBABILITY
-)
-
-from data_provider import (
-    calculate_team_form
-)
+from memory import calibrate_probability
 
 
-# ============================================================
-# POISSON
-# ============================================================
+def percent(value):
+
+    if value is None:
+        return None
+
+    text = str(value)
+
+    text = text.replace(
+        "%",
+        ""
+    )
+
+    match = re.search(
+        r"-?\d+(?:\.\d+)?",
+        text
+    )
+
+    if not match:
+        return None
+
+    try:
+        return float(
+            match.group()
+        )
+    except Exception:
+        return None
+
+
+def parse_goal_prediction(value):
+
+    if value is None:
+        return None
+
+    if isinstance(
+        value,
+        (int, float)
+    ):
+        return float(value)
+
+    text = str(value).strip()
+
+    numbers = re.findall(
+        r"\d+(?:\.\d+)?",
+        text
+    )
+
+    if not numbers:
+        return None
+
+    values = [
+        float(number)
+        for number in numbers
+    ]
+
+    return sum(values) / len(values)
+
 
 def poisson_probability(
     goals,
-    expected_goals
+    expected
 ):
 
-    if expected_goals <= 0:
-
-        return 0.0
+    if expected <= 0:
+        return 1.0 if goals == 0 else 0.0
 
     return (
-        math.exp(-expected_goals)
-        * (
-            expected_goals
-            ** goals
-        )
+        math.exp(-expected)
+        * expected ** goals
         / math.factorial(goals)
     )
 
 
-def probability_over_goals(
-    expected_goals,
+def over_probability(
+    expected,
     line
 ):
 
-    # Para linha 1.5:
-    # P(mais de 1.5) = P(2 ou mais)
+    probability_under = 0.0
 
-    minimum_goals = (
-        int(line) + 1
+    max_goals = int(
+        math.ceil(line)
     )
 
-    probability_under = 0
-
     for goals in range(
-        minimum_goals
+        max_goals
     ):
 
         probability_under += (
             poisson_probability(
                 goals,
-                expected_goals
+                expected
             )
         )
 
-    probability_over = (
-        1 - probability_under
-    )
-
-    return round(
-        max(
-            0,
-            min(
-                1,
-                probability_over
-            )
-        ) * 100,
-        2
-    )
+    return max(
+        0.0,
+        min(
+            1.0,
+            1 - probability_under
+        )
+    ) * 100
 
 
-# ============================================================
-# PROBABILIDADE 1X2
-# ============================================================
-
-def calculate_match_probability(
-    home_form,
-    away_form
+def fair_probability_from_odds(
+    odds_map
 ):
 
-    home_strength = (
-        home_form["form"]
-        * 0.65
-        + 0.35
-    )
+    raw = {}
 
-    away_strength = (
-        away_form["form"]
-        * 0.65
-    )
+    for key, data in odds_map.items():
 
-    total = (
-        home_strength
-        + away_strength
+        odd = data.get(
+            "odd"
+        )
+
+        if not odd or odd <= 1:
+            continue
+
+        raw[key] = (
+            1 / odd
+        )
+
+    total = sum(
+        raw.values()
     )
 
     if total <= 0:
-
-        return {
-            "home": 33.33,
-            "draw": 33.33,
-            "away": 33.34
-        }
-
-    home = (
-        home_strength
-        / total
-    )
-
-    away = (
-        away_strength
-        / total
-    )
-
-    # Estimativa simples de empate
-    draw = 0.25
-
-    remaining = (
-        1 - draw
-    )
-
-    home *= (
-        remaining
-        / (home + away)
-    )
-
-    away *= (
-        remaining
-        / (home + away)
-    )
+        return {}
 
     return {
-
-        "home":
-            round(
-                home * 100,
-                2
-            ),
-
-        "draw":
-            round(
-                draw * 100,
-                2
-            ),
-
-        "away":
-            round(
-                away * 100,
-                2
-            )
+        key: (
+            value / total
+        ) * 100
+        for key, value in raw.items()
     }
 
 
-# ============================================================
-# CLASSIFICAÇÃO
-# ============================================================
-
-def classify_probability(
-    probability
+def implied_probability(
+    odd
 ):
 
-    if probability >= HIGH_PROBABILITY:
+    if not odd or odd <= 1:
+        return None
 
-        return "ALTA"
+    return (
+        1 / odd
+    ) * 100
 
-    if probability >= MIN_PROBABILITY:
 
-        return "MÉDIA"
+def classify(
+    probability,
+    edge
+):
+
+    if edge is not None:
+
+        if (
+            probability >= 65
+            and edge >= 5
+        ):
+            return "VALOR FORTE"
+
+        if (
+            probability >= 60
+            and edge >= 3
+        ):
+            return "VALOR"
+
+        if probability >= 75:
+            return "PROBABILIDADE ALTA"
+
+        return "OBSERVAR"
+
+    if probability >= 75:
+        return "PROBABILIDADE ALTA"
+
+    if probability >= 65:
+        return "PROBABILIDADE MÉDIA"
 
     return "BAIXA"
 
 
-# ============================================================
-# ANÁLISE COMPLETA
-# ============================================================
+def add_market(
+    markets,
+    key,
+    name,
+    probability,
+    source,
+    odds_data=None,
+    fair_probs=None
+):
 
-def analyze_game(game):
+    if probability is None:
+        return
 
-    home_id = game["home_id"]
-    away_id = game["away_id"]
-
-    season = game["season"]
-
-    print()
-    print(
-        f"Analisando: "
-        f"{game['home']} x "
-        f"{game['away']}"
-    )
-
-    print(
-        f"Temporada: {season}"
-    )
-
-    # --------------------------------------------------------
-    # HISTÓRICO CASA
-    # --------------------------------------------------------
-
-    print(
-        "Buscando histórico da "
-        "equipe da casa..."
-    )
-
-    home_form = calculate_team_form(
-
-        team_id=home_id,
-
-        season=season,
-
-        games_required=10
-    )
-
-    print(
-        "Histórico da casa obtido."
-    )
-
-    # --------------------------------------------------------
-    # HISTÓRICO FORA
-    # --------------------------------------------------------
-
-    print(
-        "Buscando histórico da "
-        "equipe visitante..."
-    )
-
-    away_form = calculate_team_form(
-
-        team_id=away_id,
-
-        season=season,
-
-        games_required=10
-    )
-
-    print(
-        "Histórico do visitante obtido."
-    )
-
-    # --------------------------------------------------------
-    # PROBABILIDADE 1X2
-    # --------------------------------------------------------
-
-    match_probability = (
-        calculate_match_probability(
-            home_form,
-            away_form
+    probability = max(
+        0,
+        min(
+            100,
+            probability
         )
     )
 
-    # --------------------------------------------------------
-    # EXPECTATIVA DE GOLS
-    # --------------------------------------------------------
+    fair = None
+    odd = None
+    bookmaker = None
+    edge = None
 
-    expected_home_goals = (
+    if odds_data:
 
-        home_form["goals_for_avg"]
-        + away_form["goals_against_avg"]
-    ) / 2
+        data = odds_data.get(
+            key
+        )
 
-    expected_away_goals = (
+        if data:
 
-        away_form["goals_for_avg"]
-        + home_form["goals_against_avg"]
-    ) / 2
-
-    expected_total_goals = (
-        expected_home_goals
-        + expected_away_goals
-    )
-
-    # --------------------------------------------------------
-    # MERCADOS DE GOLS
-    # --------------------------------------------------------
-
-    over_15 = probability_over_goals(
-        expected_total_goals,
-        1.5
-    )
-
-    over_25 = probability_over_goals(
-        expected_total_goals,
-        2.5
-    )
-
-    # --------------------------------------------------------
-    # MERCADOS
-    # --------------------------------------------------------
-
-    markets = [
-
-        {
-            "market": "Casa",
-            "probability":
-                match_probability["home"]
-        },
-
-        {
-            "market": "Empate",
-            "probability":
-                match_probability["draw"]
-        },
-
-        {
-            "market": "Fora",
-            "probability":
-                match_probability["away"]
-        },
-
-        {
-            "market": "Casa ou Empate",
-            "probability":
-                round(
-                    match_probability["home"]
-                    + match_probability["draw"],
-                    2
-                )
-        },
-
-        {
-            "market": "Fora ou Empate",
-            "probability":
-                round(
-                    match_probability["away"]
-                    + match_probability["draw"],
-                    2
-                )
-        },
-
-        {
-            "market": "Mais de 1.5 gols",
-            "probability":
-                over_15
-        },
-
-        {
-            "market": "Mais de 2.5 gols",
-            "probability":
-                over_25
-        }
-    ]
-
-    # --------------------------------------------------------
-    # CLASSIFICAÇÃO
-    # --------------------------------------------------------
-
-    for market in markets:
-
-        market["classification"] = (
-            classify_probability(
-                market["probability"]
+            odd = data.get(
+                "odd"
             )
+
+            bookmaker = data.get(
+                "bookmaker"
+            )
+
+            if fair_probs:
+
+                fair = fair_probs.get(
+                    name
+                )
+
+            if fair is None:
+
+                fair = implied_probability(
+                    odd
+                )
+
+            if fair is not None:
+
+                edge = (
+                    probability - fair
+                )
+
+    markets.append({
+        "key": key,
+        "name": name,
+        "probability": round(
+            probability,
+            2
+        ),
+        "raw_probability": round(
+            probability,
+            2
+        ),
+        "source": source,
+        "odd": odd,
+        "bookmaker": bookmaker,
+        "implied_probability": (
+            round(fair, 2)
+            if fair is not None
+            else None
+        ),
+        "edge": (
+            round(edge, 2)
+            if edge is not None
+            else None
+        ),
+        "classification": classify(
+            probability,
+            edge
+        ),
+    })
+
+
+def analyze_game(
+    game,
+    prediction_payload,
+    odds,
+    memory
+):
+
+    prediction = (
+        prediction_payload
+        .get("predictions", {})
+    )
+
+    percent_data = (
+        prediction.get(
+            "percent",
+            {}
         )
+    )
+
+    home_probability = percent(
+        percent_data.get("home")
+    )
+
+    draw_probability = percent(
+        percent_data.get("draw")
+    )
+
+    away_probability = percent(
+        percent_data.get("away")
+    )
+
+    if (
+        home_probability is None
+        or draw_probability is None
+        or away_probability is None
+    ):
+
+        raise RuntimeError(
+            "A API não forneceu "
+            "probabilidades 1X2 suficientes."
+        )
+
+    goals = prediction.get(
+        "goals",
+        {}
+    )
+
+    expected_home = (
+        parse_goal_prediction(
+            goals.get("home")
+        )
+    )
+
+    expected_away = (
+        parse_goal_prediction(
+            goals.get("away")
+        )
+    )
+
+    expected_total = None
+
+    if (
+        expected_home is not None
+        and expected_away is not None
+    ):
+
+        expected_total = (
+            expected_home
+            + expected_away
+        )
+
+    # Calibração usando memória anterior
+    home_probability = calibrate_probability(
+        home_probability,
+        "home",
+        memory
+    )
+
+    draw_probability = calibrate_probability(
+        draw_probability,
+        "draw",
+        memory
+    )
+
+    away_probability = calibrate_probability(
+        away_probability,
+        "away",
+        memory
+    )
+
+    fair_1x2 = fair_probability_from_odds(
+        odds.get(
+            "match_winner",
+            {}
+        )
+    )
+
+    markets = []
+
+    add_market(
+        markets,
+        "home",
+        game["home_name"],
+        home_probability,
+        "API-Football + calibração BET-AI",
+        odds.get(
+            "match_winner",
+            {}
+        ).get("Casa"),
+        fair_1x2
+    )
+
+    add_market(
+        markets,
+        "draw",
+        "Empate",
+        draw_probability,
+        "API-Football + calibração BET-AI",
+        odds.get(
+            "match_winner",
+            {}
+        ).get("Empate"),
+        fair_1x2
+    )
+
+    add_market(
+        markets,
+        "away",
+        game["away_name"],
+        away_probability,
+        "API-Football + calibração BET-AI",
+        odds.get(
+            "match_winner",
+            {}
+        ).get("Fora"),
+        fair_1x2
+    )
+
+    home_draw = (
+        home_probability
+        + draw_probability
+    )
+
+    away_draw = (
+        away_probability
+        + draw_probability
+    )
+
+    home_away = (
+        home_probability
+        + away_probability
+    )
+
+    home_draw = calibrate_probability(
+        home_draw,
+        "home_draw",
+        memory
+    )
+
+    away_draw = calibrate_probability(
+        away_draw,
+        "away_draw",
+        memory
+    )
+
+    home_away = calibrate_probability(
+        home_away,
+        "home_away",
+        memory
+    )
+
+    add_market(
+        markets,
+        "home_draw",
+        "Casa ou Empate",
+        home_draw,
+        "Derivação BET-AI",
+        odds.get(
+            "double_chance",
+            {}
+        ).get("Casa ou Empate")
+    )
+
+    add_market(
+        markets,
+        "away_draw",
+        "Fora ou Empate",
+        away_draw,
+        "Derivação BET-AI",
+        odds.get(
+            "double_chance",
+            {}
+        ).get("Fora ou Empate")
+    )
+
+    add_market(
+        markets,
+        "home_away",
+        "Casa ou Fora",
+        home_away,
+        "Derivação BET-AI",
+        odds.get(
+            "double_chance",
+            {}
+        ).get("Casa ou Fora")
+    )
+
+    if expected_total is not None:
+
+        over_15 = over_probability(
+            expected_total,
+            1.5
+        )
+
+        over_25 = over_probability(
+            expected_total,
+            2.5
+        )
+
+        under_15 = (
+            100 - over_15
+        )
+
+        under_25 = (
+            100 - over_25
+        )
+
+        over_15 = calibrate_probability(
+            over_15,
+            "over_1_5",
+            memory
+        )
+
+        over_25 = calibrate_probability(
+            over_25,
+            "over_2_5",
+            memory
+        )
+
+        under_15 = calibrate_probability(
+            under_15,
+            "under_1_5",
+            memory
+        )
+
+        under_25 = calibrate_probability(
+            under_25,
+            "under_2_5",
+            memory
+        )
+
+        add_market(
+            markets,
+            "over_1_5",
+            "Mais de 1.5 gols",
+            over_15,
+            "Poisson BET-AI",
+            odds.get(
+                "goals",
+                {}
+            ).get("Over 1.5")
+        )
+
+        add_market(
+            markets,
+            "under_1_5",
+            "Menos de 1.5 gols",
+            under_15,
+            "Poisson BET-AI",
+            odds.get(
+                "goals",
+                {}
+            ).get("Under 1.5")
+        )
+
+        add_market(
+            markets,
+            "over_2_5",
+            "Mais de 2.5 gols",
+            over_25,
+            "Poisson BET-AI",
+            odds.get(
+                "goals",
+                {}
+            ).get("Over 2.5")
+        )
+
+        add_market(
+            markets,
+            "under_2_5",
+            "Menos de 2.5 gols",
+            under_25,
+            "Poisson BET-AI",
+            odds.get(
+                "goals",
+                {}
+            ).get("Under 2.5")
+        )
+
+    winner = prediction.get(
+        "winner",
+        {}
+    )
 
     return {
+        "fixture_id": game["fixture_id"],
 
-        "fixture_id":
-            game["fixture_id"],
+        "home": game["home_name"],
 
-        "home":
-            game["home"],
+        "away": game["away_name"],
 
-        "away":
-            game["away"],
+        "winner": winner.get(
+            "name"
+        ),
 
-        "league":
-            game["league"],
+        "winner_comment": winner.get(
+            "comment"
+        ),
 
-        "season":
-            season,
+        "advice": prediction.get(
+            "advice"
+        ),
 
-        "date":
-            game["date"],
+        "win_or_draw": prediction.get(
+            "win_or_draw"
+        ),
 
-        "home_form":
-            home_form,
+        "api_under_over": prediction.get(
+            "under_over"
+        ),
 
-        "away_form":
-            away_form,
+        "expected_goals": {
+            "home": expected_home,
+            "away": expected_away,
+            "total": expected_total,
+        },
 
-        "expected_home_goals":
-            round(
-                expected_home_goals,
-                2
-            ),
+        "markets": markets,
 
-        "expected_away_goals":
-            round(
-                expected_away_goals,
-                2
-            ),
+        "comparison": prediction_payload.get(
+            "comparison",
+            {}
+        ),
 
-        "expected_total_goals":
-            round(
-                expected_total_goals,
-                2
-            ),
-
-        "probabilities":
-            match_probability,
-
-        "markets":
-            markets
+        "teams": prediction_payload.get(
+            "teams",
+            {}
+        ),
     }
