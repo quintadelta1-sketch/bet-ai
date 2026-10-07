@@ -1,4 +1,4 @@
-name: BET-AI V4
+name: BET-AI
 
 on:
   push:
@@ -6,6 +6,12 @@ on:
       - main
 
   workflow_dispatch:
+
+  schedule:
+    - cron: "0 9 * * *"
+
+permissions:
+  contents: write
 
 jobs:
 
@@ -26,18 +32,31 @@ jobs:
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install requests
 
-      - name: Verificar configuração
+      - name: Verificar API
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
-
         run: |
-          python -c "import os; key=os.getenv('API_FOOTBALL_KEY'); assert key, 'ERRO: API_FOOTBALL_KEY não encontrada'; print('API_FOOTBALL_KEY configurada corretamente.')"
+          python -c "import os; key=os.getenv('API_FOOTBALL_KEY'); assert key, 'API_FOOTBALL_KEY não encontrada'; print('API_FOOTBALL_KEY configurada corretamente.')"
 
-      - name: Executar BET-AI V4
+      - name: Executar BET-AI
         env:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
-
         run: |
           python main.py
+
+      - name: Salvar memória do BET-AI
+        if: always()
+        run: |
+          git config user.name "BET-AI"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/memory.json
+
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração na memória."
+          else
+            git commit -m "BET-AI: atualizar memória [skip ci]"
+            git push
+          fi
