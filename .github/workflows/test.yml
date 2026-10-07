@@ -46,9 +46,25 @@ jobs:
         run: |
           python main.py
 
+      - name: Verificar memória
+        if: always()
+        run: |
+          if [ -f data/memory.json ]; then
+            echo "✓ memory.json existe."
+            echo "Tamanho:"
+            wc -c data/memory.json
+          else
+            echo "⚠ memory.json ainda não existe."
+          fi
+
       - name: Salvar memória do BET-AI
         if: always()
         run: |
+          if [ ! -f data/memory.json ]; then
+            echo "Nenhuma memória para salvar."
+            exit 0
+          fi
+
           git config user.name "BET-AI"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
