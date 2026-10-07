@@ -1,257 +1,321 @@
 from config import (
     MAX_GAMES,
     CANDIDATE_GAMES,
-    get_analysis_date,
+    MIN_PROBABILITY,
+    MAX_SELECTIONS,
 )
 
 from data_provider import (
-    get_upcoming_games,
-    get_prediction,
-    get_odds,
-    update_finished_fixtures,
+    FootballDataProvider,
 )
 
 from analyzer import analyze_game
-
-from ticket import generate_ticket
+from ticket import build_ticket
 
 from memory import (
     load_memory,
     save_memory,
-    get_pending_fixture_ids,
-    update_memory_with_results,
     register_prediction,
-    memory_summary,
+    update_finished_fixtures,
+    get_learning_stats,
 )
 
 
-def print_separator():
-
-    print()
-    print(
-        "=" * 70
-    )
+# ============================================================
+# BET-AI
+# MAIN
+# ============================================================
 
 
-def print_market(
-    market
-):
+def get_fixture_id(game):
+    """
+    Obtém o ID da partida independentemente
+    da estrutura retornada pela API.
+    """
 
-    probability = market.get(
-        "probability"
-    )
+    # Estrutura já normalizada
+    if game.get("fixture_id") is not None:
+        return int(game["fixture_id"])
 
-    edge = market.get(
-        "edge"
-    )
+    # Estrutura simples
+    if game.get("id") is not None:
+        return int(game["id"])
 
-    odd = market.get(
-        "odd"
-    )
+    # Estrutura da API-Football
+    fixture = game.get("fixture")
 
-    classification = market.get(
-        "classification"
-    )
+    if isinstance(fixture, dict):
+        if fixture.get("id") is not None:
+            return int(fixture["id"])
 
-    line = (
-        f"{market.get('name')}: "
-        f"{probability:.2f}%"
-    )
-
-    if odd:
-        line += (
-            f" | Odd {odd:.2f}"
-        )
-
-    if edge is not None:
-        line += (
-            f" | Edge {edge:.2f}%"
-        )
-
-    line += (
-        f" | {classification}"
-    )
-
-    print(line)
+    return None
 
 
-def print_learning(
-    memory
-):
+def get_team_name(game, side):
+    """
+    Obtém nome do time de forma segura.
+    """
 
-    summary = memory_summary(
-        memory
-    )
+    if side in game:
+        value = game.get(side)
 
-    print_separator()
+        if isinstance(value, str):
+            return value
 
-    print(
-        "MEMÓRIA DO BET-AI"
-    )
+        if isinstance(value, dict):
+            return value.get("name", "Desconhecido")
 
-    print(
-        f"Previsões armazenadas: "
-        f"{summary['total_predictions']}"
-    )
+    teams = game.get("teams", {})
 
-    print(
-        f"Partidas avaliadas: "
-        f"{summary['completed']}"
-    )
+    if isinstance(teams, dict):
+        team = teams.get(side)
 
-    print(
-        f"Partidas pendentes: "
-        f"{summary['pending']}"
-    )
+        if isinstance(team, dict):
+            return team.get("name", "Desconhecido")
 
-    learning = summary[
-        "learning"
-    ]
+    return "Desconhecido"
 
-    if not learning:
 
+def normalize_game(game):
+    """
+    Normaliza o jogo para o padrão interno do BET-AI.
+    """
+
+    fixture_id = get_fixture_id(game)
+
+    if fixture_id is None:
+        return None
+
+    home = get_team_name(game, "home")
+    away = get_team_name(game, "away")
+
+    normalized = dict(game)
+
+    normalized["fixture_id"] = fixture_id
+    normalized["home"] = home
+    normalized["away"] = away
+
+    return normalized
+
+
+def safe_prediction(provider, fixture_id):
+    """
+    Busca previsão da API com tratamento de erro.
+    """
+
+    try:
+        return provider.get_prediction(fixture_id)
+
+    except Exception as error:
         print(
-            "Ainda não existe histórico "
-            "suficiente para recalibração."
+            f"ERRO NA PREVISÃO {fixture_id}: {error}"
         )
+        return None
 
-        return
 
-    print()
+def safe_odds(provider, fixture_id):
+    """
+    Busca odds da partida.
 
-    print(
-        "DESEMPENHO POR MERCADO:"
-    )
+    Se não houver odds, o BET-AI continua funcionando.
+    """
 
-    ordered = sorted(
-        learning.items(),
-        key=lambda item: (
-            item[1]["accuracy"]
-        ),
-        reverse=True
-    )
+    try:
+        return provider.get_odds(fixture_id)
 
-    for key, stats in ordered:
-
+    except Exception as error:
         print(
-            f"- {key}: "
-            f"{stats['accuracy']:.1f}% "
-            f"({stats['hits']}/"
-            f"{stats['total']})"
+            f"Aviso: não foi possível obter odds "
+            f"da partida {fixture_id}: {error}"
         )
+
+        return None
 
 
 def main():
 
-    print_separator()
+    print()
+    print("=" * 50)
+    print("BET-AI")
+    print("SISTEMA DE ANÁLISE E APRENDIZADO")
+    print("=" * 50)
+    print()
 
-    print(
-        "BET-AI"
-    )
+    # --------------------------------------------------------
+    # 1. MEMÓRIA
+    # --------------------------------------------------------
 
-    print(
-        "Motor adaptativo de análise "
-        "de futebol"
-    )
-
-    print_separator()
+    print("Carregando memória...")
 
     memory = load_memory()
 
-    # ------------------------------------------------
-    # 1. ATUALIZAR RESULTADOS ANTIGOS
-    # ------------------------------------------------
-
-    pending_ids = (
-        get_pending_fixture_ids(
-            memory
-        )
+    print(
+        f"Memória carregada: "
+        f"{len(memory.get('predictions', []))} previsões."
     )
 
-    if pending_ids:
+    print()
 
-        fixtures = update_finished_fixtures(
-            pending_ids
+    # --------------------------------------------------------
+    # 2. ATUALIZAR RESULTADOS ANTERIORES
+    # --------------------------------------------------------
+
+    print("=" * 50)
+    print("ATUALIZANDO RESULTADOS")
+    print("=" * 50)
+
+    try:
+
+        update_finished_fixtures()
+
+        # Recarrega a memória depois da atualização
+        memory = load_memory()
+
+    except Exception as error:
+
+        print(
+            f"Aviso: não foi possível atualizar "
+            f"todos os resultados: {error}"
         )
 
-        if fixtures:
+    print()
 
-            updated = (
-                update_memory_with_results(
-                    memory,
-                    fixtures
-                )
-            )
+    # --------------------------------------------------------
+    # 3. PROVIDER
+    # --------------------------------------------------------
 
-            print(
-                f"Resultados atualizados: "
-                f"{updated}"
-            )
+    provider = FootballDataProvider()
 
-            save_memory(
-                memory
-            )
+    # --------------------------------------------------------
+    # 4. BUSCAR JOGOS
+    # --------------------------------------------------------
 
-    # ------------------------------------------------
-    # 2. BUSCAR PRÓXIMOS JOGOS
-    # ------------------------------------------------
+    print("=" * 50)
+    print("BUSCANDO JOGOS")
+    print("=" * 50)
 
-    games = get_upcoming_games()
+    try:
+
+        games = provider.get_upcoming_games()
+
+    except Exception as error:
+
+        print()
+        print("ERRO AO BUSCAR JOGOS:")
+        print(error)
+        print()
+
+        save_memory(memory)
+        return
 
     if not games:
 
-        print()
-        print(
-            "Nenhum jogo futuro encontrado."
-        )
+        print("Nenhum jogo encontrado.")
 
-        print_learning(
-            memory
-        )
-
-        save_memory(
-            memory
-        )
+        save_memory(memory)
 
         return
 
-    # ------------------------------------------------
-    # 3. SELECIONAR ATÉ 3 JOGOS COM PREVISÃO
-    # ------------------------------------------------
+    print(
+        f"Jogos encontrados pela API: {len(games)}"
+    )
 
-    selected_games = []
+    print()
 
-    for game in games[
-        :CANDIDATE_GAMES
-    ]:
+    # --------------------------------------------------------
+    # 5. NORMALIZAR JOGOS
+    # --------------------------------------------------------
 
-        if len(
-            selected_games
-        ) >= MAX_GAMES:
+    normalized_games = []
 
-            break
+    for game in games:
 
-        fixture_id = game[
-            "fixture_id"
-        ]
+        normalized = normalize_game(game)
 
-        if any(
-            x["fixture_id"]
-            == fixture_id
-            for x in selected_games
-        ):
+        if normalized is None:
+
+            print(
+                "Aviso: jogo ignorado porque "
+                "não possui fixture ID."
+            )
+
             continue
 
-        print_separator()
+        normalized_games.append(normalized)
+
+    # Remove partidas duplicadas
+    unique_games = []
+    seen_ids = set()
+
+    for game in normalized_games:
+
+        fixture_id = game["fixture_id"]
+
+        if fixture_id in seen_ids:
+            continue
+
+        seen_ids.add(fixture_id)
+        unique_games.append(game)
+
+    games = unique_games
+
+    print(
+        f"Jogos válidos: {len(games)}"
+    )
+
+    print()
+
+    # --------------------------------------------------------
+    # 6. LIMITAR CANDIDATOS
+    # --------------------------------------------------------
+
+    candidates = games[:CANDIDATE_GAMES]
+
+    print(
+        f"Candidatos para análise: {len(candidates)}"
+    )
+
+    print()
+
+    # --------------------------------------------------------
+    # 7. ANALISAR
+    # --------------------------------------------------------
+
+    analyses = []
+
+    for game in candidates:
+
+        fixture_id = game["fixture_id"]
+
+        home = game.get(
+            "home",
+            "Casa"
+        )
+
+        away = game.get(
+            "away",
+            "Fora"
+        )
+
+        print("=" * 50)
 
         print(
             f"Testando previsão: "
-            f"{game['home_name']} "
-            f"x "
-            f"{game['away_name']}"
+            f"{home} x {away}"
         )
 
-        prediction = get_prediction(
+        print(
+            f"Fixture ID: {fixture_id}"
+        )
+
+        print()
+
+        # ----------------------------------------------
+        # PREVISÃO
+        # ----------------------------------------------
+
+        prediction = safe_prediction(
+            provider,
             fixture_id
         )
 
@@ -263,262 +327,426 @@ def main():
 
             continue
 
-        selected_games.append({
-            "game": game,
-            "prediction": prediction,
-        })
-
-    if not selected_games:
-
-        print_separator()
-
-        print(
-            "Nenhum dos jogos candidatos "
-            "possui previsão disponível."
-        )
-
-        print_learning(
-            memory
-        )
-
-        save_memory(
-            memory
-        )
-
-        return
-
-    # ------------------------------------------------
-    # 4. ANALISAR OS 3 JOGOS
-    # ------------------------------------------------
-
-    analyzed_count = 0
-
-    for item in selected_games:
-
-        game = item[
-            "game"
-        ]
-
-        prediction = item[
-            "prediction"
-        ]
-
-        fixture_id = game[
-            "fixture_id"
-        ]
-
-        print_separator()
-
-        print(
-            f"ANÁLISE "
-            f"{analyzed_count + 1}/"
-            f"{len(selected_games)}"
-        )
-
-        print(
-            f"{game['home_name']} "
-            f"x "
-            f"{game['away_name']}"
-        )
-
-        print(
-            f"Competição: "
-            f"{game['league_name']}"
-        )
-
-        print(
-            f"Fixture ID: "
-            f"{fixture_id}"
-        )
-
-        print()
-
-        # --------------------------------------------
+        # ----------------------------------------------
         # ODDS
-        # --------------------------------------------
+        # ----------------------------------------------
 
-        odds = get_odds(
-            game
+        odds = safe_odds(
+            provider,
+            fixture_id
         )
 
-        # --------------------------------------------
+        # ----------------------------------------------
         # ANÁLISE
-        # --------------------------------------------
+        # ----------------------------------------------
 
         try:
 
             analysis = analyze_game(
-                game,
-                prediction,
-                odds,
-                memory
+                game=game,
+                prediction=prediction,
+                odds=odds,
+                memory=memory,
+            )
+
+        except TypeError:
+
+            # Compatibilidade com versões
+            # diferentes do analyzer.py
+            try:
+
+                analysis = analyze_game(
+                    game,
+                    prediction,
+                    odds,
+                    memory,
+                )
+
+            except Exception as error:
+
+                print(
+                    f"Erro na análise: {error}"
+                )
+
+                continue
+
+        except Exception as error:
+
+            print(
+                f"Erro na análise: {error}"
+            )
+
+            continue
+
+        if not analysis:
+
+            print(
+                "Análise vazia."
+            )
+
+            continue
+
+        # ------------------------------------------------
+        # GARANTIR IDENTIFICAÇÃO
+        # ------------------------------------------------
+
+        if isinstance(analysis, dict):
+
+            analysis["fixture_id"] = fixture_id
+            analysis["home"] = home
+            analysis["away"] = away
+
+        analyses.append(analysis)
+
+        print(
+            "Análise concluída."
+        )
+
+        print()
+
+        # ------------------------------------------------
+        # PARAR QUANDO TIVER JOGOS SUFICIENTES
+        # ------------------------------------------------
+
+        if len(analyses) >= MAX_GAMES:
+            break
+
+    # --------------------------------------------------------
+    # 8. RESULTADO DAS ANÁLISES
+    # --------------------------------------------------------
+
+    print()
+    print("=" * 50)
+    print("RESULTADO DAS ANÁLISES")
+    print("=" * 50)
+
+    print(
+        f"Análises concluídas: {len(analyses)}"
+    )
+
+    print()
+
+    if not analyses:
+
+        print(
+            "Nenhuma análise válida foi produzida."
+        )
+
+        save_memory(memory)
+
+        return
+
+    # --------------------------------------------------------
+    # 9. MONTAR BILHETE
+    # --------------------------------------------------------
+
+    print("=" * 50)
+    print("MONTANDO SELEÇÕES")
+    print("=" * 50)
+
+    try:
+
+        ticket = build_ticket(
+            analyses,
+            min_probability=MIN_PROBABILITY,
+            max_selections=MAX_SELECTIONS,
+        )
+
+    except TypeError:
+
+        try:
+
+            ticket = build_ticket(
+                analyses
             )
 
         except Exception as error:
 
             print(
-                "Erro na análise: "
-                f"{error}"
+                f"Erro ao montar bilhete: {error}"
             )
 
+            ticket = []
+
+    except Exception as error:
+
+        print(
+            f"Erro ao montar bilhete: {error}"
+        )
+
+        ticket = []
+
+    # --------------------------------------------------------
+    # 10. MOSTRAR ANÁLISES
+    # --------------------------------------------------------
+
+    print()
+
+    for analysis in analyses:
+
+        fixture_id = analysis.get(
+            "fixture_id"
+        )
+
+        home = analysis.get(
+            "home",
+            "Casa"
+        )
+
+        away = analysis.get(
+            "away",
+            "Fora"
+        )
+
+        print("-" * 50)
+
+        print(
+            f"{home} x {away}"
+        )
+
+        print(
+            f"Fixture: {fixture_id}"
+        )
+
+        # Probabilidades
+        probabilities = analysis.get(
+            "probabilities",
+            {}
+        )
+
+        if probabilities:
+
+            print(
+                "Probabilidades:"
+            )
+
+            for market, value in probabilities.items():
+
+                if isinstance(value, (int, float)):
+
+                    print(
+                        f"  {market}: "
+                        f"{value:.1f}%"
+                    )
+
+        # Seleções
+        selections = analysis.get(
+            "selections",
+            []
+        )
+
+        if selections:
+
+            print(
+                "Seleções:"
+            )
+
+            for selection in selections:
+
+                if isinstance(selection, dict):
+
+                    market = selection.get(
+                        "market",
+                        "?"
+                    )
+
+                    probability = selection.get(
+                        "probability"
+                    )
+
+                    if probability is not None:
+
+                        print(
+                            f"  {market}: "
+                            f"{probability:.1f}%"
+                        )
+
+                    else:
+
+                        print(
+                            f"  {market}"
+                        )
+
+                else:
+
+                    print(
+                        f"  {selection}"
+                    )
+
+    # --------------------------------------------------------
+    # 11. MOSTRAR BILHETE
+    # --------------------------------------------------------
+
+    print()
+    print("=" * 50)
+    print("BET-AI — BILHETE")
+    print("=" * 50)
+
+    if not ticket:
+
+        print(
+            "Nenhuma seleção atingiu "
+            "os critérios mínimos."
+        )
+
+    else:
+
+        for index, selection in enumerate(
+            ticket,
+            start=1
+        ):
+
+            print(
+                f"{index}. {selection}"
+            )
+
+    # --------------------------------------------------------
+    # 12. SALVAR PREVISÕES NA MEMÓRIA
+    # --------------------------------------------------------
+
+    print()
+    print("=" * 50)
+    print("SALVANDO PREVISÕES")
+    print("=" * 50)
+
+    for analysis in analyses:
+
+        fixture_id = analysis.get(
+            "fixture_id"
+        )
+
+        if fixture_id is None:
             continue
 
-        # --------------------------------------------
-        # RESULTADO DA ANÁLISE
-        # --------------------------------------------
+        try:
 
-        print()
-
-        print(
-            f"Vencedor previsto: "
-            f"{analysis['winner']}"
-        )
-
-        print(
-            f"Comentário: "
-            f"{analysis['winner_comment']}"
-        )
-
-        print(
-            f"Conselho da API: "
-            f"{analysis['advice']}"
-        )
-
-        print(
-            f"Previsão gols API: "
-            f"{analysis['api_under_over']}"
-        )
-
-        expected = analysis[
-            "expected_goals"
-        ]
-
-        if expected["total"] is not None:
+            register_prediction(
+                memory=memory,
+                fixture_id=fixture_id,
+                game=analysis,
+                prediction=analysis,
+                selected_ticket=(
+                    ticket if ticket else []
+                ),
+            )
 
             print(
-                f"Gols estimados: "
-                f"{expected['home']:.2f} "
-                f"x "
-                f"{expected['away']:.2f} "
-                f"(total "
-                f"{expected['total']:.2f})"
+                f"Previsão salva: {fixture_id}"
             )
 
-        print()
+        except TypeError:
 
-        print(
-            "MERCADOS:"
-        )
+            # Compatibilidade caso a função
+            # tenha assinatura diferente
+            try:
 
-        for market in analysis[
-            "markets"
-        ]:
-
-            print_market(
-                market
-            )
-
-        # --------------------------------------------
-        # BILHETE
-        # --------------------------------------------
-
-        ticket = generate_ticket(
-            analysis["markets"]
-        )
-
-        print()
-
-        print(
-            f"MODO DO BILHETE: "
-            f"{ticket['mode']}"
-        )
-
-        if not ticket[
-            "selections"
-        ]:
-
-            print(
-                "Nenhuma seleção atingiu "
-                "os critérios."
-            )
-
-        else:
-
-            for selection in ticket[
-                "selections"
-            ]:
-
-                print(
-                    f"→ "
-                    f"{selection['name']} | "
-                    f"{selection['probability']:.2f}% | "
-                    f"{selection['classification']}"
+                register_prediction(
+                    memory,
+                    fixture_id,
+                    analysis,
+                    ticket,
                 )
 
-        # --------------------------------------------
-        # SALVAR NA MEMÓRIA
-        # --------------------------------------------
+                print(
+                    f"Previsão salva: {fixture_id}"
+                )
 
-        saved = register_prediction(
-            memory,
-            game,
-            analysis,
-            ticket
-        )
+            except Exception as error:
 
-        if saved:
+                print(
+                    f"Erro salvando "
+                    f"{fixture_id}: {error}"
+                )
 
-            print()
+        except Exception as error:
 
             print(
-                "✓ Previsão salva na "
-                "memória do BET-AI."
+                f"Erro salvando "
+                f"{fixture_id}: {error}"
+            )
+
+    # --------------------------------------------------------
+    # 13. SALVAR MEMÓRIA
+    # --------------------------------------------------------
+
+    try:
+
+        save_memory(memory)
+
+        print()
+        print(
+            "Memória salva com sucesso."
+        )
+
+    except Exception as error:
+
+        print()
+        print(
+            f"Erro ao salvar memória: {error}"
+        )
+
+    # --------------------------------------------------------
+    # 14. ESTATÍSTICAS DE APRENDIZADO
+    # --------------------------------------------------------
+
+    print()
+    print("=" * 50)
+    print("APRENDIZADO DO BET-AI")
+    print("=" * 50)
+
+    try:
+
+        stats = get_learning_stats(
+            memory
+        )
+
+        if not stats:
+
+            print(
+                "Ainda não existem dados "
+                "suficientes para aprendizado."
             )
 
         else:
 
-            print()
+            for market, data in stats.items():
 
-            print(
-                "✓ Fixture já estava "
-                "registrada na memória."
-            )
+                if not isinstance(data, dict):
+                    continue
 
-        analyzed_count += 1
+                total = data.get(
+                    "total",
+                    data.get("samples", 0)
+                )
 
-    # ------------------------------------------------
-    # 5. SALVAR MEMÓRIA
-    # ------------------------------------------------
+                hits = data.get(
+                    "hits",
+                    data.get("correct", 0)
+                )
 
-    save_memory(
-        memory
-    )
+                accuracy = data.get(
+                    "accuracy",
+                    0
+                )
 
-    # ------------------------------------------------
-    # 6. RELATÓRIO
-    # ------------------------------------------------
+                print(
+                    f"{market}: "
+                    f"{hits}/{total} "
+                    f"({accuracy:.1f}%)"
+                )
 
-    print_separator()
+    except Exception as error:
 
-    print(
-        "CICLO FINALIZADO"
-    )
+        print(
+            f"Aviso: estatísticas "
+            f"indisponíveis: {error}"
+        )
 
-    print(
-        f"Jogos analisados: "
-        f"{analyzed_count}"
-    )
-
-    print_learning(
-        memory
-    )
-
-    print_separator()
-
-    print(
-        "A memória será utilizada "
-        "nas próximas análises."
-    )
+    print()
+    print("=" * 50)
+    print("BET-AI FINALIZADO")
+    print("=" * 50)
+    print()
 
 
 if __name__ == "__main__":
