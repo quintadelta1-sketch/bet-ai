@@ -6,137 +6,124 @@ from config import (
     REQUEST_INTERVAL,
     REQUEST_TIMEOUT,
     MAX_RETRIES,
-    get_api_key
+    MAX_REQUESTS_PER_RUN,
+    get_api_key,
 )
 
 
 class FootballAPI:
 
     def __init__(self):
-
         self.api_url = API_URL
         self.last_request_time = 0
-
-        # Cache durante a execução
         self.cache = {}
+        self.request_count = 0
 
-    # ========================================================
-    # CONTROLE DE VELOCIDADE
-    # ========================================================
+    def _wait(self):
 
-    def _wait_before_request(self):
-
-        elapsed = (
-            time.time()
-            - self.last_request_time
-        )
+        elapsed = time.time() - self.last_request_time
 
         if elapsed < REQUEST_INTERVAL:
 
-            wait_time = (
-                REQUEST_INTERVAL
-                - elapsed
-            )
+            wait_time = REQUEST_INTERVAL - elapsed
 
             print(
                 f"Aguardando {wait_time:.1f}s "
-                "para respeitar o limite da API..."
+                f"para respeitar o limite da API..."
             )
 
             time.sleep(wait_time)
-
-    # ========================================================
-    # REQUISIÇÃO
-    # ========================================================
 
     def get(self, endpoint, params=None):
 
         params = params or {}
 
-        # Chave do cache
         cache_key = (
             endpoint,
-            tuple(
-                sorted(
-                    params.items()
-                )
-            )
+            tuple(sorted(params.items()))
         )
-
-        # ----------------------------------------------------
-        # CACHE
-        # ----------------------------------------------------
 
         if cache_key in self.cache:
 
             print(
-                f"Cache utilizado: "
-                f"{endpoint}"
+                f"Cache utilizado: {endpoint} {params}"
             )
 
             return self.cache[cache_key]
 
-        # ----------------------------------------------------
-        # TENTATIVAS
-        # ----------------------------------------------------
+        if self.request_count >= MAX_REQUESTS_PER_RUN:
 
-        for attempt in range(
-            MAX_RETRIES + 1
-        ):
+            raise RuntimeError(
+                "Proteção ativada: limite de chamadas "
+                "por execução atingido."
+            )
 
-            self._wait_before_request()
+        for attempt in range(MAX_RETRIES + 1):
+
+            self._wait()
+
+            self.request_count += 1
 
             try:
 
                 print(
-                    f"API → {endpoint} "
-                    f"{params}"
+                    f"API → {endpoint} {params}"
                 )
 
                 response = requests.get(
-
                     f"{self.api_url}/{endpoint}",
-
                     headers={
-                        "x-apisports-key":
-                            get_api_key()
+                        "x-apisports-key": get_api_key()
                     },
-
                     params=params,
-
-                    timeout=REQUEST_TIMEOUT
+                    timeout=REQUEST_TIMEOUT,
                 )
 
-                self.last_request_time = (
-                    time.time()
+                self.last_request_time = time.time()
+
+                remaining = (
+                    response.headers.get(
+                        "x-ratelimit-requests-remaining"
+                    )
                 )
 
-                # --------------------------------------------
-                # LIMITE DA API
-                # --------------------------------------------
+                minute_remaining = (
+                    response.headers.get(
+                        "X-Ratelimit-Remaining"
+                    )
+                )
+
+                if remaining:
+                    print(
+                        f"API restante hoje: {remaining}"
+                    )
+
+                if minute_remaining:
+                    print(
+                        f"API restante/minuto: "
+                        f"{minute_remaining}"
+                    )
 
                 if response.status_code == 429:
 
                     if attempt >= MAX_RETRIES:
 
                         raise RuntimeError(
-                            "Limite de requisições "
-                            "da API-Football atingido. "
-                            "Tente novamente mais tarde."
+                            "Limite de requisições da API-Football "
+                            "atingido."
                         )
 
                     print(
-                        "API retornou 429. "
+                        "API retornou 429."
+                    )
+
+                    print(
                         "Aguardando 60 segundos..."
                     )
 
                     time.sleep(60)
 
                     continue
-
-                # --------------------------------------------
-                # RESPOSTA JSON
-                # --------------------------------------------
 
                 try:
 
@@ -145,30 +132,20 @@ class FootballAPI:
                 except Exception:
 
                     raise RuntimeError(
-                        "A API retornou uma "
-                        "resposta que não é JSON."
+                        "A API retornou uma resposta inválida."
                     )
-
-                # --------------------------------------------
-                # ERRO HTTP
-                # --------------------------------------------
 
                 if response.status_code != 200:
 
                     raise RuntimeError(
-                        f"Erro HTTP "
-                        f"{response.status_code}: "
+                        f"Erro HTTP {response.status_code}: "
                         f"{data}"
                     )
-
-                # --------------------------------------------
-                # ERROS DA API
-                # --------------------------------------------
 
                 if data.get("errors"):
 
                     raise RuntimeError(
-                        "Erro da API-Football: "
+                        f"Erro da API-Football: "
                         f"{data['errors']}"
                     )
 
@@ -177,13 +154,7 @@ class FootballAPI:
                     []
                 )
 
-                # --------------------------------------------
-                # CACHE
-                # --------------------------------------------
-
-                self.cache[
-                    cache_key
-                ] = result
+                self.cache[cache_key] = result
 
                 return result
 
@@ -192,18 +163,20 @@ class FootballAPI:
                 if attempt >= MAX_RETRIES:
 
                     raise RuntimeError(
-                        f"Falha de conexão com "
-                        f"a API-Football: {error}"
+                        f"Falha de conexão com a API-Football: "
+                        f"{error}"
                     )
 
                 print(
-                    "Falha temporária de conexão. "
+                    "Falha temporária."
+                )
+
+                print(
                     "Tentando novamente..."
                 )
 
                 time.sleep(5)
 
         raise RuntimeError(
-            "Não foi possível consultar "
-            "a API-Football."
+            "Não foi possível consultar a API-Football."
         )
