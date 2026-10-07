@@ -1,9 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from api_client import FootballAPI
 from config import (
     get_analysis_date,
-    get_search_end_date,
 )
 
 
@@ -39,9 +38,13 @@ def normalize_fixture(fixture):
     )
 
     return {
-        "fixture_id": fixture_info.get("id"),
+        "fixture_id": fixture_info.get(
+            "id"
+        ),
 
-        "date": fixture_info.get("date"),
+        "date": fixture_info.get(
+            "date"
+        ),
 
         "timestamp": fixture_info.get(
             "timestamp"
@@ -56,22 +59,26 @@ def normalize_fixture(fixture):
         ),
 
         "home_id": (
-            teams.get("home", {})
+            teams
+            .get("home", {})
             .get("id")
         ),
 
         "home_name": (
-            teams.get("home", {})
+            teams
+            .get("home", {})
             .get("name")
         ),
 
         "away_id": (
-            teams.get("away", {})
+            teams
+            .get("away", {})
             .get("id")
         ),
 
         "away_name": (
-            teams.get("away", {})
+            teams
+            .get("away", {})
             .get("name")
         ),
 
@@ -91,46 +98,135 @@ def normalize_fixture(fixture):
 
 def get_upcoming_games():
 
-    start_date = get_analysis_date()
-    end_date = get_search_end_date()
+    start_date_text = get_analysis_date()
+
+    start_date = datetime.strptime(
+        start_date_text,
+        "%Y-%m-%d"
+    ).date()
 
     print()
     print(
-        f"Buscando jogos de "
-        f"{start_date} até {end_date}"
+        "Buscando jogos do BET-AI"
     )
 
-    fixtures = api.get(
-        "fixtures",
-        {
-            "from": start_date,
-            "to": end_date,
-            "timezone": "America/Sao_Paulo",
-        }
+    print(
+        f"Data inicial: "
+        f"{start_date}"
     )
 
-    games = []
+    all_games = []
 
-    for fixture in fixtures:
+    # Procuramos 3 dias.
+    #
+    # Isso evita utilizar from/to sem
+    # league + season.
+    #
+    # Também mantém o consumo de API
+    # controlado.
 
-        game = normalize_fixture(
-            fixture
+    for day_offset in range(3):
+
+        current_date = (
+            start_date
+            + timedelta(
+                days=day_offset
+            )
         )
 
-        if not game["fixture_id"]:
+        date_text = (
+            current_date.strftime(
+                "%Y-%m-%d"
+            )
+        )
+
+        print()
+        print(
+            f"Consultando jogos de "
+            f"{date_text}"
+        )
+
+        try:
+
+            fixtures = api.get(
+                "fixtures",
+                {
+                    "date": date_text,
+                    "timezone": (
+                        "America/Sao_Paulo"
+                    ),
+                }
+            )
+
+        except Exception as error:
+
+            print(
+                f"Erro ao consultar "
+                f"{date_text}: {error}"
+            )
+
             continue
 
-        if game["status"] not in UPCOMING_STATUS:
-            continue
+        print(
+            f"Partidas retornadas: "
+            f"{len(fixtures)}"
+        )
 
-        games.append(game)
+        for fixture in fixtures:
+
+            game = normalize_fixture(
+                fixture
+            )
+
+            if not game[
+                "fixture_id"
+            ]:
+
+                continue
+
+            if game[
+                "status"
+            ] not in UPCOMING_STATUS:
+
+                continue
+
+            all_games.append(
+                game
+            )
+
+    # ------------------------------------------------
+    # REMOVER DUPLICADOS
+    # ------------------------------------------------
+
+    unique_games = {}
+
+    for game in all_games:
+
+        fixture_id = game[
+            "fixture_id"
+        ]
+
+        unique_games[
+            fixture_id
+        ] = game
+
+    games = list(
+        unique_games.values()
+    )
+
+    # ------------------------------------------------
+    # ORDENAR POR HORÁRIO
+    # ------------------------------------------------
 
     games.sort(
-        key=lambda x: (
-            x["timestamp"] or 0
+        key=lambda game: (
+            game[
+                "timestamp"
+            ] or 0
         )
     )
 
+    print()
     print(
         f"Jogos futuros encontrados: "
         f"{len(games)}"
@@ -139,7 +235,9 @@ def get_upcoming_games():
     return games
 
 
-def get_prediction(fixture_id):
+def get_prediction(
+    fixture_id
+):
 
     try:
 
@@ -154,7 +252,8 @@ def get_prediction(fixture_id):
 
             print(
                 f"Sem previsão disponível "
-                f"para fixture {fixture_id}."
+                f"para fixture "
+                f"{fixture_id}."
             )
 
             return None
@@ -164,8 +263,10 @@ def get_prediction(fixture_id):
     except Exception as error:
 
         print(
-            f"Previsão indisponível para "
-            f"{fixture_id}: {error}"
+            f"Previsão indisponível "
+            f"para fixture "
+            f"{fixture_id}: "
+            f"{error}"
         )
 
         return None
@@ -193,12 +294,16 @@ def extract_odds(
 ):
 
     markets = {
+
         "match_winner": {},
+
         "double_chance": {},
+
         "goals": {},
     }
 
     if not odds_response:
+
         return markets
 
     home_lower = (
@@ -224,11 +329,17 @@ def extract_odds(
         for bet in bets:
 
             bet_id = str(
-                bet.get("id", "")
+                bet.get(
+                    "id",
+                    ""
+                )
             )
 
             bet_name = str(
-                bet.get("name", "")
+                bet.get(
+                    "name",
+                    ""
+                )
             ).lower()
 
             values = bet.get(
@@ -238,19 +349,24 @@ def extract_odds(
 
             is_winner = (
                 bet_id == "1"
-                or "match winner" in bet_name
-                or "1x2" in bet_name
+                or "match winner"
+                in bet_name
+                or "1x2"
+                in bet_name
             )
 
             is_double = (
                 bet_id == "12"
-                or "double chance" in bet_name
+                or "double chance"
+                in bet_name
             )
 
             is_goals = (
                 bet_id == "5"
-                or "goals over/under" in bet_name
-                or "over/under" in bet_name
+                or "goals over/under"
+                in bet_name
+                or "over/under"
+                in bet_name
             )
 
             for value in values:
@@ -263,112 +379,184 @@ def extract_odds(
                 ).strip()
 
                 odd = _float(
-                    value.get("odd")
+                    value.get(
+                        "odd"
+                    )
                 )
 
-                if odd is None or odd <= 1:
+                if (
+                    odd is None
+                    or odd <= 1
+                ):
+
                     continue
 
-                normalized = label.lower()
+                normalized = (
+                    label.lower()
+                )
+
+                # ------------------------------------
+                # VENCEDOR
+                # ------------------------------------
 
                 if is_winner:
 
                     key = None
 
                     if normalized == "home":
+
                         key = "Casa"
 
                     elif normalized == "draw":
+
                         key = "Empate"
 
                     elif normalized == "away":
+
                         key = "Fora"
 
-                    elif normalized == home_lower:
+                    elif (
+                        normalized
+                        == home_lower
+                    ):
+
                         key = "Casa"
 
-                    elif normalized == away_lower:
+                    elif (
+                        normalized
+                        == away_lower
+                    ):
+
                         key = "Fora"
 
                     if key:
 
                         current = markets[
                             "match_winner"
-                        ].get(key)
+                        ].get(
+                            key
+                        )
 
                         if (
                             current is None
-                            or odd > current["odd"]
+                            or odd
+                            > current[
+                                "odd"
+                            ]
                         ):
 
                             markets[
                                 "match_winner"
                             ][key] = {
+
                                 "odd": odd,
-                                "bookmaker": bookmaker_name,
+
+                                "bookmaker":
+                                    bookmaker_name,
                             }
+
+                # ------------------------------------
+                # DUPLA CHANCE
+                # ------------------------------------
 
                 elif is_double:
 
                     key = None
 
                     if (
-                        "home/draw" in normalized
-                        or "draw/home" in normalized
+                        "home/draw"
+                        in normalized
+                        or "draw/home"
+                        in normalized
                         or normalized == "1x"
-                        or "home or draw" in normalized
+                        or "home or draw"
+                        in normalized
                     ):
-                        key = "Casa ou Empate"
+
+                        key = (
+                            "Casa ou Empate"
+                        )
 
                     elif (
-                        "draw/away" in normalized
-                        or "away/draw" in normalized
+                        "draw/away"
+                        in normalized
+                        or "away/draw"
+                        in normalized
                         or normalized == "x2"
-                        or "away or draw" in normalized
+                        or "away or draw"
+                        in normalized
                     ):
-                        key = "Fora ou Empate"
+
+                        key = (
+                            "Fora ou Empate"
+                        )
 
                     elif (
-                        "home/away" in normalized
-                        or "away/home" in normalized
+                        "home/away"
+                        in normalized
+                        or "away/home"
+                        in normalized
                         or normalized == "12"
                     ):
-                        key = "Casa ou Fora"
+
+                        key = (
+                            "Casa ou Fora"
+                        )
 
                     if key:
 
                         current = markets[
                             "double_chance"
-                        ].get(key)
+                        ].get(
+                            key
+                        )
 
                         if (
                             current is None
-                            or odd > current["odd"]
+                            or odd
+                            > current[
+                                "odd"
+                            ]
                         ):
 
                             markets[
                                 "double_chance"
                             ][key] = {
+
                                 "odd": odd,
-                                "bookmaker": bookmaker_name,
+
+                                "bookmaker":
+                                    bookmaker_name,
                             }
+
+                # ------------------------------------
+                # GOLS
+                # ------------------------------------
 
                 elif is_goals:
 
                     current = markets[
                         "goals"
-                    ].get(label)
+                    ].get(
+                        label
+                    )
 
                     if (
                         current is None
-                        or odd > current["odd"]
+                        or odd
+                        > current[
+                            "odd"
+                        ]
                     ):
 
                         markets[
                             "goals"
                         ][label] = {
+
                             "odd": odd,
-                            "bookmaker": bookmaker_name,
+
+                            "bookmaker":
+                                bookmaker_name,
                         }
 
     return markets
@@ -381,14 +569,21 @@ def get_odds(game):
         response = api.get(
             "odds",
             {
-                "fixture": game["fixture_id"]
+                "fixture":
+                    game[
+                        "fixture_id"
+                    ]
             }
         )
 
         return extract_odds(
             response,
-            game["home_name"],
-            game["away_name"]
+            game[
+                "home_name"
+            ],
+            game[
+                "away_name"
+            ]
         )
 
     except Exception as error:
@@ -399,8 +594,11 @@ def get_odds(game):
         )
 
         return {
+
             "match_winner": {},
+
             "double_chance": {},
+
             "goals": {},
         }
 
@@ -414,9 +612,12 @@ def update_finished_fixtures(
         return []
 
     ids = [
-        str(x)
-        for x in fixture_ids
+        str(fixture_id)
+        for fixture_id in fixture_ids
     ]
+
+    # A API aceita até 20 IDs
+    # em uma chamada.
 
     ids_parameter = "-".join(
         ids[:20]
@@ -433,8 +634,11 @@ def update_finished_fixtures(
         return api.get(
             "fixtures",
             {
-                "ids": ids_parameter,
-                "timezone": "America/Sao_Paulo",
+                "ids":
+                    ids_parameter,
+
+                "timezone":
+                    "America/Sao_Paulo",
             }
         )
 
