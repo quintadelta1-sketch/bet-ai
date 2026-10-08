@@ -1,33 +1,39 @@
 import json
 import os
 from datetime import datetime
+from zoneinfo import ZoneInfo
+
+from config import TIMEZONE
 
 
 MEMORY_FILE = "data/memory.json"
 
 
-def _now():
-    return datetime.utcnow().isoformat()
+def _empty_memory():
+
+    return {
+        "version": 1,
+
+        "predictions": [],
+
+        "results": [],
+
+        "learning": {},
+
+        "updated_at": None,
+    }
 
 
-def ensure_storage():
-    """
-    Garante que a pasta data exista.
-    Se memory.json não existir, cria diretamente.
-    """
+def _ensure_file():
 
     os.makedirs(
         "data",
         exist_ok=True
     )
 
-    if not os.path.exists(MEMORY_FILE):
-
-        memory = {
-            "created_at": _now(),
-            "updated_at": _now(),
-            "predictions": []
-        }
+    if not os.path.exists(
+        MEMORY_FILE
+    ):
 
         with open(
             MEMORY_FILE,
@@ -36,7 +42,7 @@ def ensure_storage():
         ) as file:
 
             json.dump(
-                memory,
+                _empty_memory(),
                 file,
                 ensure_ascii=False,
                 indent=2
@@ -45,7 +51,7 @@ def ensure_storage():
 
 def load_memory():
 
-    ensure_storage()
+    _ensure_file()
 
     try:
 
@@ -55,50 +61,68 @@ def load_memory():
             encoding="utf-8"
         ) as file:
 
-            memory = json.load(file)
+            data = json.load(
+                file
+            )
 
     except Exception:
 
-        memory = {
-            "created_at": _now(),
-            "updated_at": _now(),
-            "predictions": []
-        }
+        data = _empty_memory()
 
-        save_memory(memory)
+    if not isinstance(
+        data,
+        dict
+    ):
 
-        return memory
+        data = _empty_memory()
 
-    if "predictions" not in memory:
-
-        memory["predictions"] = []
-
-    if "created_at" not in memory:
-
-        memory["created_at"] = _now()
-
-    if "updated_at" not in memory:
-
-        memory["updated_at"] = _now()
-
-    return memory
-
-
-def save_memory(memory):
-
-    os.makedirs(
-        "data",
-        exist_ok=True
+    data.setdefault(
+        "version",
+        1
     )
 
-    memory["updated_at"] = _now()
+    data.setdefault(
+        "predictions",
+        []
+    )
 
-    temporary_file = (
-        MEMORY_FILE + ".tmp"
+    data.setdefault(
+        "results",
+        []
+    )
+
+    data.setdefault(
+        "learning",
+        {}
+    )
+
+    data.setdefault(
+        "updated_at",
+        None
+    )
+
+    return data
+
+
+def save_memory(
+    memory
+):
+
+    _ensure_file()
+
+    memory[
+        "updated_at"
+    ] = datetime.now(
+        ZoneInfo(TIMEZONE)
+    ).isoformat()
+
+    temporary = (
+        MEMORY_FILE
+        + ".tmp"
     )
 
     with open(
-        temporary_file,
+        temporary,
         "w",
         encoding="utf-8"
     ) as file:
@@ -111,584 +135,342 @@ def save_memory(memory):
         )
 
     os.replace(
-        temporary_file,
+        temporary,
         MEMORY_FILE
     )
 
 
-def fixture_already_saved(
-    memory,
-    fixture_id
-):
-
-    for record in memory.get(
-        "predictions",
-        []
-    ):
-
-        if record.get(
-            "fixture_id"
-        ) == fixture_id:
-
-            return True
-
-    return False
-
-
 def register_prediction(
     memory,
+    fixture_id,
     game,
-    analysis,
-    selected
+    prediction,
+    selected_ticket
 ):
 
-    fixture_id = game[
-        "fixture_id"
-    ]
-
-    if fixture_already_saved(
-        memory,
+    fixture_id = int(
         fixture_id
-    ):
-
-        return False
-
-    record = {
-
-        "fixture_id": fixture_id,
-
-        "created_at": _now(),
-
-        "game": {
-
-            "home_id": game[
-                "home_id"
-            ],
-
-            "home_name": game[
-                "home_name"
-            ],
-
-            "away_id": game[
-                "away_id"
-            ],
-
-            "away_name": game[
-                "away_name"
-            ],
-
-            "league_id": game[
-                "league_id"
-            ],
-
-            "league_name": game[
-                "league_name"
-            ],
-
-            "country": game[
-                "country"
-            ],
-
-            "date": game[
-                "date"
-            ],
-        },
-
-        "prediction": {
-
-            "winner": analysis.get(
-                "winner"
-            ),
-
-            "advice": analysis.get(
-                "advice"
-            ),
-
-            "api_under_over": analysis.get(
-                "api_under_over"
-            ),
-
-            "expected_goals": analysis.get(
-                "expected_goals"
-            ),
-
-            "markets": analysis.get(
-                "markets",
-                []
-            ),
-        },
-
-        "selected": selected,
-
-        "result": None,
-
-        "evaluation": None,
-    }
-
-    memory.setdefault(
-        "predictions",
-        []
-    ).append(record)
-
-    return True
-
-
-def get_pending_fixture_ids(
-    memory
-):
-
-    ids = []
-
-    for record in memory.get(
-        "predictions",
-        []
-    ):
-
-        if record.get(
-            "result"
-        ) is None:
-
-            fixture_id = record.get(
-                "fixture_id"
-            )
-
-            if fixture_id:
-
-                ids.append(
-                    fixture_id
-                )
-
-    return ids
-
-
-def _actual_outcome(
-    home_goals,
-    away_goals
-):
-
-    if home_goals > away_goals:
-
-        return "home"
-
-    if away_goals > home_goals:
-
-        return "away"
-
-    return "draw"
-
-
-def _market_hit(
-    market_key,
-    home_goals,
-    away_goals
-):
-
-    outcome = _actual_outcome(
-        home_goals,
-        away_goals
     )
 
-    total_goals = (
+    predictions = memory[
+        "predictions"
+    ]
+
+    for item in predictions:
+
+        if (
+            item.get(
+                "fixture_id"
+            )
+            == fixture_id
+        ):
+
+            return
+
+    predictions.append(
+        {
+            "fixture_id":
+                fixture_id,
+
+            "created_at":
+                datetime.now(
+                    ZoneInfo(
+                        TIMEZONE
+                    )
+                ).isoformat(),
+
+            "game":
+                game,
+
+            "prediction":
+                prediction,
+
+            "ticket":
+                selected_ticket or [],
+
+            "status":
+                "pending",
+
+            "result":
+                None,
+        }
+    )
+
+
+def _evaluate_market(
+    market,
+    result
+):
+
+    # Nesta primeira base,
+    # só avaliamos automaticamente
+    # mercados de gols e resultado.
+    #
+    # Mercados que não possuem dados suficientes
+    # permanecem sem avaliação.
+
+    home_goals = None
+    away_goals = None
+
+    fixture = result.get(
+        "fixture",
+        {}
+    )
+
+    goals = result.get(
+        "goals",
+        {}
+    )
+
+    if isinstance(
+        goals,
+        dict
+    ):
+
+        home_goals = goals.get(
+            "home"
+        )
+
+        away_goals = goals.get(
+            "away"
+        )
+
+    if (
+        home_goals is None
+        or away_goals is None
+    ):
+
+        return None
+
+    try:
+
+        home_goals = int(
+            home_goals
+        )
+
+        away_goals = int(
+            away_goals
+        )
+
+    except Exception:
+
+        return None
+
+    total = (
         home_goals
         + away_goals
     )
 
-    if market_key == "home":
+    if market == "Mais de 1.5 gols":
 
-        return outcome == "home"
+        return total >= 2
 
-    if market_key == "draw":
+    if market == "Menos de 1.5 gols":
 
-        return outcome == "draw"
+        return total <= 1
 
-    if market_key == "away":
+    if market == "Mais de 2.5 gols":
 
-        return outcome == "away"
+        return total >= 3
 
-    if market_key == "home_draw":
+    if market == "Menos de 2.5 gols":
 
-        return outcome in {
-            "home",
-            "draw"
-        }
+        return total <= 2
 
-    if market_key == "away_draw":
+    if market == "Casa":
 
-        return outcome in {
-            "away",
-            "draw"
-        }
+        return home_goals > away_goals
 
-    if market_key == "home_away":
+    if market == "Empate":
 
-        return outcome in {
-            "home",
-            "away"
-        }
+        return home_goals == away_goals
 
-    if market_key == "over_1_5":
+    if market == "Fora":
 
-        return total_goals >= 2
+        return away_goals > home_goals
 
-    if market_key == "under_1_5":
+    if market == "Casa ou Empate":
 
-        return total_goals <= 1
+        return home_goals >= away_goals
 
-    if market_key == "over_2_5":
+    if market == "Casa ou Fora":
 
-        return total_goals >= 3
+        return home_goals != away_goals
 
-    if market_key == "under_2_5":
+    if market == "Empate ou Fora":
 
-        return total_goals <= 2
+        return away_goals >= home_goals
 
     return None
 
 
-def update_memory_with_results(
-    memory,
-    fixtures
-):
+def update_finished_fixtures():
 
-    updated = 0
+    """
+    A atualização dos resultados é feita apenas
+    quando existem previsões pendentes.
 
-    fixture_map = {}
+    Usa a API diretamente para evitar
+    dependência circular entre módulos.
+    """
 
-    for fixture in fixtures:
+    memory = load_memory()
 
-        fixture_id = (
-            fixture
-            .get("fixture", {})
-            .get("id")
-        )
+    pending = [
+        item
+        for item in memory[
+            "predictions"
+        ]
+        if item.get(
+            "status"
+        ) == "pending"
+    ]
 
-        if fixture_id:
+    if not pending:
 
-            fixture_map[
-                fixture_id
-            ] = fixture
+        return
 
-    finished_status = {
-        "FT",
-        "AET",
-        "PEN",
-    }
+    # Importação local para evitar
+    # circular import.
+    from data_provider import (
+        FootballDataProvider
+    )
 
-    void_status = {
-        "PST",
-        "CANC",
-        "ABD",
-        "SUSP",
-    }
+    provider = FootballDataProvider()
 
-    for record in memory.get(
-        "predictions",
-        []
-    ):
+    changed = False
 
-        if record.get(
-            "result"
-        ) is not None:
+    for item in pending:
 
-            continue
-
-        fixture_id = record.get(
+        fixture_id = item.get(
             "fixture_id"
         )
 
-        fixture = fixture_map.get(
-            fixture_id
-        )
+        if fixture_id is None:
 
-        if not fixture:
+            continue
+
+        try:
+
+            result = provider.get_fixture(
+                fixture_id
+            )
+
+        except Exception as error:
+
+            print(
+                f"Erro no histórico "
+                f"{fixture_id}: "
+                f"{error}"
+            )
+
+            continue
+
+        if not result:
 
             continue
 
         status = (
-            fixture
+            result
             .get("fixture", {})
             .get("status", {})
             .get("short")
         )
 
-        if status in void_status:
-
-            record["result"] = {
-                "status": status,
-                "void": True,
-            }
-
-            record["evaluation"] = {
-                "void": True,
-                "reason": (
-                    "Partida anulada, "
-                    "suspensa ou adiada."
-                ),
-            }
-
-            updated += 1
-
-            continue
-
-        if status not in finished_status:
-
-            continue
-
-        score = fixture.get(
-            "score",
-            {}
-        )
-
-        fulltime = score.get(
-            "fulltime",
-            {}
-        )
-
-        home_goals = fulltime.get(
-            "home"
-        )
-
-        away_goals = fulltime.get(
-            "away"
-        )
-
-        if (
-            home_goals is None
-            or away_goals is None
+        if status not in (
+            "FT",
+            "AET",
+            "PEN",
         ):
 
             continue
 
-        result = {
+        item[
+            "status"
+        ] = "completed"
 
-            "status": status,
+        item[
+            "result"
+        ] = result
 
-            "home_goals": home_goals,
+        item[
+            "completed_at"
+        ] = datetime.now(
+            ZoneInfo(TIMEZONE)
+        ).isoformat()
 
-            "away_goals": away_goals,
-
-            "total_goals": (
-                home_goals
-                + away_goals
-            ),
-
-            "outcome": _actual_outcome(
-                home_goals,
-                away_goals
-            ),
-
-            "void": False,
-        }
-
-        evaluations = []
-
-        markets = (
-            record
-            .get("prediction", {})
-            .get("markets", [])
+        # Avaliar seleções
+        analysis = item.get(
+            "prediction",
+            {}
         )
 
-        for market in markets:
+        selections = analysis.get(
+            "selections",
+            []
+        )
 
-            key = market.get(
-                "key"
+        for selection in selections:
+
+            market = selection.get(
+                "market"
             )
 
-            hit = _market_hit(
-                key,
-                home_goals,
-                away_goals
+            hit = _evaluate_market(
+                market,
+                result
             )
 
             if hit is None:
 
                 continue
 
-            evaluations.append({
+            learning = memory[
+                "learning"
+            ]
 
-                "key": key,
+            market_data = learning.setdefault(
+                market,
+                {
+                    "total": 0,
+                    "hits": 0,
+                    "accuracy": 0.0,
+                }
+            )
 
-                "probability": market.get(
-                    "probability"
-                ),
+            market_data[
+                "total"
+            ] += 1
 
-                "hit": hit,
-            })
+            if hit:
 
-        record["result"] = result
+                market_data[
+                    "hits"
+                ] += 1
 
-        record["evaluation"] = {
+            market_data[
+                "accuracy"
+            ] = (
+                market_data["hits"]
+                /
+                market_data["total"]
+                * 100
+            )
 
-            "void": False,
+        changed = True
 
-            "markets": evaluations,
-        }
+    if changed:
 
-        updated += 1
-
-    return updated
+        save_memory(
+            memory
+        )
 
 
 def get_learning_stats(
     memory
 ):
 
-    stats = {}
-
-    for record in memory.get(
-        "predictions",
-        []
-    ):
-
-        evaluation = record.get(
-            "evaluation"
-        )
-
-        if not evaluation:
-
-            continue
-
-        if evaluation.get(
-            "void"
-        ):
-
-            continue
-
-        for item in evaluation.get(
-            "markets",
-            []
-        ):
-
-            key = item.get(
-                "key"
-            )
-
-            if not key:
-
-                continue
-
-            if key not in stats:
-
-                stats[key] = {
-
-                    "total": 0,
-
-                    "hits": 0,
-
-                    "accuracy": 0.0,
-                }
-
-            stats[key]["total"] += 1
-
-            if item.get("hit"):
-
-                stats[key]["hits"] += 1
-
-    for key in stats:
-
-        total = stats[key]["total"]
-
-        hits = stats[key]["hits"]
-
-        if total:
-
-            stats[key]["accuracy"] = (
-                hits / total
-            ) * 100
-
-    return stats
-
-
-def calibrate_probability(
-    raw_probability,
-    market_key,
-    memory
-):
-
-    stats = get_learning_stats(
-        memory
+    return memory.get(
+        "learning",
+        {}
     )
-
-    market_stats = stats.get(
-        market_key
-    )
-
-    if not market_stats:
-
-        return raw_probability
-
-    total = market_stats[
-        "total"
-    ]
-
-    accuracy = market_stats[
-        "accuracy"
-    ]
-
-    # Não aprender com amostra pequena.
-    if total < 5:
-
-        return raw_probability
-
-    learning_weight = min(
-        0.35,
-        total / 100
-    )
-
-    calibrated = (
-        raw_probability
-        * (1 - learning_weight)
-        + accuracy
-        * learning_weight
-    )
-
-    return round(
-        calibrated,
-        2
-    )
-
-
-def memory_summary(
-    memory
-):
-
-    predictions = memory.get(
-        "predictions",
-        []
-    )
-
-    total = len(
-        predictions
-    )
-
-    completed = 0
-
-    for record in predictions:
-
-        evaluation = record.get(
-            "evaluation"
-        )
-
-        if (
-            evaluation
-            and not evaluation.get(
-                "void"
-            )
-        ):
-
-            completed += 1
-
-    return {
-
-        "total_predictions": total,
-
-        "completed": completed,
-
-        "pending": (
-            total - completed
-        ),
-
-        "learning": get_learning_stats(
-            memory
-        ),
-    }
