@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-09T06:05:44.630878-03:00",
+  "updated_at": "2026-10-09T17:34:08.980103-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -13600,8 +13600,237 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1565169,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-09T09:00:00+00:00",
+          "timestamp": 1791536400,
+          "periods": {
+            "first": 1791536400,
+            "second": 1791540000
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 668,
+          "name": "1. Liga U19",
+          "country": "Czech-Republic",
+          "logo": "https://media.api-sports.io/football/leagues/668.png",
+          "flag": "https://media.api-sports.io/flags/cz.svg",
+          "season": 2026,
+          "round": "Regular Season - 10",
+          "standings": false
+        },
+        "teams": {
+          "home": {
+            "id": 7969,
+            "name": "Sigma Olomouc U19",
+            "logo": "https://media.api-sports.io/football/teams/7969.png",
+            "winner": true
+          },
+          "away": {
+            "id": 27891,
+            "name": "Teplice U19",
+            "logo": "https://media.api-sports.io/football/teams/27891.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 6,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": 4,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 6,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 9,
+              "extra": null
+            },
+            "team": {
+              "id": 7969,
+              "name": "Sigma Olomouc U19",
+              "logo": "https://media.api-sports.io/football/teams/7969.png"
+            },
+            "player": {
+              "id": 570560,
+              "name": "J. Chvilicek"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 41,
+              "extra": null
+            },
+            "team": {
+              "id": 7969,
+              "name": "Sigma Olomouc U19",
+              "logo": "https://media.api-sports.io/football/teams/7969.png"
+            },
+            "player": {
+              "id": 570719,
+              "name": "J. Filo"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 43,
+              "extra": null
+            },
+            "team": {
+              "id": 7969,
+              "name": "Sigma Olomouc U19",
+              "logo": "https://media.api-sports.io/football/teams/7969.png"
+            },
+            "player": {
+              "id": 651387,
+              "name": "D. Ledvinka"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 45,
+              "extra": null
+            },
+            "team": {
+              "id": 7969,
+              "name": "Sigma Olomouc U19",
+              "logo": "https://media.api-sports.io/football/teams/7969.png"
+            },
+            "player": {
+              "id": 665187,
+              "name": "M. Kriklava"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 56,
+              "extra": null
+            },
+            "team": {
+              "id": 7969,
+              "name": "Sigma Olomouc U19",
+              "logo": "https://media.api-sports.io/football/teams/7969.png"
+            },
+            "player": {
+              "id": 570548,
+              "name": "J. Marek"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 59,
+              "extra": null
+            },
+            "team": {
+              "id": 7969,
+              "name": "Sigma Olomouc U19",
+              "logo": "https://media.api-sports.io/football/teams/7969.png"
+            },
+            "player": {
+              "id": 685758,
+              "name": "A. Skop"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 83,
+              "extra": null
+            },
+            "team": {
+              "id": 27891,
+              "name": "Teplice U19",
+              "logo": "https://media.api-sports.io/football/teams/27891.png"
+            },
+            "player": {
+              "id": null,
+              "name": "M. Kuti"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-09T17:33:10.794917-03:00"
     },
     {
       "fixture_id": 1638889,
@@ -26970,6 +27199,675 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1638889,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-09T09:00:00+00:00",
+          "timestamp": 1791536400,
+          "periods": {
+            "first": 1791536400,
+            "second": 1791540000
+          },
+          "venue": {
+            "id": null,
+            "name": "Sultan Ibrahim Stadium",
+            "city": "Johor Bahru"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 5
+          }
+        },
+        "league": {
+          "id": 500,
+          "name": "FA Cup",
+          "country": "Malaysia",
+          "logo": "https://media.api-sports.io/football/leagues/500.png",
+          "flag": "https://media.api-sports.io/flags/my.svg",
+          "season": 2026,
+          "round": "Quarter-finals",
+          "standings": false
+        },
+        "teams": {
+          "home": {
+            "id": 2523,
+            "name": "Johor Darul Takzim FC",
+            "logo": "https://media.api-sports.io/football/teams/2523.png",
+            "winner": true
+          },
+          "away": {
+            "id": 2504,
+            "name": "Penang",
+            "logo": "https://media.api-sports.io/football/teams/2504.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 4,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": 3,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 4,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 13,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 77665,
+              "name": "Bergson"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Penalty",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 23,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 46893,
+              "name": "N. Mendez"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 45,
+              "extra": 2
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 89712,
+              "name": "S. Zahedi"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 46,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 77665,
+              "name": "Bergson"
+            },
+            "assist": {
+              "id": 680709,
+              "name": "D. Amirruddin"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 46,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 35821,
+              "name": "Yago Cesar"
+            },
+            "assist": {
+              "id": 277159,
+              "name": "Dani Bolt"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 46,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 89712,
+              "name": "S. Zahedi"
+            },
+            "assist": {
+              "id": 358151,
+              "name": "S. Wilkin"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 55,
+              "extra": null
+            },
+            "team": {
+              "id": 2504,
+              "name": "Penang",
+              "logo": "https://media.api-sports.io/football/teams/2504.png"
+            },
+            "player": {
+              "id": 85396,
+              "name": "E. Celestine"
+            },
+            "assist": {
+              "id": 532624,
+              "name": "M. Bobojonov"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 55,
+              "extra": null
+            },
+            "team": {
+              "id": 2504,
+              "name": "Penang",
+              "logo": "https://media.api-sports.io/football/teams/2504.png"
+            },
+            "player": {
+              "id": 358152,
+              "name": "H. Azim"
+            },
+            "assist": {
+              "id": 532274,
+              "name": "K. Naskam"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 60,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 47408,
+              "name": "J. Silva"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 61,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 47408,
+              "name": "J. Silva"
+            },
+            "assist": {
+              "id": 46802,
+              "name": "M. Nahuel"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 61,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 109714,
+              "name": "D. Petrovic"
+            },
+            "assist": {
+              "id": 46768,
+              "name": "A. Aketxe"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 72,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 56530,
+              "name": "M. Hidalgo"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 78,
+              "extra": null
+            },
+            "team": {
+              "id": 2504,
+              "name": "Penang",
+              "logo": "https://media.api-sports.io/football/teams/2504.png"
+            },
+            "player": {
+              "id": 271571,
+              "name": "A. Haiqal"
+            },
+            "assist": {
+              "id": 35099,
+              "name": "D. Deraman"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 84,
+              "extra": null
+            },
+            "team": {
+              "id": 2523,
+              "name": "Johor Darul Takzim FC",
+              "logo": "https://media.api-sports.io/football/teams/2523.png"
+            },
+            "player": {
+              "id": 35173,
+              "name": "M. Davies"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 86,
+              "extra": null
+            },
+            "team": {
+              "id": 2504,
+              "name": "Penang",
+              "logo": "https://media.api-sports.io/football/teams/2504.png"
+            },
+            "player": {
+              "id": 75039,
+              "name": "S. Brundo"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 86,
+              "extra": null
+            },
+            "team": {
+              "id": 2504,
+              "name": "Penang",
+              "logo": "https://media.api-sports.io/football/teams/2504.png"
+            },
+            "player": {
+              "id": 676578,
+              "name": "M. Fahmi"
+            },
+            "assist": {
+              "id": 532347,
+              "name": "S. Fikri"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 87,
+              "extra": null
+            },
+            "team": {
+              "id": 2504,
+              "name": "Penang",
+              "logo": "https://media.api-sports.io/football/teams/2504.png"
+            },
+            "player": {
+              "id": 296789,
+              "name": "J. Gayoso"
+            },
+            "assist": {
+              "id": 532270,
+              "name": "I. Iziruddin"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-09T17:33:19.025528-03:00"
+    },
+    {
+      "fixture_id": 1633657,
+      "created_at": "2026-10-09T17:34:08.980017-03:00",
+      "game": {
+        "fixture_id": 1633657,
+        "home": "Ghiroda şi Giarmata Vii",
+        "away": "Progresul Pecica",
+        "winner_prediction": "Ghiroda şi Giarmata Vii",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1633657,
+        "home": "Ghiroda şi Giarmata Vii",
+        "away": "Progresul Pecica",
+        "winner_prediction": "Ghiroda şi Giarmata Vii",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640109,
+          "home": "Mohammedan Dhaka",
+          "away": "Arambagh",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1633657,
+          "home": "Ghiroda şi Giarmata Vii",
+          "away": "Progresul Pecica",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1507450,
+          "home": "Betlemi",
+          "away": "Iberia 2010",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1507450,
+      "created_at": "2026-10-09T17:34:08.980033-03:00",
+      "game": {
+        "fixture_id": 1507450,
+        "home": "Betlemi",
+        "away": "Iberia 2010",
+        "winner_prediction": "Iberia 2010",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1507450,
+        "home": "Betlemi",
+        "away": "Iberia 2010",
+        "winner_prediction": "Iberia 2010",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640109,
+          "home": "Mohammedan Dhaka",
+          "away": "Arambagh",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1633657,
+          "home": "Ghiroda şi Giarmata Vii",
+          "away": "Progresul Pecica",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1507450,
+          "home": "Betlemi",
+          "away": "Iberia 2010",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -26978,19 +27876,24 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 2,
+      "total": 3,
       "hits": 2,
-      "accuracy": 100.0
+      "accuracy": 66.66666666666666
     },
     "Mais de 1.5 gols": {
-      "total": 1,
-      "hits": 1,
+      "total": 3,
+      "hits": 3,
       "accuracy": 100.0
     },
     "Menos de 2.5 gols": {
-      "total": 1,
+      "total": 3,
       "hits": 0,
       "accuracy": 0.0
+    },
+    "Casa ou Empate": {
+      "total": 1,
+      "hits": 1,
+      "accuracy": 100.0
     }
   }
 }
