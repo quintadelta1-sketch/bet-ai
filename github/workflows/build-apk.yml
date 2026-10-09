@@ -1,0 +1,35 @@
+name: Construir APK BET-AI
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "android_app/**"
+      - ".github/workflows/build-apk.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-android:
+    name: Compilar aplicativo Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Compilar APK
+        id: buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        with:
+          workdir: android_app
+          buildozer_version: stable
+
+      - name: Disponibilizar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BET-AI-Android
+          path: ${{ steps.buildozer.outputs.filename }}
+          if-no-files-found: error
+          retention-days: 14
