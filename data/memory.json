@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-09T20:43:40.130049-03:00",
+  "updated_at": "2026-10-10T06:03:00.068482-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -27758,8 +27758,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1633657,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-09T10:00:00+00:00",
+          "timestamp": 1791540000,
+          "periods": {
+            "first": null,
+            "second": null
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 790,
+          "name": "Liga III - Serie 7",
+          "country": "Romania",
+          "logo": "https://media.api-sports.io/football/leagues/790.png",
+          "flag": "https://media.api-sports.io/flags/ro.svg",
+          "season": 2026,
+          "round": "Group 7 - 8",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 6865,
+            "name": "Ghiroda şi Giarmata Vii",
+            "logo": "https://media.api-sports.io/football/teams/6865.png",
+            "winner": true
+          },
+          "away": {
+            "id": 7483,
+            "name": "Progresul Pecica",
+            "logo": "https://media.api-sports.io/football/teams/7483.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 5,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 2,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 5,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-10T06:02:01.974476-03:00"
     },
     {
       "fixture_id": 1507450,
@@ -27870,6 +27944,336 @@
       ],
       "status": "pending",
       "result": null
+    },
+    {
+      "fixture_id": 1645133,
+      "created_at": "2026-10-10T06:03:00.068401-03:00",
+      "game": {
+        "fixture_id": 1645133,
+        "home": "Machokha",
+        "away": "Mzamane",
+        "winner_prediction": "Machokha",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1645133,
+        "home": "Machokha",
+        "away": "Mzamane",
+        "winner_prediction": "Machokha",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1645133,
+          "home": "Machokha",
+          "away": "Mzamane",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1640847,
+          "home": "Golden Arrows U23",
+          "away": "Chippa United U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1640848,
+          "home": "Richards Bay U23",
+          "away": "Kaizer Chiefs U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1640847,
+      "created_at": "2026-10-10T06:03:00.068421-03:00",
+      "game": {
+        "fixture_id": 1640847,
+        "home": "Golden Arrows U23",
+        "away": "Chippa United U23",
+        "winner_prediction": "Golden Arrows U23",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1640847,
+        "home": "Golden Arrows U23",
+        "away": "Chippa United U23",
+        "winner_prediction": "Golden Arrows U23",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1645133,
+          "home": "Machokha",
+          "away": "Mzamane",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1640847,
+          "home": "Golden Arrows U23",
+          "away": "Chippa United U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1640848,
+          "home": "Richards Bay U23",
+          "away": "Kaizer Chiefs U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1640848,
+      "created_at": "2026-10-10T06:03:00.068426-03:00",
+      "game": {
+        "fixture_id": 1640848,
+        "home": "Richards Bay U23",
+        "away": "Kaizer Chiefs U23",
+        "winner_prediction": "Kaizer Chiefs U23",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -4.5,
+        "expected_goals_total": -7.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1640848,
+        "home": "Richards Bay U23",
+        "away": "Kaizer Chiefs U23",
+        "winner_prediction": "Kaizer Chiefs U23",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -4.5,
+        "expected_goals_total": -7.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1645133,
+          "home": "Machokha",
+          "away": "Mzamane",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1640847,
+          "home": "Golden Arrows U23",
+          "away": "Chippa United U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1640848,
+          "home": "Richards Bay U23",
+          "away": "Kaizer Chiefs U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
     }
   ],
   "version": 1,
@@ -27881,18 +28285,18 @@
       "accuracy": 66.66666666666666
     },
     "Mais de 1.5 gols": {
-      "total": 3,
-      "hits": 3,
+      "total": 4,
+      "hits": 4,
       "accuracy": 100.0
     },
     "Menos de 2.5 gols": {
-      "total": 3,
+      "total": 4,
       "hits": 0,
       "accuracy": 0.0
     },
     "Casa ou Empate": {
-      "total": 1,
-      "hits": 1,
+      "total": 2,
+      "hits": 2,
       "accuracy": 100.0
     }
   }
