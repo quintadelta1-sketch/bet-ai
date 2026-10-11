@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-10T06:03:00.068482-03:00",
+  "updated_at": "2026-10-11T06:04:08.722274-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -13490,8 +13490,457 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1640109,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-10T08:45:00+00:00",
+          "timestamp": 1791621900,
+          "periods": {
+            "first": 1791621900,
+            "second": 1791625500
+          },
+          "venue": {
+            "id": null,
+            "name": "Rafiq Uddin Bhuiyan Stadium",
+            "city": "Mymensingh"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 6
+          }
+        },
+        "league": {
+          "id": 398,
+          "name": "Premier League",
+          "country": "Bangladesh",
+          "logo": "https://media.api-sports.io/football/leagues/398.png",
+          "flag": "https://media.api-sports.io/flags/bd.svg",
+          "season": 2027,
+          "round": "Regular Season - 3",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 5014,
+            "name": "Mohammedan Dhaka",
+            "logo": "https://media.api-sports.io/football/teams/5014.png",
+            "winner": true
+          },
+          "away": {
+            "id": 5011,
+            "name": "Arambagh",
+            "logo": "https://media.api-sports.io/football/teams/5011.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 6,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 2,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 6,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 36,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 121693,
+              "name": "S. Diabate"
+            },
+            "assist": {
+              "id": 542811,
+              "name": "S. Emon"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 39,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 121693,
+              "name": "S. Diabate"
+            },
+            "assist": {
+              "id": 542811,
+              "name": "S. Emon"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 41,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 73624,
+              "name": "M. Muzaffarov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 46,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 121771,
+              "name": "S. Hossain"
+            },
+            "assist": {
+              "id": 588612,
+              "name": "M. Rakib"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 46,
+              "extra": null
+            },
+            "team": {
+              "id": 5011,
+              "name": "Arambagh",
+              "logo": "https://media.api-sports.io/football/teams/5011.png"
+            },
+            "player": {
+              "id": 625096,
+              "name": "A. Cishty"
+            },
+            "assist": {
+              "id": 682715,
+              "name": "S. Opurbo"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 46,
+              "extra": null
+            },
+            "team": {
+              "id": 5011,
+              "name": "Arambagh",
+              "logo": "https://media.api-sports.io/football/teams/5011.png"
+            },
+            "player": {
+              "id": 580056,
+              "name": "S. R. Khan"
+            },
+            "assist": {
+              "id": 579966,
+              "name": "S. Rahman"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 48,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 121693,
+              "name": "S. Diabate"
+            },
+            "assist": {
+              "id": 579915,
+              "name": "A. Hossain"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 51,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 542811,
+              "name": "S. Emon"
+            },
+            "assist": {
+              "id": 570064,
+              "name": "M. J. Hasan Shanta"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 57,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 542811,
+              "name": "S. Emon"
+            },
+            "assist": {
+              "id": 451104,
+              "name": "S. Dewan"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 57,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 121693,
+              "name": "S. Diabate"
+            },
+            "assist": {
+              "id": 579970,
+              "name": "E. Sunday"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 67,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 588612,
+              "name": "M. Rakib"
+            },
+            "assist": {
+              "id": 121863,
+              "name": "S. Uddin"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 69,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 579915,
+              "name": "A. Hossain"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 70,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 121589,
+              "name": "A. Rahman"
+            },
+            "assist": {
+              "id": 121731,
+              "name": "S. Hossain"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 70,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 570064,
+              "name": "M. J. Hasan Shanta"
+            },
+            "assist": {
+              "id": 199105,
+              "name": "S. A. Topu"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 73,
+              "extra": null
+            },
+            "team": {
+              "id": 5011,
+              "name": "Arambagh",
+              "logo": "https://media.api-sports.io/football/teams/5011.png"
+            },
+            "player": {
+              "id": 588585,
+              "name": "M. Kiron"
+            },
+            "assist": {
+              "id": 588599,
+              "name": "M. Fakir"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 80,
+              "extra": null
+            },
+            "team": {
+              "id": 5011,
+              "name": "Arambagh",
+              "logo": "https://media.api-sports.io/football/teams/5011.png"
+            },
+            "player": {
+              "id": 685834,
+              "name": "S. Islam"
+            },
+            "assist": {
+              "id": 579900,
+              "name": "M. Pradhan"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 82,
+              "extra": null
+            },
+            "team": {
+              "id": 5014,
+              "name": "Mohammedan Dhaka",
+              "logo": "https://media.api-sports.io/football/teams/5014.png"
+            },
+            "player": {
+              "id": 451104,
+              "name": "S. Dewan"
+            },
+            "assist": {
+              "id": 579915,
+              "name": "A. Hossain"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-11T06:02:46.896159-03:00"
     },
     {
       "fixture_id": 1565169,
@@ -28052,8 +28501,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1645133,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-10T07:30:00+00:00",
+          "timestamp": 1791617400,
+          "periods": {
+            "first": 1791617400,
+            "second": 1791621000
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 962,
+          "name": "Premier League",
+          "country": "Lesotho",
+          "logo": "https://media.api-sports.io/football/leagues/962.png",
+          "flag": "https://media.api-sports.io/flags/ls.svg",
+          "season": 2026,
+          "round": "Regular Season - 6",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 20984,
+            "name": "Machokha",
+            "logo": "https://media.api-sports.io/football/teams/20984.png",
+            "winner": null
+          },
+          "away": {
+            "id": 25066,
+            "name": "Mzamane",
+            "logo": "https://media.api-sports.io/football/teams/25066.png",
+            "winner": null
+          }
+        },
+        "goals": {
+          "home": 1,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": null,
+            "away": null
+          },
+          "fulltime": {
+            "home": 1,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-11T06:03:03.250405-03:00"
     },
     {
       "fixture_id": 1640847,
@@ -28162,8 +28685,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1640847,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-10T08:00:00+00:00",
+          "timestamp": 1791619200,
+          "periods": {
+            "first": 1791619200,
+            "second": 1791622800
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 734,
+          "name": "Diski Challenge",
+          "country": "South-Africa",
+          "logo": "https://media.api-sports.io/football/leagues/734.png",
+          "flag": "https://media.api-sports.io/flags/za.svg",
+          "season": 2026,
+          "round": "Regular Season - 3",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 15991,
+            "name": "Golden Arrows U23",
+            "logo": "https://media.api-sports.io/football/teams/15991.png",
+            "winner": true
+          },
+          "away": {
+            "id": 15990,
+            "name": "Chippa United U23",
+            "logo": "https://media.api-sports.io/football/teams/15990.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 9,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": null,
+            "away": null
+          },
+          "fulltime": {
+            "home": 9,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-11T06:03:11.408818-03:00"
     },
     {
       "fixture_id": 1640848,
@@ -28272,6 +28869,430 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1640848,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-10T08:00:00+00:00",
+          "timestamp": 1791619200,
+          "periods": {
+            "first": 1791619200,
+            "second": 1791622800
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 734,
+          "name": "Diski Challenge",
+          "country": "South-Africa",
+          "logo": "https://media.api-sports.io/football/leagues/734.png",
+          "flag": "https://media.api-sports.io/flags/za.svg",
+          "season": 2026,
+          "round": "Regular Season - 3",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 20296,
+            "name": "Richards Bay U23",
+            "logo": "https://media.api-sports.io/football/teams/20296.png",
+            "winner": false
+          },
+          "away": {
+            "id": 15992,
+            "name": "Kaizer Chiefs U23",
+            "logo": "https://media.api-sports.io/football/teams/15992.png",
+            "winner": true
+          }
+        },
+        "goals": {
+          "home": 0,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": null,
+            "away": null
+          },
+          "fulltime": {
+            "home": 0,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-11T06:03:19.562150-03:00"
+    },
+    {
+      "fixture_id": 1640851,
+      "created_at": "2026-10-11T06:04:08.722200-03:00",
+      "game": {
+        "fixture_id": 1640851,
+        "home": "Sekhukhune United U23",
+        "away": "Durban City U23",
+        "winner_prediction": "Sekhukhune United U23",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1640851,
+        "home": "Sekhukhune United U23",
+        "away": "Durban City U23",
+        "winner_prediction": "Sekhukhune United U23",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640851,
+          "home": "Sekhukhune United U23",
+          "away": "Durban City U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1641019,
+          "home": "Mamelodi Sundowns U23",
+          "away": "Kruger United U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1641020,
+          "home": "Milford FC U23",
+          "away": "Marumo Gallants U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1641019,
+      "created_at": "2026-10-11T06:04:08.722217-03:00",
+      "game": {
+        "fixture_id": 1641019,
+        "home": "Mamelodi Sundowns U23",
+        "away": "Kruger United U23",
+        "winner_prediction": "Mamelodi Sundowns U23",
+        "expected_goals_home": -3.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1641019,
+        "home": "Mamelodi Sundowns U23",
+        "away": "Kruger United U23",
+        "winner_prediction": "Mamelodi Sundowns U23",
+        "expected_goals_home": -3.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640851,
+          "home": "Sekhukhune United U23",
+          "away": "Durban City U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1641019,
+          "home": "Mamelodi Sundowns U23",
+          "away": "Kruger United U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1641020,
+          "home": "Milford FC U23",
+          "away": "Marumo Gallants U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1641020,
+      "created_at": "2026-10-11T06:04:08.722223-03:00",
+      "game": {
+        "fixture_id": 1641020,
+        "home": "Milford FC U23",
+        "away": "Marumo Gallants U23",
+        "winner_prediction": "Milford FC U23",
+        "expected_goals_home": -3.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1641020,
+        "home": "Milford FC U23",
+        "away": "Marumo Gallants U23",
+        "winner_prediction": "Milford FC U23",
+        "expected_goals_home": -3.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640851,
+          "home": "Sekhukhune United U23",
+          "away": "Durban City U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1641019,
+          "home": "Mamelodi Sundowns U23",
+          "away": "Kruger United U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1641020,
+          "home": "Milford FC U23",
+          "away": "Marumo Gallants U23",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -28280,23 +29301,23 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 3,
-      "hits": 2,
-      "accuracy": 66.66666666666666
+      "total": 4,
+      "hits": 3,
+      "accuracy": 75.0
     },
     "Mais de 1.5 gols": {
-      "total": 4,
-      "hits": 4,
-      "accuracy": 100.0
+      "total": 8,
+      "hits": 7,
+      "accuracy": 87.5
     },
     "Menos de 2.5 gols": {
-      "total": 4,
-      "hits": 0,
-      "accuracy": 0.0
+      "total": 8,
+      "hits": 2,
+      "accuracy": 25.0
     },
     "Casa ou Empate": {
-      "total": 2,
-      "hits": 2,
+      "total": 5,
+      "hits": 5,
       "accuracy": 100.0
     }
   }
