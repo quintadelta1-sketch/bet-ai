@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-11T06:04:08.722274-03:00",
+  "updated_at": "2026-10-12T06:07:49.610267-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -109,8 +109,149 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1645143,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-08T09:00:00+00:00",
+          "timestamp": 1791450000,
+          "periods": {
+            "first": 1791450000,
+            "second": 1791453600
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 666,
+          "name": "Friendlies Women",
+          "country": "World",
+          "logo": "https://media.api-sports.io/football/leagues/666.png",
+          "flag": null,
+          "season": 2026,
+          "round": "Friendly International Women",
+          "standings": false
+        },
+        "teams": {
+          "home": {
+            "id": 27187,
+            "name": "Slovenia U19 W",
+            "logo": "https://media.api-sports.io/football/teams/27187.png",
+            "winner": true
+          },
+          "away": {
+            "id": 23604,
+            "name": "Serbia U19 W",
+            "logo": "https://media.api-sports.io/football/teams/23604.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": 2,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 9,
+              "extra": null
+            },
+            "team": {
+              "id": 27187,
+              "name": "Slovenia U19 W",
+              "logo": "https://media.api-sports.io/football/teams/27187.png"
+            },
+            "player": {
+              "id": 676877,
+              "name": "Z. Srot"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 12,
+              "extra": null
+            },
+            "team": {
+              "id": 27187,
+              "name": "Slovenia U19 W",
+              "logo": "https://media.api-sports.io/football/teams/27187.png"
+            },
+            "player": {
+              "id": 676877,
+              "name": "Z. Srot"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 14,
+              "extra": null
+            },
+            "team": {
+              "id": 23604,
+              "name": "Serbia U19 W",
+              "logo": "https://media.api-sports.io/football/teams/23604.png"
+            },
+            "player": {
+              "id": 685989,
+              "name": "L. Todorovic"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-12T06:06:27.118328-03:00"
     },
     {
       "fixture_id": 1551232,
@@ -29053,8 +29194,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1640851,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-11T08:00:00+00:00",
+          "timestamp": 1791705600,
+          "periods": {
+            "first": 1791705600,
+            "second": 1791709200
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 734,
+          "name": "Diski Challenge",
+          "country": "South-Africa",
+          "logo": "https://media.api-sports.io/football/leagues/734.png",
+          "flag": "https://media.api-sports.io/flags/za.svg",
+          "season": 2026,
+          "round": "Regular Season - 3",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 17719,
+            "name": "Sekhukhune United U23",
+            "logo": "https://media.api-sports.io/football/teams/17719.png",
+            "winner": true
+          },
+          "away": {
+            "id": 15994,
+            "name": "Durban City U23",
+            "logo": "https://media.api-sports.io/football/teams/15994.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-12T06:06:43.555726-03:00"
     },
     {
       "fixture_id": 1641019,
@@ -29183,8 +29398,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1641019,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-11T08:00:00+00:00",
+          "timestamp": 1791705600,
+          "periods": {
+            "first": 1791705600,
+            "second": 1791709200
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 734,
+          "name": "Diski Challenge",
+          "country": "South-Africa",
+          "logo": "https://media.api-sports.io/football/leagues/734.png",
+          "flag": "https://media.api-sports.io/flags/za.svg",
+          "season": 2026,
+          "round": "Regular Season - 3",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 15993,
+            "name": "Mamelodi Sundowns U23",
+            "logo": "https://media.api-sports.io/football/teams/15993.png",
+            "winner": true
+          },
+          "away": {
+            "id": 28443,
+            "name": "Kruger United U23",
+            "logo": "https://media.api-sports.io/football/teams/28443.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 3,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 3,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-12T06:06:51.782376-03:00"
     },
     {
       "fixture_id": 1641020,
@@ -29293,6 +29582,402 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1641020,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-11T08:00:00+00:00",
+          "timestamp": 1791705600,
+          "periods": {
+            "first": 1791705600,
+            "second": 1791709200
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 734,
+          "name": "Diski Challenge",
+          "country": "South-Africa",
+          "logo": "https://media.api-sports.io/football/leagues/734.png",
+          "flag": "https://media.api-sports.io/flags/za.svg",
+          "season": 2026,
+          "round": "Regular Season - 3",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 28444,
+            "name": "Milford FC U23",
+            "logo": "https://media.api-sports.io/football/teams/28444.png",
+            "winner": false
+          },
+          "away": {
+            "id": 17717,
+            "name": "Marumo Gallants U23",
+            "logo": "https://media.api-sports.io/football/teams/17717.png",
+            "winner": true
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 4
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 3
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 4
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-12T06:07:00.003198-03:00"
+    },
+    {
+      "fixture_id": 1593037,
+      "created_at": "2026-10-12T06:07:49.610185-03:00",
+      "game": {
+        "fixture_id": 1593037,
+        "home": "Penuel",
+        "away": "Karbon Cherkasy",
+        "winner_prediction": "Karbon Cherkasy",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1593037,
+        "home": "Penuel",
+        "away": "Karbon Cherkasy",
+        "winner_prediction": "Karbon Cherkasy",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1593037,
+          "home": "Penuel",
+          "away": "Karbon Cherkasy",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531006,
+          "home": "FarDu",
+          "away": "Kattaqurgon",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1645152,
+          "home": "Slovakia U19 W",
+          "away": "Turkey U19 W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1645152,
+      "created_at": "2026-10-12T06:07:49.610204-03:00",
+      "game": {
+        "fixture_id": 1645152,
+        "home": "Slovakia U19 W",
+        "away": "Turkey U19 W",
+        "winner_prediction": null,
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 33.0,
+          "Empate": 33.0,
+          "Fora": 33.0,
+          "Casa ou Empate": 66.0,
+          "Casa ou Fora": 66.0,
+          "Empate ou Fora": 66.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1645152,
+        "home": "Slovakia U19 W",
+        "away": "Turkey U19 W",
+        "winner_prediction": null,
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 33.0,
+          "Empate": 33.0,
+          "Fora": 33.0,
+          "Casa ou Empate": 66.0,
+          "Casa ou Fora": 66.0,
+          "Empate ou Fora": 66.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1593037,
+          "home": "Penuel",
+          "away": "Karbon Cherkasy",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531006,
+          "home": "FarDu",
+          "away": "Kattaqurgon",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1645152,
+          "home": "Slovakia U19 W",
+          "away": "Turkey U19 W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1531006,
+      "created_at": "2026-10-12T06:07:49.610209-03:00",
+      "game": {
+        "fixture_id": 1531006,
+        "home": "FarDu",
+        "away": "Kattaqurgon",
+        "winner_prediction": "FarDu",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1531006,
+        "home": "FarDu",
+        "away": "Kattaqurgon",
+        "winner_prediction": "FarDu",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1593037,
+          "home": "Penuel",
+          "away": "Karbon Cherkasy",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531006,
+          "home": "FarDu",
+          "away": "Kattaqurgon",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1645152,
+          "home": "Slovakia U19 W",
+          "away": "Turkey U19 W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -29301,23 +29986,28 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 4,
+      "total": 6,
       "hits": 3,
-      "accuracy": 75.0
+      "accuracy": 50.0
     },
     "Mais de 1.5 gols": {
+      "total": 12,
+      "hits": 11,
+      "accuracy": 91.66666666666666
+    },
+    "Menos de 2.5 gols": {
+      "total": 12,
+      "hits": 3,
+      "accuracy": 25.0
+    },
+    "Casa ou Empate": {
       "total": 8,
       "hits": 7,
       "accuracy": 87.5
     },
-    "Menos de 2.5 gols": {
-      "total": 8,
-      "hits": 2,
-      "accuracy": 25.0
-    },
-    "Casa ou Empate": {
-      "total": 5,
-      "hits": 5,
+    "Casa ou Fora": {
+      "total": 1,
+      "hits": 1,
       "accuracy": 100.0
     }
   }
