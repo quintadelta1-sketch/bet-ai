@@ -54,12 +54,15 @@ jobs:
           echo "$JAVA_HOME_17_X64/bin" >> "$GITHUB_PATH"
           java -version
 
-      - name: Instalar Android SDK Command-line Tools
+      - name: Instalar ferramentas Android
+        shell: bash
         run: |
           set -e
 
           SDK="$HOME/.buildozer/android/platform/android-sdk"
+
           mkdir -p "$SDK/cmdline-tools"
+          mkdir -p "$SDK/platform-tools"
 
           cd /tmp
 
@@ -68,33 +71,61 @@ jobs:
             -O android-tools.zip
 
           mkdir -p /tmp/android-tools
-          unzip -q android-tools.zip -d /tmp/android-tools
+
+          unzip -q android-tools.zip \
+            -d /tmp/android-tools
 
           mkdir -p "$SDK/cmdline-tools/latest"
 
-          cp -r /tmp/android-tools/cmdline-tools/. \
+          cp -r \
+            /tmp/android-tools/cmdline-tools/. \
             "$SDK/cmdline-tools/latest/"
-
-          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
-          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
-          echo "$SDK/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
-          echo "$SDK/platform-tools" >> "$GITHUB_PATH"
 
           chmod +x "$SDK/cmdline-tools/latest/bin/"*
 
-          sdkmanager --version
+          # Disponibilizar ferramentas no ambiente
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
 
-      - name: Aceitar licencas e instalar ferramentas
+          echo "$SDK/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          echo "$SDK/platform-tools" >> "$GITHUB_PATH"
+
+          # Compatibilidade com versoes do Buildozer
+          # que procuram o sdkmanager em tools/bin
+          mkdir -p "$SDK/tools"
+
+          ln -sfn \
+            "$SDK/cmdline-tools/latest" \
+            "$SDK/tools/current"
+
+          mkdir -p "$SDK/tools/bin"
+
+          ln -sfn \
+            "$SDK/cmdline-tools/latest/bin/sdkmanager" \
+            "$SDK/tools/bin/sdkmanager"
+
+          # Verificar o executavel diretamente
+          "$SDK/cmdline-tools/latest/bin/sdkmanager" --version
+
+      - name: Aceitar licencas Android
+        shell: bash
         run: |
           set -e
 
           SDK="$HOME/.buildozer/android/platform/android-sdk"
 
-          yes | sdkmanager \
+          yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" \
             --sdk_root="$SDK" \
             --licenses || true
 
-          sdkmanager \
+      - name: Instalar pacotes Android
+        shell: bash
+        run: |
+          set -e
+
+          SDK="$HOME/.buildozer/android/platform/android-sdk"
+
+          "$SDK/cmdline-tools/latest/bin/sdkmanager" \
             --sdk_root="$SDK" \
             "platform-tools" \
             "platforms;android-35" \
@@ -113,10 +144,20 @@ jobs:
           buildozer android debug
 
       - name: Verificar APK
+        shell: bash
         run: |
-          find android_app/bin -maxdepth 1 -type f -name "*.apk" -print
+          set -e
 
-          if ! find android_app/bin -maxdepth 1 -type f -name "*.apk" | grep -q .; then
+          find android_app/bin \
+            -maxdepth 1 \
+            -type f \
+            -name "*.apk" \
+            -print
+
+          if ! find android_app/bin \
+            -maxdepth 1 \
+            -type f \
+            -name "*.apk" | grep -q .; then
             echo "ERRO: nenhum APK foi gerado."
             exit 1
           fi
