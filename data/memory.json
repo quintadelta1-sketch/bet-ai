@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-12T06:07:49.610267-03:00",
+  "updated_at": "2026-10-12T08:01:01.954237-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -29965,6 +29965,226 @@
           "fixture_id": 1531006,
           "home": "FarDu",
           "away": "Kattaqurgon",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1645152,
+          "home": "Slovakia U19 W",
+          "away": "Turkey U19 W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1642619,
+      "created_at": "2026-10-12T08:01:01.954168-03:00",
+      "game": {
+        "fixture_id": 1642619,
+        "home": "Pannaxiakos",
+        "away": "Nea Ionia",
+        "winner_prediction": "Nea Ionia",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1642619,
+        "home": "Pannaxiakos",
+        "away": "Nea Ionia",
+        "winner_prediction": "Nea Ionia",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1642619,
+          "home": "Pannaxiakos",
+          "away": "Nea Ionia",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1527743,
+          "home": "Sardor Tursunzoda",
+          "away": "Eskhata",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1645152,
+          "home": "Slovakia U19 W",
+          "away": "Turkey U19 W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1527743,
+      "created_at": "2026-10-12T08:01:01.954184-03:00",
+      "game": {
+        "fixture_id": 1527743,
+        "home": "Sardor Tursunzoda",
+        "away": "Eskhata",
+        "winner_prediction": "Eskhata",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1527743,
+        "home": "Sardor Tursunzoda",
+        "away": "Eskhata",
+        "winner_prediction": "Eskhata",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1642619,
+          "home": "Pannaxiakos",
+          "away": "Nea Ionia",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1527743,
+          "home": "Sardor Tursunzoda",
+          "away": "Eskhata",
           "market": "Mais de 1.5 gols",
           "probability": 100.0,
           "classification": "ALTA"
