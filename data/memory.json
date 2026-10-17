@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-16T06:19:33.759971-03:00",
+  "updated_at": "2026-10-17T06:12:33.208569-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -148601,8 +148601,237 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1519170,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-16T10:00:00+00:00",
+          "timestamp": 1792144800,
+          "periods": {
+            "first": 1792144800,
+            "second": 1792148400
+          },
+          "venue": {
+            "id": null,
+            "name": "Arena Chertanovo",
+            "city": "Moscow"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 3
+          }
+        },
+        "league": {
+          "id": 238,
+          "name": "Youth Championship",
+          "country": "Russia",
+          "logo": "https://media.api-sports.io/football/leagues/238.png",
+          "flag": "https://media.api-sports.io/flags/ru.svg",
+          "season": 2026,
+          "round": "Regular Season - 26",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 15176,
+            "name": "Chertanovo U20",
+            "logo": "https://media.api-sports.io/football/teams/15176.png",
+            "winner": false
+          },
+          "away": {
+            "id": 7951,
+            "name": "CSKA Moskva U19",
+            "logo": "https://media.api-sports.io/football/teams/7951.png",
+            "winner": true
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 5
+        },
+        "score": {
+          "halftime": {
+            "home": 0,
+            "away": 2
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 5
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 5,
+              "extra": null
+            },
+            "team": {
+              "id": 7951,
+              "name": "CSKA Moskva U19",
+              "logo": "https://media.api-sports.io/football/teams/7951.png"
+            },
+            "player": {
+              "id": 531868,
+              "name": "I. Tarasenko"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 13,
+              "extra": null
+            },
+            "team": {
+              "id": 7951,
+              "name": "CSKA Moskva U19",
+              "logo": "https://media.api-sports.io/football/teams/7951.png"
+            },
+            "player": {
+              "id": 624441,
+              "name": "V. Dzhanashiya"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 52,
+              "extra": null
+            },
+            "team": {
+              "id": 15176,
+              "name": "Chertanovo U20",
+              "logo": "https://media.api-sports.io/football/teams/15176.png"
+            },
+            "player": {
+              "id": 660593,
+              "name": "V. Atayan"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 55,
+              "extra": null
+            },
+            "team": {
+              "id": 15176,
+              "name": "Chertanovo U20",
+              "logo": "https://media.api-sports.io/football/teams/15176.png"
+            },
+            "player": {
+              "id": 569680,
+              "name": "A. Tarasov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 59,
+              "extra": null
+            },
+            "team": {
+              "id": 7951,
+              "name": "CSKA Moskva U19",
+              "logo": "https://media.api-sports.io/football/teams/7951.png"
+            },
+            "player": {
+              "id": 647078,
+              "name": "I. Pasichnik"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 61,
+              "extra": null
+            },
+            "team": {
+              "id": 7951,
+              "name": "CSKA Moskva U19",
+              "logo": "https://media.api-sports.io/football/teams/7951.png"
+            },
+            "player": {
+              "id": 531782,
+              "name": "A. Bondarenko"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 83,
+              "extra": null
+            },
+            "team": {
+              "id": 7951,
+              "name": "CSKA Moskva U19",
+              "logo": "https://media.api-sports.io/football/teams/7951.png"
+            },
+            "player": {
+              "id": 660581,
+              "name": "R. Bokhov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-17T06:11:27.559320-03:00"
     },
     {
       "fixture_id": 1531091,
@@ -148711,8 +148940,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1531091,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-16T10:00:00+00:00",
+          "timestamp": 1792144800,
+          "periods": {
+            "first": 1792144800,
+            "second": 1792148400
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 1075,
+          "name": "Pro League A",
+          "country": "Uzbekistan",
+          "logo": "https://media.api-sports.io/football/leagues/1075.png",
+          "flag": "https://media.api-sports.io/flags/uz.svg",
+          "season": 2026,
+          "round": "Regular Season - 17",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 27587,
+            "name": "Respublika FA",
+            "logo": "https://media.api-sports.io/football/teams/27587.png",
+            "winner": null
+          },
+          "away": {
+            "id": 23309,
+            "name": "Olimpik-Mobiuz",
+            "logo": "https://media.api-sports.io/football/teams/23309.png",
+            "winner": null
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-17T06:11:35.700818-03:00"
     },
     {
       "fixture_id": 1534872,
@@ -148821,6 +149124,413 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1534872,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-16T10:00:00+00:00",
+          "timestamp": 1792144800,
+          "periods": {
+            "first": 1792144800,
+            "second": 1792148400
+          },
+          "venue": {
+            "id": 20741,
+            "name": "Almaty Ortalyk Stadion",
+            "city": "Almaty"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 4
+          }
+        },
+        "league": {
+          "id": 388,
+          "name": "1. Division",
+          "country": "Kazakhstan",
+          "logo": "https://media.api-sports.io/football/leagues/388.png",
+          "flag": "https://media.api-sports.io/flags/kz.svg",
+          "season": 2026,
+          "round": "Regular Season - 25",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 4556,
+            "name": "Sport Academy Kairat",
+            "logo": "https://media.api-sports.io/football/teams/4556.png",
+            "winner": true
+          },
+          "away": {
+            "id": 4551,
+            "name": "Ekibastuz",
+            "logo": "https://media.api-sports.io/football/teams/4551.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 14,
+              "extra": null
+            },
+            "team": {
+              "id": 4556,
+              "name": "Sport Academy Kairat",
+              "logo": "https://media.api-sports.io/football/teams/4556.png"
+            },
+            "player": {
+              "id": 494717,
+              "name": "A. Toleukhan"
+            },
+            "assist": {
+              "id": 445529,
+              "name": "K. Makhametzhan"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 84,
+              "extra": null
+            },
+            "team": {
+              "id": 4556,
+              "name": "Sport Academy Kairat",
+              "logo": "https://media.api-sports.io/football/teams/4556.png"
+            },
+            "player": {
+              "id": 445529,
+              "name": "K. Makhametzhan"
+            },
+            "assist": {
+              "id": 445529,
+              "name": "K. Makhametzhan"
+            },
+            "type": "Goal",
+            "detail": "Missed Penalty",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 90,
+              "extra": 1
+            },
+            "team": {
+              "id": 4556,
+              "name": "Sport Academy Kairat",
+              "logo": "https://media.api-sports.io/football/teams/4556.png"
+            },
+            "player": {
+              "id": 445473,
+              "name": "D. Tashpulatov"
+            },
+            "assist": {
+              "id": 683627,
+              "name": "N. Yerkin"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-17T06:11:43.845543-03:00"
+    },
+    {
+      "fixture_id": 1642141,
+      "created_at": "2026-10-17T06:12:33.208500-03:00",
+      "game": {
+        "fixture_id": 1642141,
+        "home": "Caracas W",
+        "away": "Santa Fe W",
+        "winner_prediction": null,
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 33.0,
+          "Empate": 33.0,
+          "Fora": 33.0,
+          "Casa ou Empate": 66.0,
+          "Casa ou Fora": 66.0,
+          "Empate ou Fora": 66.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1642141,
+        "home": "Caracas W",
+        "away": "Santa Fe W",
+        "winner_prediction": null,
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 33.0,
+          "Empate": 33.0,
+          "Fora": 33.0,
+          "Casa ou Empate": 66.0,
+          "Casa ou Fora": 66.0,
+          "Empate ou Fora": 66.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632104,
+          "home": "Western Sydney Wanderers W",
+          "away": "Melbourne Victory W",
+          "market": "Empate ou Fora",
+          "probability": 99.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632103,
+          "home": "Newcastle Jets FC W",
+          "away": "Perth Glory FC W",
+          "market": "Empate ou Fora",
+          "probability": 90.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1642141,
+          "home": "Caracas W",
+          "away": "Santa Fe W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1632103,
+      "created_at": "2026-10-17T06:12:33.208517-03:00",
+      "game": {
+        "fixture_id": 1632103,
+        "home": "Newcastle Jets FC W",
+        "away": "Perth Glory FC W",
+        "winner_prediction": "Perth Glory FC W",
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0
+        },
+        "selections": [
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1632103,
+        "home": "Newcastle Jets FC W",
+        "away": "Perth Glory FC W",
+        "winner_prediction": "Perth Glory FC W",
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0
+        },
+        "selections": [
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632104,
+          "home": "Western Sydney Wanderers W",
+          "away": "Melbourne Victory W",
+          "market": "Empate ou Fora",
+          "probability": 99.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632103,
+          "home": "Newcastle Jets FC W",
+          "away": "Perth Glory FC W",
+          "market": "Empate ou Fora",
+          "probability": 90.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1642141,
+          "home": "Caracas W",
+          "away": "Santa Fe W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1632104,
+      "created_at": "2026-10-17T06:12:33.208523-03:00",
+      "game": {
+        "fixture_id": 1632104,
+        "home": "Western Sydney Wanderers W",
+        "away": "Melbourne Victory W",
+        "winner_prediction": "Melbourne Victory W",
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 0.0,
+          "Empate": 50.0,
+          "Fora": 50.0,
+          "Casa ou Empate": 50.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 99.0
+        },
+        "selections": [
+          {
+            "market": "Empate ou Fora",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1632104,
+        "home": "Western Sydney Wanderers W",
+        "away": "Melbourne Victory W",
+        "winner_prediction": "Melbourne Victory W",
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 0.0,
+          "Empate": 50.0,
+          "Fora": 50.0,
+          "Casa ou Empate": 50.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 99.0
+        },
+        "selections": [
+          {
+            "market": "Empate ou Fora",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632104,
+          "home": "Western Sydney Wanderers W",
+          "away": "Melbourne Victory W",
+          "market": "Empate ou Fora",
+          "probability": 99.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632103,
+          "home": "Newcastle Jets FC W",
+          "away": "Perth Glory FC W",
+          "market": "Empate ou Fora",
+          "probability": 90.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1642141,
+          "home": "Caracas W",
+          "away": "Santa Fe W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -148829,24 +149539,24 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 18,
-      "hits": 11,
-      "accuracy": 61.111111111111114
+      "total": 20,
+      "hits": 13,
+      "accuracy": 65.0
     },
     "Mais de 1.5 gols": {
-      "total": 25,
-      "hits": 22,
-      "accuracy": 88.0
+      "total": 28,
+      "hits": 25,
+      "accuracy": 89.28571428571429
     },
     "Menos de 2.5 gols": {
-      "total": 25,
-      "hits": 8,
-      "accuracy": 32.0
+      "total": 28,
+      "hits": 9,
+      "accuracy": 32.142857142857146
     },
     "Casa ou Empate": {
-      "total": 16,
-      "hits": 13,
-      "accuracy": 81.25
+      "total": 17,
+      "hits": 14,
+      "accuracy": 82.35294117647058
     },
     "Casa ou Fora": {
       "total": 5,
