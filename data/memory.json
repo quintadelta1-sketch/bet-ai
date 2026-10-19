@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-18T06:12:47.438463-03:00",
+  "updated_at": "2026-10-19T06:23:29.675253-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -149835,8 +149835,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1632107,
+          "referee": "N. Moss",
+          "timezone": "UTC",
+          "date": "2026-10-18T05:30:00+00:00",
+          "timestamp": 1792301400,
+          "periods": {
+            "first": null,
+            "second": null
+          },
+          "venue": {
+            "id": null,
+            "name": "Sydney Olympic Park Athletic Centre",
+            "city": "Sydney"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 190,
+          "name": "A-League Women",
+          "country": "Australia",
+          "logo": "https://media.api-sports.io/football/leagues/190.png",
+          "flag": "https://media.api-sports.io/flags/au.svg",
+          "season": 2026,
+          "round": "Regular Season - 1",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 1968,
+            "name": "Sydney FC W",
+            "logo": "https://media.api-sports.io/football/teams/1968.png",
+            "winner": null
+          },
+          "away": {
+            "id": 1972,
+            "name": "Adelaide United W",
+            "logo": "https://media.api-sports.io/football/teams/1972.png",
+            "winner": null
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-19T06:22:23.457638-03:00"
     },
     {
       "fixture_id": 1637237,
@@ -149945,8 +150019,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1637237,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-18T06:30:00+00:00",
+          "timestamp": 1792305000,
+          "periods": {
+            "first": 1792305000,
+            "second": 1792308600
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 1243,
+          "name": "Super League Women",
+          "country": "South-Africa",
+          "logo": "https://media.api-sports.io/football/leagues/1243.png",
+          "flag": "https://media.api-sports.io/flags/za.svg",
+          "season": 2026,
+          "round": "Group Stage",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 28353,
+            "name": "Ezemvelo W",
+            "logo": "https://media.api-sports.io/football/teams/28353.png",
+            "winner": false
+          },
+          "away": {
+            "id": 28362,
+            "name": "University of Fort Hare W",
+            "logo": "https://media.api-sports.io/football/teams/28362.png",
+            "winner": true
+          }
+        },
+        "goals": {
+          "home": 1,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 1,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-19T06:22:31.799827-03:00"
     },
     {
       "fixture_id": 1620517,
@@ -150055,6 +150203,1610 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1620517,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-18T08:00:00+00:00",
+          "timestamp": 1792310400,
+          "periods": {
+            "first": 1792310400,
+            "second": 1792314000
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 581,
+          "name": "Gamma Ethniki - Group 6",
+          "country": "Greece",
+          "logo": "https://media.api-sports.io/football/leagues/581.png",
+          "flag": "https://media.api-sports.io/flags/gr.svg",
+          "season": 2026,
+          "round": "Group 6 - 4",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 5060,
+            "name": "Pallixouriakos",
+            "logo": "https://media.api-sports.io/football/teams/5060.png",
+            "winner": true
+          },
+          "away": {
+            "id": 24872,
+            "name": "Aris Filiates",
+            "logo": "https://media.api-sports.io/football/teams/24872.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 3,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 3,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 3,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-19T06:22:39.995702-03:00"
+    },
+    {
+      "fixture_id": 1640428,
+      "created_at": "2026-10-19T06:23:29.675184-03:00",
+      "game": {
+        "fixture_id": 1640428,
+        "home": "Ulaangom City",
+        "away": "Khovd",
+        "winner_prediction": "Khovd",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -5.5,
+        "expected_goals_total": -7.0,
+        "probabilities": {
+          "Casa": 0.0,
+          "Empate": 50.0,
+          "Fora": 50.0,
+          "Casa ou Empate": 50.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 99.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1640428,
+        "home": "Ulaangom City",
+        "away": "Khovd",
+        "winner_prediction": "Khovd",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -5.5,
+        "expected_goals_total": -7.0,
+        "probabilities": {
+          "Casa": 0.0,
+          "Empate": 50.0,
+          "Fora": 50.0,
+          "Casa ou Empate": 50.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 99.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640428,
+          "home": "Ulaangom City",
+          "away": "Khovd",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531010,
+          "home": "FarDu",
+          "away": "Metalourg",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531113,
+          "home": "Qiziriq",
+          "away": "BuxDu",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1531010,
+      "created_at": "2026-10-19T06:23:29.675201-03:00",
+      "game": {
+        "fixture_id": 1531010,
+        "home": "FarDu",
+        "away": "Metalourg",
+        "winner_prediction": "Metalourg",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1531010,
+        "home": "FarDu",
+        "away": "Metalourg",
+        "winner_prediction": "Metalourg",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640428,
+          "home": "Ulaangom City",
+          "away": "Khovd",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531010,
+          "home": "FarDu",
+          "away": "Metalourg",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531113,
+          "home": "Qiziriq",
+          "away": "BuxDu",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1531113,
+      "created_at": "2026-10-19T06:23:29.675207-03:00",
+      "game": {
+        "fixture_id": 1531113,
+        "home": "Qiziriq",
+        "away": "BuxDu",
+        "winner_prediction": "BuxDu",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": [
+          {
+            "league": {
+              "id": 1075,
+              "name": "Pro League A",
+              "country": "Uzbekistan",
+              "logo": "https://media.api-sports.io/football/leagues/1075.png",
+              "flag": "https://media.api-sports.io/flags/uz.svg",
+              "season": 2026
+            },
+            "fixture": {
+              "id": 1531113,
+              "timezone": "UTC",
+              "date": "2026-10-19T10:00:00+00:00",
+              "timestamp": 1792404000
+            },
+            "update": "2026-10-19T06:00:30+00:00",
+            "bookmakers": [
+              {
+                "id": 11,
+                "name": "1xBet",
+                "bets": [
+                  {
+                    "id": 1,
+                    "name": "Match Winner",
+                    "values": [
+                      {
+                        "value": "Home",
+                        "odd": "2.32"
+                      },
+                      {
+                        "value": "Draw",
+                        "odd": "3.84"
+                      },
+                      {
+                        "value": "Away",
+                        "odd": "2.32"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 3,
+                    "name": "Second Half Winner",
+                    "values": [
+                      {
+                        "value": "Home",
+                        "odd": "2.68"
+                      },
+                      {
+                        "value": "Draw",
+                        "odd": "2.66"
+                      },
+                      {
+                        "value": "Away",
+                        "odd": "2.68"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 4,
+                    "name": "Asian Handicap",
+                    "values": [
+                      {
+                        "value": "Home -1",
+                        "odd": "3.83"
+                      },
+                      {
+                        "value": "Away -1",
+                        "odd": "1.20"
+                      },
+                      {
+                        "value": "Home +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Away +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Home +1",
+                        "odd": "1.20"
+                      },
+                      {
+                        "value": "Away +1",
+                        "odd": "3.83"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 5,
+                    "name": "Goals Over/Under",
+                    "values": [
+                      {
+                        "value": "Over 2.5",
+                        "odd": "1.43"
+                      },
+                      {
+                        "value": "Under 2.5",
+                        "odd": "2.53"
+                      },
+                      {
+                        "value": "Over 3.5",
+                        "odd": "2.20"
+                      },
+                      {
+                        "value": "Under 3.5",
+                        "odd": "1.57"
+                      },
+                      {
+                        "value": "Over 3.0",
+                        "odd": "1.71"
+                      },
+                      {
+                        "value": "Under 3.0",
+                        "odd": "1.97"
+                      },
+                      {
+                        "value": "Over 4.5",
+                        "odd": "3.91"
+                      },
+                      {
+                        "value": "Under 4.5",
+                        "odd": "1.19"
+                      },
+                      {
+                        "value": "Over 4.0",
+                        "odd": "3.20"
+                      },
+                      {
+                        "value": "Under 4.0",
+                        "odd": "1.28"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 6,
+                    "name": "Goals Over/Under First Half",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.90"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.76"
+                      },
+                      {
+                        "value": "Over 2.0",
+                        "odd": "3.05"
+                      },
+                      {
+                        "value": "Under 2.0",
+                        "odd": "1.31"
+                      },
+                      {
+                        "value": "Over 1.0",
+                        "odd": "1.29"
+                      },
+                      {
+                        "value": "Under 1.0",
+                        "odd": "3.12"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 26,
+                    "name": "Goals Over/Under - Second Half",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.75"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.91"
+                      },
+                      {
+                        "value": "Over 2.0",
+                        "odd": "2.62"
+                      },
+                      {
+                        "value": "Under 2.0",
+                        "odd": "1.41"
+                      },
+                      {
+                        "value": "Over 2.5",
+                        "odd": "3.56"
+                      },
+                      {
+                        "value": "Under 2.5",
+                        "odd": "1.23"
+                      },
+                      {
+                        "value": "Over 1.0",
+                        "odd": "1.22"
+                      },
+                      {
+                        "value": "Under 1.0",
+                        "odd": "3.64"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 8,
+                    "name": "Both Teams Score",
+                    "values": [
+                      {
+                        "value": "Yes",
+                        "odd": "1.40"
+                      },
+                      {
+                        "value": "No",
+                        "odd": "2.63"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 10,
+                    "name": "Exact Score",
+                    "values": [
+                      {
+                        "value": "1:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:1",
+                        "odd": "9.35"
+                      },
+                      {
+                        "value": "3:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "3:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "3:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:0",
+                        "odd": "8.80"
+                      },
+                      {
+                        "value": "1:1",
+                        "odd": "7.70"
+                      },
+                      {
+                        "value": "2:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:3",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "1:2",
+                        "odd": "9.35"
+                      },
+                      {
+                        "value": "1:3",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:3",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "3:3",
+                        "odd": "10.00"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 31,
+                    "name": "Correct Score - First Half",
+                    "values": [
+                      {
+                        "value": "1:0",
+                        "odd": "4.86"
+                      },
+                      {
+                        "value": "2:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:0",
+                        "odd": "4.52"
+                      },
+                      {
+                        "value": "1:1",
+                        "odd": "6.01"
+                      },
+                      {
+                        "value": "2:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:1",
+                        "odd": "4.86"
+                      },
+                      {
+                        "value": "0:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "1:2",
+                        "odd": "10.00"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 62,
+                    "name": "Correct Score - Second Half",
+                    "values": [
+                      {
+                        "value": "1:0",
+                        "odd": "5.13"
+                      },
+                      {
+                        "value": "2:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:0",
+                        "odd": "5.16"
+                      },
+                      {
+                        "value": "1:1",
+                        "odd": "5.86"
+                      },
+                      {
+                        "value": "2:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:1",
+                        "odd": "5.13"
+                      },
+                      {
+                        "value": "0:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "1:2",
+                        "odd": "10.00"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 12,
+                    "name": "Double Chance",
+                    "values": [
+                      {
+                        "value": "Home/Draw",
+                        "odd": "1.45"
+                      },
+                      {
+                        "value": "Home/Away",
+                        "odd": "1.16"
+                      },
+                      {
+                        "value": "Draw/Away",
+                        "odd": "1.45"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 13,
+                    "name": "First Half Winner",
+                    "values": [
+                      {
+                        "value": "Home",
+                        "odd": "2.74"
+                      },
+                      {
+                        "value": "Draw",
+                        "odd": "2.54"
+                      },
+                      {
+                        "value": "Away",
+                        "odd": "2.74"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 16,
+                    "name": "Total - Home",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.87"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.79"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 17,
+                    "name": "Total - Away",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.87"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.79"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 19,
+                    "name": "Asian Handicap First Half",
+                    "values": [
+                      {
+                        "value": "Home +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Away +0",
+                        "odd": "1.83"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 20,
+                    "name": "Double Chance - First Half",
+                    "values": [
+                      {
+                        "value": "Home/Draw",
+                        "odd": "1.32"
+                      },
+                      {
+                        "value": "Home/Away",
+                        "odd": "1.37"
+                      },
+                      {
+                        "value": "Draw/Away",
+                        "odd": "1.32"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 33,
+                    "name": "Double Chance - Second Half",
+                    "values": [
+                      {
+                        "value": "Home/Draw",
+                        "odd": "1.33"
+                      },
+                      {
+                        "value": "Home/Away",
+                        "odd": "1.34"
+                      },
+                      {
+                        "value": "Draw/Away",
+                        "odd": "1.33"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 34,
+                    "name": "Both Teams Score - First Half",
+                    "values": [
+                      {
+                        "value": "Yes",
+                        "odd": "2.98"
+                      },
+                      {
+                        "value": "No",
+                        "odd": "1.32"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 35,
+                    "name": "Both Teams To Score - Second Half",
+                    "values": [
+                      {
+                        "value": "Yes",
+                        "odd": "2.69"
+                      },
+                      {
+                        "value": "No",
+                        "odd": "1.39"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 21,
+                    "name": "Odd/Even",
+                    "values": [
+                      {
+                        "value": "Odd",
+                        "odd": "1.78"
+                      },
+                      {
+                        "value": "Even",
+                        "odd": "1.78"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 104,
+                    "name": "Asian Handicap (2nd Half)",
+                    "values": [
+                      {
+                        "value": "Home +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Away +0",
+                        "odd": "1.83"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 105,
+                    "name": "Home Team Total Goals(1st Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.63"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.03"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 106,
+                    "name": "Away Team Total Goals(1st Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.63"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.03"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 107,
+                    "name": "Home Team Total Goals(2nd Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.55"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.17"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 108,
+                    "name": "Away Team Total Goals(2nd Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.55"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.17"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "prediction": {
+        "fixture_id": 1531113,
+        "home": "Qiziriq",
+        "away": "BuxDu",
+        "winner_prediction": "BuxDu",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": [
+          {
+            "league": {
+              "id": 1075,
+              "name": "Pro League A",
+              "country": "Uzbekistan",
+              "logo": "https://media.api-sports.io/football/leagues/1075.png",
+              "flag": "https://media.api-sports.io/flags/uz.svg",
+              "season": 2026
+            },
+            "fixture": {
+              "id": 1531113,
+              "timezone": "UTC",
+              "date": "2026-10-19T10:00:00+00:00",
+              "timestamp": 1792404000
+            },
+            "update": "2026-10-19T06:00:30+00:00",
+            "bookmakers": [
+              {
+                "id": 11,
+                "name": "1xBet",
+                "bets": [
+                  {
+                    "id": 1,
+                    "name": "Match Winner",
+                    "values": [
+                      {
+                        "value": "Home",
+                        "odd": "2.32"
+                      },
+                      {
+                        "value": "Draw",
+                        "odd": "3.84"
+                      },
+                      {
+                        "value": "Away",
+                        "odd": "2.32"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 3,
+                    "name": "Second Half Winner",
+                    "values": [
+                      {
+                        "value": "Home",
+                        "odd": "2.68"
+                      },
+                      {
+                        "value": "Draw",
+                        "odd": "2.66"
+                      },
+                      {
+                        "value": "Away",
+                        "odd": "2.68"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 4,
+                    "name": "Asian Handicap",
+                    "values": [
+                      {
+                        "value": "Home -1",
+                        "odd": "3.83"
+                      },
+                      {
+                        "value": "Away -1",
+                        "odd": "1.20"
+                      },
+                      {
+                        "value": "Home +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Away +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Home +1",
+                        "odd": "1.20"
+                      },
+                      {
+                        "value": "Away +1",
+                        "odd": "3.83"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 5,
+                    "name": "Goals Over/Under",
+                    "values": [
+                      {
+                        "value": "Over 2.5",
+                        "odd": "1.43"
+                      },
+                      {
+                        "value": "Under 2.5",
+                        "odd": "2.53"
+                      },
+                      {
+                        "value": "Over 3.5",
+                        "odd": "2.20"
+                      },
+                      {
+                        "value": "Under 3.5",
+                        "odd": "1.57"
+                      },
+                      {
+                        "value": "Over 3.0",
+                        "odd": "1.71"
+                      },
+                      {
+                        "value": "Under 3.0",
+                        "odd": "1.97"
+                      },
+                      {
+                        "value": "Over 4.5",
+                        "odd": "3.91"
+                      },
+                      {
+                        "value": "Under 4.5",
+                        "odd": "1.19"
+                      },
+                      {
+                        "value": "Over 4.0",
+                        "odd": "3.20"
+                      },
+                      {
+                        "value": "Under 4.0",
+                        "odd": "1.28"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 6,
+                    "name": "Goals Over/Under First Half",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.90"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.76"
+                      },
+                      {
+                        "value": "Over 2.0",
+                        "odd": "3.05"
+                      },
+                      {
+                        "value": "Under 2.0",
+                        "odd": "1.31"
+                      },
+                      {
+                        "value": "Over 1.0",
+                        "odd": "1.29"
+                      },
+                      {
+                        "value": "Under 1.0",
+                        "odd": "3.12"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 26,
+                    "name": "Goals Over/Under - Second Half",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.75"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.91"
+                      },
+                      {
+                        "value": "Over 2.0",
+                        "odd": "2.62"
+                      },
+                      {
+                        "value": "Under 2.0",
+                        "odd": "1.41"
+                      },
+                      {
+                        "value": "Over 2.5",
+                        "odd": "3.56"
+                      },
+                      {
+                        "value": "Under 2.5",
+                        "odd": "1.23"
+                      },
+                      {
+                        "value": "Over 1.0",
+                        "odd": "1.22"
+                      },
+                      {
+                        "value": "Under 1.0",
+                        "odd": "3.64"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 8,
+                    "name": "Both Teams Score",
+                    "values": [
+                      {
+                        "value": "Yes",
+                        "odd": "1.40"
+                      },
+                      {
+                        "value": "No",
+                        "odd": "2.63"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 10,
+                    "name": "Exact Score",
+                    "values": [
+                      {
+                        "value": "1:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:1",
+                        "odd": "9.35"
+                      },
+                      {
+                        "value": "3:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "3:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "3:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:0",
+                        "odd": "8.80"
+                      },
+                      {
+                        "value": "1:1",
+                        "odd": "7.70"
+                      },
+                      {
+                        "value": "2:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:3",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "1:2",
+                        "odd": "9.35"
+                      },
+                      {
+                        "value": "1:3",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:3",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "3:3",
+                        "odd": "10.00"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 31,
+                    "name": "Correct Score - First Half",
+                    "values": [
+                      {
+                        "value": "1:0",
+                        "odd": "4.86"
+                      },
+                      {
+                        "value": "2:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:0",
+                        "odd": "4.52"
+                      },
+                      {
+                        "value": "1:1",
+                        "odd": "6.01"
+                      },
+                      {
+                        "value": "2:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:1",
+                        "odd": "4.86"
+                      },
+                      {
+                        "value": "0:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "1:2",
+                        "odd": "10.00"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 62,
+                    "name": "Correct Score - Second Half",
+                    "values": [
+                      {
+                        "value": "1:0",
+                        "odd": "5.13"
+                      },
+                      {
+                        "value": "2:0",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "2:1",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:0",
+                        "odd": "5.16"
+                      },
+                      {
+                        "value": "1:1",
+                        "odd": "5.86"
+                      },
+                      {
+                        "value": "2:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "0:1",
+                        "odd": "5.13"
+                      },
+                      {
+                        "value": "0:2",
+                        "odd": "10.00"
+                      },
+                      {
+                        "value": "1:2",
+                        "odd": "10.00"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 12,
+                    "name": "Double Chance",
+                    "values": [
+                      {
+                        "value": "Home/Draw",
+                        "odd": "1.45"
+                      },
+                      {
+                        "value": "Home/Away",
+                        "odd": "1.16"
+                      },
+                      {
+                        "value": "Draw/Away",
+                        "odd": "1.45"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 13,
+                    "name": "First Half Winner",
+                    "values": [
+                      {
+                        "value": "Home",
+                        "odd": "2.74"
+                      },
+                      {
+                        "value": "Draw",
+                        "odd": "2.54"
+                      },
+                      {
+                        "value": "Away",
+                        "odd": "2.74"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 16,
+                    "name": "Total - Home",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.87"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.79"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 17,
+                    "name": "Total - Away",
+                    "values": [
+                      {
+                        "value": "Over 1.5",
+                        "odd": "1.87"
+                      },
+                      {
+                        "value": "Under 1.5",
+                        "odd": "1.79"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 19,
+                    "name": "Asian Handicap First Half",
+                    "values": [
+                      {
+                        "value": "Home +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Away +0",
+                        "odd": "1.83"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 20,
+                    "name": "Double Chance - First Half",
+                    "values": [
+                      {
+                        "value": "Home/Draw",
+                        "odd": "1.32"
+                      },
+                      {
+                        "value": "Home/Away",
+                        "odd": "1.37"
+                      },
+                      {
+                        "value": "Draw/Away",
+                        "odd": "1.32"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 33,
+                    "name": "Double Chance - Second Half",
+                    "values": [
+                      {
+                        "value": "Home/Draw",
+                        "odd": "1.33"
+                      },
+                      {
+                        "value": "Home/Away",
+                        "odd": "1.34"
+                      },
+                      {
+                        "value": "Draw/Away",
+                        "odd": "1.33"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 34,
+                    "name": "Both Teams Score - First Half",
+                    "values": [
+                      {
+                        "value": "Yes",
+                        "odd": "2.98"
+                      },
+                      {
+                        "value": "No",
+                        "odd": "1.32"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 35,
+                    "name": "Both Teams To Score - Second Half",
+                    "values": [
+                      {
+                        "value": "Yes",
+                        "odd": "2.69"
+                      },
+                      {
+                        "value": "No",
+                        "odd": "1.39"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 21,
+                    "name": "Odd/Even",
+                    "values": [
+                      {
+                        "value": "Odd",
+                        "odd": "1.78"
+                      },
+                      {
+                        "value": "Even",
+                        "odd": "1.78"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 104,
+                    "name": "Asian Handicap (2nd Half)",
+                    "values": [
+                      {
+                        "value": "Home +0",
+                        "odd": "1.83"
+                      },
+                      {
+                        "value": "Away +0",
+                        "odd": "1.83"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 105,
+                    "name": "Home Team Total Goals(1st Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.63"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.03"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 106,
+                    "name": "Away Team Total Goals(1st Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.63"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.03"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 107,
+                    "name": "Home Team Total Goals(2nd Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.55"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.17"
+                      }
+                    ]
+                  },
+                  {
+                    "id": 108,
+                    "name": "Away Team Total Goals(2nd Half)",
+                    "values": [
+                      {
+                        "value": "Over 0.5",
+                        "odd": "1.55"
+                      },
+                      {
+                        "value": "Under 0.5",
+                        "odd": "2.17"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "ticket": [
+        {
+          "fixture_id": 1640428,
+          "home": "Ulaangom City",
+          "away": "Khovd",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531010,
+          "home": "FarDu",
+          "away": "Metalourg",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531113,
+          "home": "Qiziriq",
+          "away": "BuxDu",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -150063,19 +151815,19 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 23,
-      "hits": 16,
-      "accuracy": 69.56521739130434
+      "total": 26,
+      "hits": 18,
+      "accuracy": 69.23076923076923
     },
     "Mais de 1.5 gols": {
-      "total": 28,
-      "hits": 25,
-      "accuracy": 89.28571428571429
+      "total": 30,
+      "hits": 27,
+      "accuracy": 90.0
     },
     "Menos de 2.5 gols": {
-      "total": 28,
+      "total": 30,
       "hits": 9,
-      "accuracy": 32.142857142857146
+      "accuracy": 30.0
     },
     "Casa ou Empate": {
       "total": 18,
