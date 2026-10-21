@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-20T06:20:57.366844-03:00",
+  "updated_at": "2026-10-21T06:23:00.564872-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -151986,8 +151986,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1640230,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-20T08:45:00+00:00",
+          "timestamp": 1792485900,
+          "periods": {
+            "first": 1792485900,
+            "second": 1792489500
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 811,
+          "name": "Federation Cup",
+          "country": "Bangladesh",
+          "logo": "https://media.api-sports.io/football/leagues/811.png",
+          "flag": "https://media.api-sports.io/flags/bd.svg",
+          "season": 2026,
+          "round": "Group Stage",
+          "standings": false
+        },
+        "teams": {
+          "home": {
+            "id": 5011,
+            "name": "Arambagh",
+            "logo": "https://media.api-sports.io/football/teams/5011.png",
+            "winner": null
+          },
+          "away": {
+            "id": 25415,
+            "name": "Dhaka Wanderers",
+            "logo": "https://media.api-sports.io/football/teams/25415.png",
+            "winner": null
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 0,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-21T06:21:54.751190-03:00"
     },
     {
       "fixture_id": 1531115,
@@ -152096,8 +152170,215 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1531115,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-20T10:00:00+00:00",
+          "timestamp": 1792490400,
+          "periods": {
+            "first": 1792490400,
+            "second": 1792494000
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 5
+          }
+        },
+        "league": {
+          "id": 1075,
+          "name": "Pro League A",
+          "country": "Uzbekistan",
+          "logo": "https://media.api-sports.io/football/leagues/1075.png",
+          "flag": "https://media.api-sports.io/flags/uz.svg",
+          "season": 2026,
+          "round": "Regular Season - 23",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 23309,
+            "name": "Olimpik-Mobiuz",
+            "logo": "https://media.api-sports.io/football/teams/23309.png",
+            "winner": true
+          },
+          "away": {
+            "id": 27588,
+            "name": "Yaypan",
+            "logo": "https://media.api-sports.io/football/teams/27588.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 4,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 4,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 19,
+              "extra": null
+            },
+            "team": {
+              "id": 23309,
+              "name": "Olimpik-Mobiuz",
+              "logo": "https://media.api-sports.io/football/teams/23309.png"
+            },
+            "player": {
+              "id": 682926,
+              "name": "R. Abdumannonov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 23,
+              "extra": null
+            },
+            "team": {
+              "id": 27588,
+              "name": "Yaypan",
+              "logo": "https://media.api-sports.io/football/teams/27588.png"
+            },
+            "player": {
+              "id": 662753,
+              "name": "A. Ibrohimxonov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 48,
+              "extra": null
+            },
+            "team": {
+              "id": 23309,
+              "name": "Olimpik-Mobiuz",
+              "logo": "https://media.api-sports.io/football/teams/23309.png"
+            },
+            "player": {
+              "id": 606327,
+              "name": "B. Kuanishbayev"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 50,
+              "extra": null
+            },
+            "team": {
+              "id": 27588,
+              "name": "Yaypan",
+              "logo": "https://media.api-sports.io/football/teams/27588.png"
+            },
+            "player": {
+              "id": null,
+              "name": "M. Miryoqubov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 56,
+              "extra": null
+            },
+            "team": {
+              "id": 23309,
+              "name": "Olimpik-Mobiuz",
+              "logo": "https://media.api-sports.io/football/teams/23309.png"
+            },
+            "player": {
+              "id": 606331,
+              "name": "A. Makhamatov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Penalty",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 76,
+              "extra": null
+            },
+            "team": {
+              "id": 23309,
+              "name": "Olimpik-Mobiuz",
+              "logo": "https://media.api-sports.io/football/teams/23309.png"
+            },
+            "player": {
+              "id": 682926,
+              "name": "R. Abdumannonov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-21T06:22:02.924998-03:00"
     },
     {
       "fixture_id": 1632223,
@@ -153178,6 +153459,719 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1632223,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-20T11:00:00+00:00",
+          "timestamp": 1792494000,
+          "periods": {
+            "first": 1792494000,
+            "second": 1792497600
+          },
+          "venue": {
+            "id": null,
+            "name": "Hisor Central Stadium",
+            "city": "Hisor"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 5
+          }
+        },
+        "league": {
+          "id": 1132,
+          "name": "AFC Challenge League",
+          "country": "World",
+          "logo": "https://media.api-sports.io/football/leagues/1132.png",
+          "flag": null,
+          "season": 2026,
+          "round": "Group Stage",
+          "standings": false
+        },
+        "teams": {
+          "home": {
+            "id": 9118,
+            "name": "Wathba",
+            "logo": "https://media.api-sports.io/football/teams/9118.png",
+            "winner": true
+          },
+          "away": {
+            "id": 4570,
+            "name": "Al Nejmeh",
+            "logo": "https://media.api-sports.io/football/teams/4570.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 2,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 2,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 14,
+              "extra": null
+            },
+            "team": {
+              "id": 9118,
+              "name": "Wathba",
+              "logo": "https://media.api-sports.io/football/teams/9118.png"
+            },
+            "player": {
+              "id": 198192,
+              "name": "Will"
+            },
+            "assist": {
+              "id": 687799,
+              "name": "K. Meshleb"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 22,
+              "extra": null
+            },
+            "team": {
+              "id": 4570,
+              "name": "Al Nejmeh",
+              "logo": "https://media.api-sports.io/football/teams/4570.png"
+            },
+            "player": {
+              "id": 674752,
+              "name": "A. Kneni"
+            },
+            "assist": {
+              "id": 582488,
+              "name": "R. Michael"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 46,
+              "extra": null
+            },
+            "team": {
+              "id": 4570,
+              "name": "Al Nejmeh",
+              "logo": "https://media.api-sports.io/football/teams/4570.png"
+            },
+            "player": {
+              "id": 687844,
+              "name": "A. Sene"
+            },
+            "assist": {
+              "id": 542956,
+              "name": "H. Kourani"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 62,
+              "extra": null
+            },
+            "team": {
+              "id": 9118,
+              "name": "Wathba",
+              "logo": "https://media.api-sports.io/football/teams/9118.png"
+            },
+            "player": {
+              "id": 687797,
+              "name": "A. Barakat"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 66,
+              "extra": null
+            },
+            "team": {
+              "id": 4570,
+              "name": "Al Nejmeh",
+              "logo": "https://media.api-sports.io/football/teams/4570.png"
+            },
+            "player": {
+              "id": 582488,
+              "name": "R. Michael"
+            },
+            "assist": {
+              "id": 112036,
+              "name": "M. Haidar"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 66,
+              "extra": null
+            },
+            "team": {
+              "id": 4570,
+              "name": "Al Nejmeh",
+              "logo": "https://media.api-sports.io/football/teams/4570.png"
+            },
+            "player": {
+              "id": 687810,
+              "name": "A. Arda"
+            },
+            "assist": {
+              "id": 661125,
+              "name": "M. Kassas"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 74,
+              "extra": null
+            },
+            "team": {
+              "id": 9118,
+              "name": "Wathba",
+              "logo": "https://media.api-sports.io/football/teams/9118.png"
+            },
+            "player": {
+              "id": 79893,
+              "name": "M. Al Ghoul"
+            },
+            "assist": {
+              "id": 59523,
+              "name": "E. Laszo"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 74,
+              "extra": null
+            },
+            "team": {
+              "id": 9118,
+              "name": "Wathba",
+              "logo": "https://media.api-sports.io/football/teams/9118.png"
+            },
+            "player": {
+              "id": 198192,
+              "name": "Will"
+            },
+            "assist": {
+              "id": 164227,
+              "name": "M. Farawi"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 74,
+              "extra": null
+            },
+            "team": {
+              "id": 4570,
+              "name": "Al Nejmeh",
+              "logo": "https://media.api-sports.io/football/teams/4570.png"
+            },
+            "player": {
+              "id": 687809,
+              "name": "A. Fadel"
+            },
+            "assist": {
+              "id": 353350,
+              "name": "K. Quejada"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 78,
+              "extra": null
+            },
+            "team": {
+              "id": 9118,
+              "name": "Wathba",
+              "logo": "https://media.api-sports.io/football/teams/9118.png"
+            },
+            "player": {
+              "id": 388125,
+              "name": "Francisco Politino"
+            },
+            "assist": {
+              "id": 633424,
+              "name": "M. Mhanna"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 81,
+              "extra": null
+            },
+            "team": {
+              "id": 4570,
+              "name": "Al Nejmeh",
+              "logo": "https://media.api-sports.io/football/teams/4570.png"
+            },
+            "player": {
+              "id": 257273,
+              "name": "M. Salifu"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Card",
+            "detail": "Yellow Card",
+            "comments": "Foul"
+          },
+          {
+            "time": {
+              "elapsed": 82,
+              "extra": null
+            },
+            "team": {
+              "id": 4570,
+              "name": "Al Nejmeh",
+              "logo": "https://media.api-sports.io/football/teams/4570.png"
+            },
+            "player": {
+              "id": 542956,
+              "name": "H. Kourani"
+            },
+            "assist": {
+              "id": 374053,
+              "name": "L. Jarjou"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 85,
+              "extra": null
+            },
+            "team": {
+              "id": 9118,
+              "name": "Wathba",
+              "logo": "https://media.api-sports.io/football/teams/9118.png"
+            },
+            "player": {
+              "id": 687799,
+              "name": "K. Meshleb"
+            },
+            "assist": {
+              "id": 687829,
+              "name": "J. Al Bitar"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 85,
+              "extra": null
+            },
+            "team": {
+              "id": 9118,
+              "name": "Wathba",
+              "logo": "https://media.api-sports.io/football/teams/9118.png"
+            },
+            "player": {
+              "id": 645495,
+              "name": "S. Shoufan"
+            },
+            "assist": {
+              "id": 687800,
+              "name": "M. Shofan"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-21T06:22:11.104053-03:00"
+    },
+    {
+      "fixture_id": 1560951,
+      "created_at": "2026-10-21T06:23:00.564809-03:00",
+      "game": {
+        "fixture_id": 1560951,
+        "home": "Nojima Stella W",
+        "away": "Albirex Niigata W",
+        "winner_prediction": "Albirex Niigata W",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1560951,
+        "home": "Nojima Stella W",
+        "away": "Albirex Niigata W",
+        "winner_prediction": "Albirex Niigata W",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1560951,
+          "home": "Nojima Stella W",
+          "away": "Albirex Niigata W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1639928,
+          "home": "Kasuka",
+          "away": "Shan United",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531116,
+          "home": "Respublika FA",
+          "away": "Pakhtakor II",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1639928,
+      "created_at": "2026-10-21T06:23:00.564826-03:00",
+      "game": {
+        "fixture_id": 1639928,
+        "home": "Kasuka",
+        "away": "Shan United",
+        "winner_prediction": "Shan United",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1639928,
+        "home": "Kasuka",
+        "away": "Shan United",
+        "winner_prediction": "Shan United",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -3.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1560951,
+          "home": "Nojima Stella W",
+          "away": "Albirex Niigata W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1639928,
+          "home": "Kasuka",
+          "away": "Shan United",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531116,
+          "home": "Respublika FA",
+          "away": "Pakhtakor II",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1531116,
+      "created_at": "2026-10-21T06:23:00.564830-03:00",
+      "game": {
+        "fixture_id": 1531116,
+        "home": "Respublika FA",
+        "away": "Pakhtakor II",
+        "winner_prediction": "Respublika FA",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 50.0,
+          "Empate": 50.0,
+          "Fora": 0.0,
+          "Casa ou Empate": 99.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 50.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1531116,
+        "home": "Respublika FA",
+        "away": "Pakhtakor II",
+        "winner_prediction": "Respublika FA",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 50.0,
+          "Empate": 50.0,
+          "Fora": 0.0,
+          "Casa ou Empate": 99.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 50.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1560951,
+          "home": "Nojima Stella W",
+          "away": "Albirex Niigata W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1639928,
+          "home": "Kasuka",
+          "away": "Shan United",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1531116,
+          "home": "Respublika FA",
+          "away": "Pakhtakor II",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -153186,29 +154180,29 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 27,
+      "total": 28,
       "hits": 19,
-      "accuracy": 70.37037037037037
+      "accuracy": 67.85714285714286
     },
     "Mais de 1.5 gols": {
-      "total": 31,
-      "hits": 27,
-      "accuracy": 87.09677419354838
+      "total": 33,
+      "hits": 29,
+      "accuracy": 87.87878787878788
     },
     "Menos de 2.5 gols": {
-      "total": 31,
+      "total": 33,
       "hits": 10,
-      "accuracy": 32.25806451612903
+      "accuracy": 30.303030303030305
     },
     "Casa ou Empate": {
-      "total": 18,
-      "hits": 14,
-      "accuracy": 77.77777777777779
+      "total": 21,
+      "hits": 17,
+      "accuracy": 80.95238095238095
     },
     "Casa ou Fora": {
-      "total": 6,
-      "hits": 5,
-      "accuracy": 83.33333333333334
+      "total": 7,
+      "hits": 6,
+      "accuracy": 85.71428571428571
     }
   }
 }
