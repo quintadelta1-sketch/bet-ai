@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-21T06:23:00.564872-03:00",
+  "updated_at": "2026-10-22T06:23:26.659470-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -153952,8 +153952,664 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1560951,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-21T09:30:00+00:00",
+          "timestamp": 1792575000,
+          "periods": {
+            "first": null,
+            "second": null
+          },
+          "venue": {
+            "id": 3306,
+            "name": "Sagamihara Gion Stadium",
+            "city": "Sagamihara City"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 854,
+          "name": "WE League",
+          "country": "Japan",
+          "logo": "https://media.api-sports.io/football/leagues/854.png",
+          "flag": "https://media.api-sports.io/flags/jp.svg",
+          "season": 2026,
+          "round": "Regular Season - 5",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 16949,
+            "name": "Nojima Stella W",
+            "logo": "https://media.api-sports.io/football/teams/16949.png",
+            "winner": true
+          },
+          "away": {
+            "id": 16953,
+            "name": "Albirex Niigata W",
+            "logo": "https://media.api-sports.io/football/teams/16953.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 1,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 0,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 1,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 45,
+              "extra": null
+            },
+            "team": {
+              "id": 16949,
+              "name": "Nojima Stella W",
+              "logo": "https://media.api-sports.io/football/teams/16949.png"
+            },
+            "player": {
+              "id": 395343,
+              "name": "Haruna Kawashima"
+            },
+            "assist": {
+              "id": 629988,
+              "name": "Katayama Yuna"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 45,
+              "extra": null
+            },
+            "team": {
+              "id": 16949,
+              "name": "Nojima Stella W",
+              "logo": "https://media.api-sports.io/football/teams/16949.png"
+            },
+            "player": {
+              "id": 396371,
+              "name": "Himeno Shirai"
+            },
+            "assist": {
+              "id": 395389,
+              "name": "Natsuki Kishikawa"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 56,
+              "extra": null
+            },
+            "team": {
+              "id": 16949,
+              "name": "Nojima Stella W",
+              "logo": "https://media.api-sports.io/football/teams/16949.png"
+            },
+            "player": {
+              "id": null,
+              "name": "Hikaru Yumura"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 68,
+              "extra": null
+            },
+            "team": {
+              "id": 16953,
+              "name": "Albirex Niigata W",
+              "logo": "https://media.api-sports.io/football/teams/16953.png"
+            },
+            "player": {
+              "id": 511705,
+              "name": "Kanami Shimobori"
+            },
+            "assist": {
+              "id": null,
+              "name": "Anna Ezaki"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 68,
+              "extra": null
+            },
+            "team": {
+              "id": 16953,
+              "name": "Albirex Niigata W",
+              "logo": "https://media.api-sports.io/football/teams/16953.png"
+            },
+            "player": {
+              "id": 613225,
+              "name": "Yume Takikawa"
+            },
+            "assist": {
+              "id": 102231,
+              "name": "Nahomi Kawasumi"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 75,
+              "extra": null
+            },
+            "team": {
+              "id": 16949,
+              "name": "Nojima Stella W",
+              "logo": "https://media.api-sports.io/football/teams/16949.png"
+            },
+            "player": {
+              "id": null,
+              "name": "Hikaru Yumura"
+            },
+            "assist": {
+              "id": 468271,
+              "name": "Yua Sasai"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 83,
+              "extra": null
+            },
+            "team": {
+              "id": 16953,
+              "name": "Albirex Niigata W",
+              "logo": "https://media.api-sports.io/football/teams/16953.png"
+            },
+            "player": {
+              "id": 416909,
+              "name": "Seira Tanaka"
+            },
+            "assist": {
+              "id": null,
+              "name": "Reina Shirowa"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 88,
+              "extra": null
+            },
+            "team": {
+              "id": 16953,
+              "name": "Albirex Niigata W",
+              "logo": "https://media.api-sports.io/football/teams/16953.png"
+            },
+            "player": {
+              "id": 677988,
+              "name": "Yui Shimoyoshi"
+            },
+            "assist": {
+              "id": 395154,
+              "name": "Megumi Kamionobe"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 88,
+              "extra": null
+            },
+            "team": {
+              "id": 16953,
+              "name": "Albirex Niigata W",
+              "logo": "https://media.api-sports.io/football/teams/16953.png"
+            },
+            "player": {
+              "id": 395156,
+              "name": "Yuina Yamamoto"
+            },
+            "assist": {
+              "id": 461437,
+              "name": "Chihiro Tomioka"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 90,
+              "extra": 6
+            },
+            "team": {
+              "id": 16949,
+              "name": "Nojima Stella W",
+              "logo": "https://media.api-sports.io/football/teams/16949.png"
+            },
+            "player": {
+              "id": null,
+              "name": "Akira Shiori"
+            },
+            "assist": {
+              "id": 409815,
+              "name": "Riko Tsutsui"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          }
+        ],
+        "lineups": [
+          {
+            "team": {
+              "id": 16949,
+              "name": "Nojima Stella W",
+              "logo": "https://media.api-sports.io/football/teams/16949.png",
+              "colors": null
+            },
+            "formation": "4-4-2",
+            "coach": {
+              "id": 0,
+              "name": "Tadashi Ogasahara",
+              "photo": null
+            },
+            "startXI": [
+              {
+                "player": {
+                  "id": 393845,
+                  "name": "U. Iwasaki",
+                  "number": 1,
+                  "pos": "G",
+                  "grid": "1:1"
+                }
+              },
+              {
+                "player": {
+                  "id": 459938,
+                  "name": "A. Nanri",
+                  "number": 14,
+                  "pos": "D",
+                  "grid": "2:4"
+                }
+              },
+              {
+                "player": {
+                  "id": 68852,
+                  "name": "R. Oga",
+                  "number": 5,
+                  "pos": "D",
+                  "grid": "2:3"
+                }
+              },
+              {
+                "player": {
+                  "id": null,
+                  "name": "Paola Soldevila",
+                  "number": 6,
+                  "pos": "D",
+                  "grid": "2:2"
+                }
+              },
+              {
+                "player": {
+                  "id": 396371,
+                  "name": "H. Shirai",
+                  "number": 15,
+                  "pos": "D",
+                  "grid": "2:1"
+                }
+              },
+              {
+                "player": {
+                  "id": 395343,
+                  "name": "H. Kawashima",
+                  "number": 17,
+                  "pos": "M",
+                  "grid": "3:4"
+                }
+              },
+              {
+                "player": {
+                  "id": null,
+                  "name": "Akira Shiori",
+                  "number": 24,
+                  "pos": "M",
+                  "grid": "3:3"
+                }
+              },
+              {
+                "player": {
+                  "id": 396444,
+                  "name": "J. Ito",
+                  "number": 4,
+                  "pos": "M",
+                  "grid": "3:2"
+                }
+              },
+              {
+                "player": {
+                  "id": 396448,
+                  "name": "C. Sasai",
+                  "number": 9,
+                  "pos": "M",
+                  "grid": "3:1"
+                }
+              },
+              {
+                "player": {
+                  "id": null,
+                  "name": "Hikaru Yumura",
+                  "number": 29,
+                  "pos": "F",
+                  "grid": "4:2"
+                }
+              },
+              {
+                "player": {
+                  "id": 613279,
+                  "name": "M. Otake",
+                  "number": 10,
+                  "pos": "F",
+                  "grid": "4:1"
+                }
+              }
+            ],
+            "substitutes": [
+              {
+                "player": {
+                  "id": 401867,
+                  "name": "H. Hirata",
+                  "number": 7,
+                  "pos": "M",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 629988,
+                  "name": "Y. Katayama",
+                  "number": 11,
+                  "pos": "F",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 677993,
+                  "name": "G. Kyoka",
+                  "number": 13,
+                  "pos": "D",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 629988,
+                  "name": "Y. Katayama",
+                  "number": 21,
+                  "pos": "G",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 395389,
+                  "name": "N. Kishikawa",
+                  "number": 8,
+                  "pos": "M",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 468271,
+                  "name": "Y. Sasai",
+                  "number": 18,
+                  "pos": "M",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 409815,
+                  "name": "R. Tsutsui",
+                  "number": 2,
+                  "pos": "D",
+                  "grid": null
+                }
+              }
+            ]
+          },
+          {
+            "team": {
+              "id": 16953,
+              "name": "Albirex Niigata W",
+              "logo": "https://media.api-sports.io/football/teams/16953.png",
+              "colors": null
+            },
+            "formation": "4-4-2",
+            "coach": {
+              "id": 15752,
+              "name": "Kazuaki Hashikawa",
+              "photo": "https://media.api-sports.io/football/coachs/15752.png"
+            },
+            "startXI": [
+              {
+                "player": {
+                  "id": 68845,
+                  "name": "C. Hirao",
+                  "number": 1,
+                  "pos": "G",
+                  "grid": "1:1"
+                }
+              },
+              {
+                "player": {
+                  "id": 395358,
+                  "name": "S. Ariyoshi",
+                  "number": 6,
+                  "pos": "D",
+                  "grid": "2:4"
+                }
+              },
+              {
+                "player": {
+                  "id": 395178,
+                  "name": "R. Yamaya",
+                  "number": 20,
+                  "pos": "D",
+                  "grid": "2:3"
+                }
+              },
+              {
+                "player": {
+                  "id": 495061,
+                  "name": "E. Yokoyama",
+                  "number": 4,
+                  "pos": "D",
+                  "grid": "2:2"
+                }
+              },
+              {
+                "player": {
+                  "id": 395153,
+                  "name": "M. Sonoda",
+                  "number": 7,
+                  "pos": "D",
+                  "grid": "2:1"
+                }
+              },
+              {
+                "player": {
+                  "id": 416909,
+                  "name": "S. Tanaka",
+                  "number": 33,
+                  "pos": "M",
+                  "grid": "3:4"
+                }
+              },
+              {
+                "player": {
+                  "id": 677988,
+                  "name": "Y. Shimoyoshi",
+                  "number": 14,
+                  "pos": "M",
+                  "grid": "3:3"
+                }
+              },
+              {
+                "player": {
+                  "id": 396446,
+                  "name": "A. Sugita",
+                  "number": 13,
+                  "pos": "M",
+                  "grid": "3:2"
+                }
+              },
+              {
+                "player": {
+                  "id": 613225,
+                  "name": "Y. Takikawa",
+                  "number": 17,
+                  "pos": "M",
+                  "grid": "3:1"
+                }
+              },
+              {
+                "player": {
+                  "id": 511705,
+                  "name": "K. Shimobori",
+                  "number": 11,
+                  "pos": "F",
+                  "grid": "4:2"
+                }
+              },
+              {
+                "player": {
+                  "id": 395156,
+                  "name": "Y. Yamamoto",
+                  "number": 23,
+                  "pos": "F",
+                  "grid": "4:1"
+                }
+              }
+            ],
+            "substitutes": [
+              {
+                "player": {
+                  "id": 461437,
+                  "name": "C. Tomioka",
+                  "number": 16,
+                  "pos": "D",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": null,
+                  "name": "Reina Shirowa",
+                  "number": 19,
+                  "pos": "M",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 396367,
+                  "name": "Y. Shirasawa",
+                  "number": 5,
+                  "pos": "D",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": null,
+                  "name": "Riko Sanuga",
+                  "number": 22,
+                  "pos": "G",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 102231,
+                  "name": "N. Kawasumi",
+                  "number": 9,
+                  "pos": "F",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": 395154,
+                  "name": "M. Kamionobe",
+                  "number": 10,
+                  "pos": "M",
+                  "grid": null
+                }
+              },
+              {
+                "player": {
+                  "id": null,
+                  "name": "Anna Ezaki",
+                  "number": 18,
+                  "pos": "F",
+                  "grid": null
+                }
+              }
+            ]
+          }
+        ],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-22T06:22:20.686822-03:00"
     },
     {
       "fixture_id": 1639928,
@@ -154062,8 +154718,376 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1639928,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-21T09:30:00+00:00",
+          "timestamp": 1792575000,
+          "periods": {
+            "first": 1792575000,
+            "second": 1792578600
+          },
+          "venue": {
+            "id": null,
+            "name": "Thuwunna Stadium",
+            "city": "Yangon"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 6
+          }
+        },
+        "league": {
+          "id": 1132,
+          "name": "AFC Challenge League",
+          "country": "World",
+          "logo": "https://media.api-sports.io/football/leagues/1132.png",
+          "flag": null,
+          "season": 2026,
+          "round": "Group Stage",
+          "standings": false
+        },
+        "teams": {
+          "home": {
+            "id": 16066,
+            "name": "Kasuka",
+            "logo": "https://media.api-sports.io/football/teams/16066.png",
+            "winner": false
+          },
+          "away": {
+            "id": 8015,
+            "name": "Shan United",
+            "logo": "https://media.api-sports.io/football/teams/8015.png",
+            "winner": true
+          }
+        },
+        "goals": {
+          "home": 0,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 0,
+            "away": 2
+          },
+          "fulltime": {
+            "home": 0,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 34,
+              "extra": null
+            },
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png"
+            },
+            "player": {
+              "id": 613468,
+              "name": "R. Nanitelamio"
+            },
+            "assist": {
+              "id": 585399,
+              "name": "Moe Thet Wai"
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 34,
+              "extra": null
+            },
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png"
+            },
+            "player": {
+              "id": 123796,
+              "name": "N. Kyaw"
+            },
+            "assist": {
+              "id": 350522,
+              "name": "Soe Thet Hein"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 45,
+              "extra": null
+            },
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png"
+            },
+            "player": {
+              "id": 680704,
+              "name": "Edson"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 65,
+              "extra": null
+            },
+            "team": {
+              "id": 16066,
+              "name": "Kasuka",
+              "logo": "https://media.api-sports.io/football/teams/16066.png"
+            },
+            "player": {
+              "id": 643379,
+              "name": "Pedro"
+            },
+            "assist": {
+              "id": 678899,
+              "name": "L. Sullivan Taylor"
+            },
+            "type": "subst",
+            "detail": "Substitution 1",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 67,
+              "extra": null
+            },
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png"
+            },
+            "player": {
+              "id": 585399,
+              "name": "Moe Thet Wai"
+            },
+            "assist": {
+              "id": 630888,
+              "name": "Thar Zwe Manh"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 68,
+              "extra": null
+            },
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png"
+            },
+            "player": {
+              "id": 680823,
+              "name": "E. Boateng"
+            },
+            "assist": {
+              "id": 569986,
+              "name": "Soe Aung Wunna"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 68,
+              "extra": null
+            },
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png"
+            },
+            "player": {
+              "id": 441332,
+              "name": "Aung Ye Yint"
+            },
+            "assist": {
+              "id": 332557,
+              "name": "Damian Puentes"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 73,
+              "extra": null
+            },
+            "team": {
+              "id": 16066,
+              "name": "Kasuka",
+              "logo": "https://media.api-sports.io/football/teams/16066.png"
+            },
+            "player": {
+              "id": 98564,
+              "name": "A. Sisa"
+            },
+            "assist": {
+              "id": 561575,
+              "name": "Brandao"
+            },
+            "type": "subst",
+            "detail": "Substitution 2",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 84,
+              "extra": null
+            },
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png"
+            },
+            "player": {
+              "id": 164372,
+              "name": "K. Oo"
+            },
+            "assist": {
+              "id": 670327,
+              "name": "Sone Phyo Pyae"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 84,
+              "extra": null
+            },
+            "team": {
+              "id": 16066,
+              "name": "Kasuka",
+              "logo": "https://media.api-sports.io/football/teams/16066.png"
+            },
+            "player": {
+              "id": 679161,
+              "name": "S. Hilmi"
+            },
+            "assist": {
+              "id": 679163,
+              "name": "H. Zambin"
+            },
+            "type": "subst",
+            "detail": "Substitution 3",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 84,
+              "extra": null
+            },
+            "team": {
+              "id": 16066,
+              "name": "Kasuka",
+              "logo": "https://media.api-sports.io/football/teams/16066.png"
+            },
+            "player": {
+              "id": 679159,
+              "name": "L. Seon-Gyo"
+            },
+            "assist": {
+              "id": 570835,
+              "name": "H. Aiman"
+            },
+            "type": "subst",
+            "detail": "Substitution 4",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 84,
+              "extra": null
+            },
+            "team": {
+              "id": 16066,
+              "name": "Kasuka",
+              "logo": "https://media.api-sports.io/football/teams/16066.png"
+            },
+            "player": {
+              "id": 679158,
+              "name": "S. Halm"
+            },
+            "assist": {
+              "id": 570055,
+              "name": "M. A. Aminuddin"
+            },
+            "type": "subst",
+            "detail": "Substitution 5",
+            "comments": null
+          }
+        ],
+        "lineups": [
+          {
+            "team": {
+              "id": 16066,
+              "name": "Kasuka",
+              "logo": "https://media.api-sports.io/football/teams/16066.png",
+              "colors": null
+            },
+            "coach": {
+              "id": 22720,
+              "name": "M. Bôžik",
+              "photo": "https://media.api-sports.io/football/coachs/22720.png"
+            },
+            "formation": null
+          },
+          {
+            "team": {
+              "id": 8015,
+              "name": "Shan United",
+              "logo": "https://media.api-sports.io/football/teams/8015.png",
+              "colors": null
+            },
+            "coach": {
+              "id": 29725,
+              "name": "Aung Khaing U",
+              "photo": "https://media.api-sports.io/football/coachs/29725.png"
+            },
+            "formation": null
+          }
+        ],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-22T06:22:28.876244-03:00"
     },
     {
       "fixture_id": 1531116,
@@ -154172,6 +155196,475 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1531116,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-21T10:00:00+00:00",
+          "timestamp": 1792576800,
+          "periods": {
+            "first": 1792576800,
+            "second": 1792580400
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 5
+          }
+        },
+        "league": {
+          "id": 1075,
+          "name": "Pro League A",
+          "country": "Uzbekistan",
+          "logo": "https://media.api-sports.io/football/leagues/1075.png",
+          "flag": "https://media.api-sports.io/flags/uz.svg",
+          "season": 2026,
+          "round": "Regular Season - 23",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 27587,
+            "name": "Respublika FA",
+            "logo": "https://media.api-sports.io/football/teams/27587.png",
+            "winner": false
+          },
+          "away": {
+            "id": 27586,
+            "name": "Pakhtakor II",
+            "logo": "https://media.api-sports.io/football/teams/27586.png",
+            "winner": true
+          }
+        },
+        "goals": {
+          "home": 0,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 0,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 0,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 45,
+              "extra": 1
+            },
+            "team": {
+              "id": 27586,
+              "name": "Pakhtakor II",
+              "logo": "https://media.api-sports.io/football/teams/27586.png"
+            },
+            "player": {
+              "id": 658188,
+              "name": "M. Shuratov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Penalty",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 62,
+              "extra": null
+            },
+            "team": {
+              "id": 27586,
+              "name": "Pakhtakor II",
+              "logo": "https://media.api-sports.io/football/teams/27586.png"
+            },
+            "player": {
+              "id": 681759,
+              "name": "A. Shukhratov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-22T06:22:37.080286-03:00"
+    },
+    {
+      "fixture_id": 1507468,
+      "created_at": "2026-10-22T06:23:26.659424-03:00",
+      "game": {
+        "fixture_id": 1507468,
+        "home": "Gardabani",
+        "away": "Iveria Khashuri",
+        "winner_prediction": "Iveria Khashuri",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1507468,
+        "home": "Gardabani",
+        "away": "Iveria Khashuri",
+        "winner_prediction": "Iveria Khashuri",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -5.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1507468,
+          "home": "Gardabani",
+          "away": "Iveria Khashuri",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1534881,
+          "home": "Kaspij Aktau 2",
+          "away": "Khan Tengri",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1507466,
+          "home": "Betlemi",
+          "away": "Lokomotivi Tbilisi",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1534881,
+      "created_at": "2026-10-22T06:23:26.659437-03:00",
+      "game": {
+        "fixture_id": 1534881,
+        "home": "Kaspij Aktau 2",
+        "away": "Khan Tengri",
+        "winner_prediction": "Kaspij Aktau 2",
+        "expected_goals_home": -3.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1534881,
+        "home": "Kaspij Aktau 2",
+        "away": "Khan Tengri",
+        "winner_prediction": "Kaspij Aktau 2",
+        "expected_goals_home": -3.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1507468,
+          "home": "Gardabani",
+          "away": "Iveria Khashuri",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1534881,
+          "home": "Kaspij Aktau 2",
+          "away": "Khan Tengri",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1507466,
+          "home": "Betlemi",
+          "away": "Lokomotivi Tbilisi",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1507466,
+      "created_at": "2026-10-22T06:23:26.659441-03:00",
+      "game": {
+        "fixture_id": 1507466,
+        "home": "Betlemi",
+        "away": "Lokomotivi Tbilisi",
+        "winner_prediction": "Lokomotivi Tbilisi",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1507466,
+        "home": "Betlemi",
+        "away": "Lokomotivi Tbilisi",
+        "winner_prediction": "Lokomotivi Tbilisi",
+        "expected_goals_home": -1.5,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1507468,
+          "home": "Gardabani",
+          "away": "Iveria Khashuri",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1534881,
+          "home": "Kaspij Aktau 2",
+          "away": "Khan Tengri",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1507466,
+          "home": "Betlemi",
+          "away": "Lokomotivi Tbilisi",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -154180,24 +155673,24 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 28,
-      "hits": 19,
-      "accuracy": 67.85714285714286
+      "total": 30,
+      "hits": 20,
+      "accuracy": 66.66666666666666
     },
     "Mais de 1.5 gols": {
-      "total": 33,
-      "hits": 29,
-      "accuracy": 87.87878787878788
+      "total": 36,
+      "hits": 31,
+      "accuracy": 86.11111111111111
     },
     "Menos de 2.5 gols": {
-      "total": 33,
-      "hits": 10,
-      "accuracy": 30.303030303030305
+      "total": 36,
+      "hits": 13,
+      "accuracy": 36.11111111111111
     },
     "Casa ou Empate": {
-      "total": 21,
+      "total": 22,
       "hits": 17,
-      "accuracy": 80.95238095238095
+      "accuracy": 77.27272727272727
     },
     "Casa ou Fora": {
       "total": 7,
