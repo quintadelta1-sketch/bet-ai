@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-23T06:21:52.371870-03:00",
+  "updated_at": "2026-10-24T09:59:23.310954-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -165316,8 +165316,105 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1621649,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-23T09:30:00+00:00",
+          "timestamp": 1792747800,
+          "periods": {
+            "first": 1792747800,
+            "second": 1792751400
+          },
+          "venue": {
+            "id": 11941,
+            "name": "Netanya Stadium",
+            "city": "Netanya"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 5
+          }
+        },
+        "league": {
+          "id": 496,
+          "name": "Liga Alef",
+          "country": "Israel",
+          "logo": "https://media.api-sports.io/football/leagues/496.png",
+          "flag": "https://media.api-sports.io/flags/il.svg",
+          "season": 2026,
+          "round": "South - 8",
+          "standings": false
+        },
+        "teams": {
+          "home": {
+            "id": 4500,
+            "name": "Hapoel Hadera",
+            "logo": "https://media.api-sports.io/football/teams/4500.png",
+            "winner": true
+          },
+          "away": {
+            "id": 6195,
+            "name": "Maccabi Kiryat Malachi",
+            "logo": "https://media.api-sports.io/football/teams/6195.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 1,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 0,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 1,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 90,
+              "extra": 4
+            },
+            "team": {
+              "id": 4500,
+              "name": "Hapoel Hadera",
+              "logo": "https://media.api-sports.io/football/teams/4500.png"
+            },
+            "player": {
+              "id": null,
+              "name": "Y. Idelberg"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-24T09:58:16.563044-03:00"
     },
     {
       "fixture_id": 1519177,
@@ -172490,8 +172587,193 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1519177,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-23T10:00:00+00:00",
+          "timestamp": 1792749600,
+          "periods": {
+            "first": 1792749600,
+            "second": 1792753200
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 4
+          }
+        },
+        "league": {
+          "id": 238,
+          "name": "Youth Championship",
+          "country": "Russia",
+          "logo": "https://media.api-sports.io/football/leagues/238.png",
+          "flag": "https://media.api-sports.io/flags/ru.svg",
+          "season": 2026,
+          "round": "Regular Season - 27",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 15176,
+            "name": "Chertanovo U20",
+            "logo": "https://media.api-sports.io/football/teams/15176.png",
+            "winner": true
+          },
+          "away": {
+            "id": 15175,
+            "name": "Akademiya Konoplev U20",
+            "logo": "https://media.api-sports.io/football/teams/15175.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 3,
+          "away": 2
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 3,
+            "away": 2
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 21,
+              "extra": null
+            },
+            "team": {
+              "id": 15175,
+              "name": "Akademiya Konoplev U20",
+              "logo": "https://media.api-sports.io/football/teams/15175.png"
+            },
+            "player": {
+              "id": 676733,
+              "name": "Y. Eshkin"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 34,
+              "extra": null
+            },
+            "team": {
+              "id": 15176,
+              "name": "Chertanovo U20",
+              "logo": "https://media.api-sports.io/football/teams/15176.png"
+            },
+            "player": {
+              "id": 665606,
+              "name": "S. Rebrov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 48,
+              "extra": null
+            },
+            "team": {
+              "id": 15176,
+              "name": "Chertanovo U20",
+              "logo": "https://media.api-sports.io/football/teams/15176.png"
+            },
+            "player": {
+              "id": 562430,
+              "name": "R. Gaynullin"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 81,
+              "extra": null
+            },
+            "team": {
+              "id": 15176,
+              "name": "Chertanovo U20",
+              "logo": "https://media.api-sports.io/football/teams/15176.png"
+            },
+            "player": {
+              "id": null,
+              "name": null
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 90,
+              "extra": 1
+            },
+            "team": {
+              "id": 15175,
+              "name": "Akademiya Konoplev U20",
+              "logo": "https://media.api-sports.io/football/teams/15175.png"
+            },
+            "player": {
+              "id": null,
+              "name": null
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-24T09:58:24.779825-03:00"
     },
     {
       "fixture_id": 1519231,
@@ -179684,6 +179966,441 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1519231,
+          "referee": null,
+          "timezone": "UTC",
+          "date": "2026-10-23T10:00:00+00:00",
+          "timestamp": 1792749600,
+          "periods": {
+            "first": 1792749600,
+            "second": 1792753200
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": null
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": 4
+          }
+        },
+        "league": {
+          "id": 238,
+          "name": "Youth Championship",
+          "country": "Russia",
+          "logo": "https://media.api-sports.io/football/leagues/238.png",
+          "flag": "https://media.api-sports.io/flags/ru.svg",
+          "season": 2026,
+          "round": "Regular Season - 27",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 27473,
+            "name": "Almaz Antey U19",
+            "logo": "https://media.api-sports.io/football/teams/27473.png",
+            "winner": true
+          },
+          "away": {
+            "id": 9231,
+            "name": "Ural U20",
+            "logo": "https://media.api-sports.io/football/teams/9231.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 3,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 3,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [
+          {
+            "time": {
+              "elapsed": 28,
+              "extra": null
+            },
+            "team": {
+              "id": 27473,
+              "name": "Almaz Antey U19",
+              "logo": "https://media.api-sports.io/football/teams/27473.png"
+            },
+            "player": {
+              "id": 656150,
+              "name": "K. Lyubimov"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 80,
+              "extra": null
+            },
+            "team": {
+              "id": 27473,
+              "name": "Almaz Antey U19",
+              "logo": "https://media.api-sports.io/football/teams/27473.png"
+            },
+            "player": {
+              "id": 688839,
+              "name": "R. Mezhlumyan"
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          },
+          {
+            "time": {
+              "elapsed": 90,
+              "extra": 5
+            },
+            "team": {
+              "id": 27473,
+              "name": "Almaz Antey U19",
+              "logo": "https://media.api-sports.io/football/teams/27473.png"
+            },
+            "player": {
+              "id": null,
+              "name": null
+            },
+            "assist": {
+              "id": null,
+              "name": null
+            },
+            "type": "Goal",
+            "detail": "Normal Goal",
+            "comments": null
+          }
+        ],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-24T09:58:33.021004-03:00"
+    },
+    {
+      "fixture_id": 1632108,
+      "created_at": "2026-10-24T09:59:23.310886-03:00",
+      "game": {
+        "fixture_id": 1632108,
+        "home": "Western Sydney Wanderers W",
+        "away": "Brisbane Roar FC W",
+        "winner_prediction": "Western Sydney Wanderers W",
+        "expected_goals_home": null,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1632108,
+        "home": "Western Sydney Wanderers W",
+        "away": "Brisbane Roar FC W",
+        "winner_prediction": "Western Sydney Wanderers W",
+        "expected_goals_home": null,
+        "expected_goals_away": -2.5,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 45.0,
+          "Empate": 45.0,
+          "Fora": 10.0,
+          "Casa ou Empate": 90.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 55.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632110,
+          "home": "Adelaide United W",
+          "away": "Perth Glory FC W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632109,
+          "home": "Central Coast Mariners W",
+          "away": "Canberra United W",
+          "market": "Casa ou Empate",
+          "probability": 99.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632108,
+          "home": "Western Sydney Wanderers W",
+          "away": "Brisbane Roar FC W",
+          "market": "Casa ou Empate",
+          "probability": 90.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1632109,
+      "created_at": "2026-10-24T09:59:23.310904-03:00",
+      "game": {
+        "fixture_id": 1632109,
+        "home": "Central Coast Mariners W",
+        "away": "Canberra United W",
+        "winner_prediction": "Central Coast Mariners W",
+        "expected_goals_home": -4.5,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 50.0,
+          "Empate": 50.0,
+          "Fora": 0.0,
+          "Casa ou Empate": 99.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 50.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1632109,
+        "home": "Central Coast Mariners W",
+        "away": "Canberra United W",
+        "winner_prediction": "Central Coast Mariners W",
+        "expected_goals_home": -4.5,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 50.0,
+          "Empate": 50.0,
+          "Fora": 0.0,
+          "Casa ou Empate": 99.0,
+          "Casa ou Fora": 50.0,
+          "Empate ou Fora": 50.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 99.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632110,
+          "home": "Adelaide United W",
+          "away": "Perth Glory FC W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632109,
+          "home": "Central Coast Mariners W",
+          "away": "Canberra United W",
+          "market": "Casa ou Empate",
+          "probability": 99.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632108,
+          "home": "Western Sydney Wanderers W",
+          "away": "Brisbane Roar FC W",
+          "market": "Casa ou Empate",
+          "probability": 90.0,
+          "classification": "ALTA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1632110,
+      "created_at": "2026-10-24T09:59:23.310911-03:00",
+      "game": {
+        "fixture_id": 1632110,
+        "home": "Adelaide United W",
+        "away": "Perth Glory FC W",
+        "winner_prediction": "Adelaide United W",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1632110,
+        "home": "Adelaide United W",
+        "away": "Perth Glory FC W",
+        "winner_prediction": "Adelaide United W",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632110,
+          "home": "Adelaide United W",
+          "away": "Perth Glory FC W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632109,
+          "home": "Central Coast Mariners W",
+          "away": "Canberra United W",
+          "market": "Casa ou Empate",
+          "probability": 99.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1632108,
+          "home": "Western Sydney Wanderers W",
+          "away": "Brisbane Roar FC W",
+          "market": "Casa ou Empate",
+          "probability": 90.0,
+          "classification": "ALTA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -179692,29 +180409,29 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 31,
+      "total": 34,
       "hits": 21,
-      "accuracy": 67.74193548387096
+      "accuracy": 61.76470588235294
     },
     "Mais de 1.5 gols": {
-      "total": 37,
-      "hits": 32,
-      "accuracy": 86.48648648648648
+      "total": 40,
+      "hits": 34,
+      "accuracy": 85.0
     },
     "Menos de 2.5 gols": {
-      "total": 37,
-      "hits": 13,
-      "accuracy": 35.13513513513514
+      "total": 40,
+      "hits": 14,
+      "accuracy": 35.0
     },
     "Casa ou Empate": {
-      "total": 23,
-      "hits": 17,
-      "accuracy": 73.91304347826086
+      "total": 24,
+      "hits": 18,
+      "accuracy": 75.0
     },
     "Casa ou Fora": {
-      "total": 8,
-      "hits": 7,
-      "accuracy": 87.5
+      "total": 9,
+      "hits": 8,
+      "accuracy": 88.88888888888889
     }
   }
 }
