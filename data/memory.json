@@ -1,6 +1,6 @@
 {
   "created_at": "2026-10-07T20:43:57.838782",
-  "updated_at": "2026-10-24T09:59:23.310954-03:00",
+  "updated_at": "2026-10-25T10:25:53.490295-03:00",
   "predictions": [
     {
       "fixture_id": 1645143,
@@ -180189,8 +180189,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1632108,
+          "referee": "C. Hollings",
+          "timezone": "UTC",
+          "date": "2026-10-24T03:15:00+00:00",
+          "timestamp": 1792811700,
+          "periods": {
+            "first": null,
+            "second": null
+          },
+          "venue": {
+            "id": 18601,
+            "name": "CommBank Stadium",
+            "city": "Sydney"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 190,
+          "name": "A-League Women",
+          "country": "Australia",
+          "logo": "https://media.api-sports.io/football/leagues/190.png",
+          "flag": "https://media.api-sports.io/flags/au.svg",
+          "season": 2026,
+          "round": "Regular Season - 2",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 1974,
+            "name": "Western Sydney Wanderers W",
+            "logo": "https://media.api-sports.io/football/teams/1974.png",
+            "winner": true
+          },
+          "away": {
+            "id": 1973,
+            "name": "Brisbane Roar FC W",
+            "logo": "https://media.api-sports.io/football/teams/1973.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 3,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": 1,
+            "away": 1
+          },
+          "fulltime": {
+            "home": 3,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-25T10:24:47.014635-03:00"
     },
     {
       "fixture_id": 1632109,
@@ -180271,8 +180345,82 @@
           "classification": "ALTA"
         }
       ],
-      "status": "pending",
-      "result": null
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1632109,
+          "referee": "C. Flynn",
+          "timezone": "UTC",
+          "date": "2026-10-24T04:00:00+00:00",
+          "timestamp": 1792814400,
+          "periods": {
+            "first": null,
+            "second": null
+          },
+          "venue": {
+            "id": null,
+            "name": null,
+            "city": "Gosford"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 190,
+          "name": "A-League Women",
+          "country": "Australia",
+          "logo": "https://media.api-sports.io/football/leagues/190.png",
+          "flag": "https://media.api-sports.io/flags/au.svg",
+          "season": 2026,
+          "round": "Regular Season - 2",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 22292,
+            "name": "Central Coast Mariners W",
+            "logo": "https://media.api-sports.io/football/teams/22292.png",
+            "winner": true
+          },
+          "away": {
+            "id": 1970,
+            "name": "Canberra United W",
+            "logo": "https://media.api-sports.io/football/teams/1970.png",
+            "winner": false
+          }
+        },
+        "goals": {
+          "home": 5,
+          "away": 1
+        },
+        "score": {
+          "halftime": {
+            "home": 2,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 5,
+            "away": 1
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-25T10:24:55.213511-03:00"
     },
     {
       "fixture_id": 1632110,
@@ -180401,6 +180549,422 @@
           "classification": "ALTA"
         }
       ],
+      "status": "completed",
+      "result": {
+        "fixture": {
+          "id": 1632110,
+          "referee": "C. Williams",
+          "timezone": "UTC",
+          "date": "2026-10-24T06:00:00+00:00",
+          "timestamp": 1792821600,
+          "periods": {
+            "first": null,
+            "second": null
+          },
+          "venue": {
+            "id": null,
+            "name": "ServiceFM Stadium",
+            "city": "Adelaide"
+          },
+          "status": {
+            "long": "Match Finished",
+            "short": "FT",
+            "elapsed": 90,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 190,
+          "name": "A-League Women",
+          "country": "Australia",
+          "logo": "https://media.api-sports.io/football/leagues/190.png",
+          "flag": "https://media.api-sports.io/flags/au.svg",
+          "season": 2026,
+          "round": "Regular Season - 2",
+          "standings": true
+        },
+        "teams": {
+          "home": {
+            "id": 1972,
+            "name": "Adelaide United W",
+            "logo": "https://media.api-sports.io/football/teams/1972.png",
+            "winner": null
+          },
+          "away": {
+            "id": 1969,
+            "name": "Perth Glory FC W",
+            "logo": "https://media.api-sports.io/football/teams/1969.png",
+            "winner": null
+          }
+        },
+        "goals": {
+          "home": 0,
+          "away": 0
+        },
+        "score": {
+          "halftime": {
+            "home": 0,
+            "away": 0
+          },
+          "fulltime": {
+            "home": 0,
+            "away": 0
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        },
+        "events": [],
+        "lineups": [],
+        "statistics": [],
+        "players": []
+      },
+      "completed_at": "2026-10-25T10:25:03.432410-03:00"
+    },
+    {
+      "fixture_id": 1632112,
+      "created_at": "2026-10-25T10:25:53.490248-03:00",
+      "game": {
+        "fixture_id": 1632112,
+        "home": "Sydney FC W",
+        "away": "Melbourne City W",
+        "winner_prediction": "Melbourne City W",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1632112,
+        "home": "Sydney FC W",
+        "away": "Melbourne City W",
+        "winner_prediction": "Melbourne City W",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -3.5,
+        "expected_goals_total": -6.0,
+        "probabilities": {
+          "Casa": 10.0,
+          "Empate": 45.0,
+          "Fora": 45.0,
+          "Casa ou Empate": 55.0,
+          "Casa ou Fora": 55.0,
+          "Empate ou Fora": 90.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 90.0,
+            "classification": "ALTA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632112,
+          "home": "Sydney FC W",
+          "away": "Melbourne City W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1639382,
+          "home": "AC Taipei",
+          "away": "Hang Yuen",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1647250,
+          "home": "Naegohyang W",
+          "away": "Auckland United W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1647250,
+      "created_at": "2026-10-25T10:25:53.490260-03:00",
+      "game": {
+        "fixture_id": 1647250,
+        "home": "Naegohyang W",
+        "away": "Auckland United W",
+        "winner_prediction": null,
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 33.0,
+          "Empate": 33.0,
+          "Fora": 33.0,
+          "Casa ou Empate": 66.0,
+          "Casa ou Fora": 66.0,
+          "Empate ou Fora": 66.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1647250,
+        "home": "Naegohyang W",
+        "away": "Auckland United W",
+        "winner_prediction": null,
+        "expected_goals_home": null,
+        "expected_goals_away": null,
+        "expected_goals_total": null,
+        "probabilities": {
+          "Casa": 33.0,
+          "Empate": 33.0,
+          "Fora": 33.0,
+          "Casa ou Empate": 66.0,
+          "Casa ou Fora": 66.0,
+          "Empate ou Fora": 66.0
+        },
+        "selections": [
+          {
+            "market": "Casa ou Empate",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 66.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632112,
+          "home": "Sydney FC W",
+          "away": "Melbourne City W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1639382,
+          "home": "AC Taipei",
+          "away": "Hang Yuen",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1647250,
+          "home": "Naegohyang W",
+          "away": "Auckland United W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
+      "status": "pending",
+      "result": null
+    },
+    {
+      "fixture_id": 1639382,
+      "created_at": "2026-10-25T10:25:53.490264-03:00",
+      "game": {
+        "fixture_id": 1639382,
+        "home": "AC Taipei",
+        "away": "Hang Yuen",
+        "winner_prediction": "AC Taipei",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "prediction": {
+        "fixture_id": 1639382,
+        "home": "AC Taipei",
+        "away": "Hang Yuen",
+        "winner_prediction": "AC Taipei",
+        "expected_goals_home": -2.5,
+        "expected_goals_away": -1.5,
+        "expected_goals_total": -4.0,
+        "probabilities": {
+          "Casa": 35.0,
+          "Empate": 35.0,
+          "Fora": 30.0,
+          "Casa ou Empate": 70.0,
+          "Casa ou Fora": 65.0,
+          "Empate ou Fora": 65.0,
+          "Mais de 1.5 gols": 100.0,
+          "Menos de 1.5 gols": 0.0,
+          "Mais de 2.5 gols": 0.0,
+          "Menos de 2.5 gols": 100.0
+        },
+        "selections": [
+          {
+            "market": "Mais de 1.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Menos de 2.5 gols",
+            "probability": 100.0,
+            "classification": "ALTA"
+          },
+          {
+            "market": "Casa ou Empate",
+            "probability": 70.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Casa ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          },
+          {
+            "market": "Empate ou Fora",
+            "probability": 65.0,
+            "classification": "MÉDIA"
+          }
+        ],
+        "odds": []
+      },
+      "ticket": [
+        {
+          "fixture_id": 1632112,
+          "home": "Sydney FC W",
+          "away": "Melbourne City W",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1639382,
+          "home": "AC Taipei",
+          "away": "Hang Yuen",
+          "market": "Mais de 1.5 gols",
+          "probability": 100.0,
+          "classification": "ALTA"
+        },
+        {
+          "fixture_id": 1647250,
+          "home": "Naegohyang W",
+          "away": "Auckland United W",
+          "market": "Casa ou Empate",
+          "probability": 66.0,
+          "classification": "MÉDIA"
+        }
+      ],
       "status": "pending",
       "result": null
     }
@@ -180409,29 +180973,29 @@
   "results": [],
   "learning": {
     "Empate ou Fora": {
-      "total": 34,
-      "hits": 21,
-      "accuracy": 61.76470588235294
+      "total": 35,
+      "hits": 22,
+      "accuracy": 62.857142857142854
     },
     "Mais de 1.5 gols": {
-      "total": 40,
+      "total": 41,
       "hits": 34,
-      "accuracy": 85.0
+      "accuracy": 82.92682926829268
     },
     "Menos de 2.5 gols": {
-      "total": 40,
-      "hits": 14,
-      "accuracy": 35.0
+      "total": 41,
+      "hits": 15,
+      "accuracy": 36.58536585365854
     },
     "Casa ou Empate": {
-      "total": 24,
-      "hits": 18,
-      "accuracy": 75.0
+      "total": 27,
+      "hits": 21,
+      "accuracy": 77.77777777777779
     },
     "Casa ou Fora": {
-      "total": 9,
+      "total": 10,
       "hits": 8,
-      "accuracy": 88.88888888888889
+      "accuracy": 80.0
     }
   }
 }
